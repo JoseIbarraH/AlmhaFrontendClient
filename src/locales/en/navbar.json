@@ -1,3 +1,6 @@
 {
+    "links": {
+        "service": "Services"
+    },
     "contactbutton": "Contact Us"
 }

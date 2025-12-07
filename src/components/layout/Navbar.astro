@@ -1,68 +1,324 @@
 ---
-import ContacButton from "../ui/ContacButton.astro"
-import LanguageSwitcher from "../ui/LanguageSwitcher.astro"
-import Logo from "../ui/Logo.astro"
+import LanguageSwitcher from "../ui/LanguageSwitcher.astro";
+import ContacButton from "../ui/ContacButton.astro";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { loadTranslations } from "@/lib/i18n";
+import Logo from "../ui/Logo.astro";
+import Carousel from "./Carousel.astro";
 
-const apiResponse = () => {
+const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
 
-}
+const menuItems = [
+  { href: "/", label: t.navbar.links.home || "Inicio" },
+  { href: "/service", label: t.navbar.links.service || "Servicios" },
+  { href: "/about", label: t.navbar.links.about || "Nosotros" },
+  { href: "/contact", label: t.navbar.links.contact || "Contacto" },
+  { href: "/blog", label: t.navbar.links.blog || "Blog" },
+];
 ---
 
-<nav class="w-full border-b border-neutral-800 bg-neutral-950 sticky top-0 z-50 backdrop-blur-sm bg-opacity-95">
-  <div class="container mx-auto relative flex items-center justify-between py-4 px-6 lg:px-8">
-
-    <!-- Left: Mobile hamburger -->
-    <button
-      class="hamburger-btn flex items-center transition-colors rounded-lg px-2 py-1 -ml-2"
-      type="button"
-      aria-label="Toggle menu"
-      aria-expanded="false"
+<div class="relative">
+  <!-- Navbar Principal -->
+  <nav
+    id="main-navbar"
+    class="w-full border-b border-neutral-800 bg-linear-to-r from-neutral-900 to-neutral-950 fixed top-0 z-50 backdrop-blur-sm bg-opacity-95 transition-transform duration-300 ease-in-out"
+  >
+    <div
+      class="container mx-auto relative flex items-center justify-between py-4 px-6 lg:px-8"
     >
-      <span class="hamburger hamburger--spin scale-75" aria-hidden="true">
-        <span class="hamburger-box">
-          <span class="hamburger-inner"></span>
+      <!-- Left: Mobile hamburger -->
+      <button
+        id="hamburger-btn"
+        class="hamburger-btn flex items-center transition-colors rounded-lg px-2 py-1 -ml-2 z-50"
+        type="button"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+      >
+        <span class="hamburger hamburger--spin scale-75" aria-hidden="true">
+          <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+          </span>
         </span>
-      </span>
-      <span class="text-neutral-100 text-sm font-medium">Menú</span>
-    </button>
+        <span class="text-neutral-100 text-sm font-medium">Menú</span>
+      </button>
 
-    <!-- Center: LOGO SIEMPRE CENTRADO -->
-    <div class="absolute left-1/2 -translate-x-1/2">
-      <Logo class="text-white hover:text-neutral-200 transition-colors" />
+      <!-- Center: LOGO SIEMPRE CENTRADO -->
+      <div
+        class="absolute left-1/2 -translate-x-1/2 max-w-[200px] md:max-w-[250px] z-40"
+      >
+        <div class="overflow-hidden">
+          <Logo
+            class="text-white hover:text-neutral-200 transition-colors w-full h-auto max-h-10 object-contain"
+          />
+        </div>
+      </div>
+
+      <!-- Right: Desktop items -->
+      <div class="md:flex items-center gap-6 ml-auto z-40">
+        <LanguageSwitcher />
+        <div class="hidden md:flex items-center gap-6 ml-auto z-40">
+          <ContacButton />
+        </div>
+      </div>
     </div>
+  </nav>
 
-    <!-- Right: Desktop items -->
-    <div class="hidden md:flex items-center gap-6 ml-auto">
-      <LanguageSwitcher />
-      <ContacButton />
+  <!-- Menú Fullscreen -->
+  <div
+    id="fullscreen-menu"
+    class="fixed left-0 right-0 bg-linear-to-br from-neutral-900/98 to-neutral-950/98 backdrop-blur-md z-40
+           opacity-0 invisible transition-all duration-500 ease-out overflow-hidden"
+    style="top: var(--navbar-height, 73px); bottom: 0;"
+  >
+    <!-- Grid sin padding que ocupa todo el espacio -->
+    <div class="grid md:grid-cols-4 h-full w-full">
+      <!-- Columna 1: Carousel -->
+      <div class="h-full w-full overflow-hidden">
+        <Carousel buttonDown={true} />
+        <div
+          class="absolute right-0 top-0 bottom-0 w-px bg-linear-to-b from-transparent via-[#DCBE9A]/30 to-transparent"
+        >
+        </div>
+      </div>
+
+      <!-- Columna 2: Links del menú -->
+      <div
+        class="h-full flex flex-col items-start justify-center gap-6 px-10 relative"
+      >
+        {
+          menuItems.map((item, index) => (
+            <a
+              href={getRelativeLocaleUrl(currentLang, item.href)}
+              class="menu-link text-white text-2xl md:text-2xl lg:text-2xl font-bold
+             hover:text-[#DCBE9A] transition-all duration-300
+             opacity-0 translate-y-8"
+              style={`transition-delay: ${index * 100}ms`}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+        <!-- Separador derecho -->
+        <div
+          class="absolute right-0 top-0 bottom-0 w-px bg-linear-to-b from-transparent via-[#DCBE9A]/30 to-transparent"
+        >
+        </div>
+      </div>
+
+      <!-- Columna 3: Acciones adicionales -->
+      <div class="h-full flex flex-col items-center justify-center gap-6 px-4">
+        <ContacButton />
+        <div
+          class="absolute right-0 top-0 bottom-0 w-px bg-linear-to-b from-transparent via-[#DCBE9A]/30 to-transparent"
+        >
+        </div>
+      </div>
+
+      <!-- Columna 4: Espacio decorativo -->
+      <div class="h-full relative overflow-hidden">
+        <!-- Decoración -->
+        <div class="absolute inset-0 pointer-events-none">
+          <div
+            class="absolute top-1/4 right-1/4 w-64 h-64 bg-[#DCBE9A]/5 rounded-full blur-3xl"
+          >
+          </div>
+          <div
+            class="absolute bottom-1/4 left-1/4 w-96 h-96 bg-[#DCBE9A]/3 rounded-full blur-3xl"
+          >
+          </div>
+        </div>
+      </div>
     </div>
-
-    <!-- Right: Mobile spacer para balance visual -->
-    <div class="w-20 md:hidden"></div>
-
   </div>
-</nav>
+</div>
 
 <script>
-  const btn = document.querySelector<HTMLButtonElement>(".hamburger");
+  function initMenu() {
+    const navbar = document.getElementById("main-navbar");
+    const hamburgerBtn = document.getElementById("hamburger-btn");
+    const hamburger = hamburgerBtn?.querySelector(".hamburger");
+    const fullscreenMenu = document.getElementById("fullscreen-menu");
+    const menuLinks = fullscreenMenu?.querySelectorAll(".menu-link");
 
-  btn?.addEventListener("click", () => {
-    btn.classList.toggle("is-active");
-  });
+    // Calcular altura del navbar y setear variable CSS
+    if (navbar && fullscreenMenu) {
+      const navbarHeight = navbar.offsetHeight;
+      fullscreenMenu.style.setProperty("--navbar-height", `${navbarHeight}px`);
+    }
+
+    let isOpen = false;
+
+    function toggleMenu() {
+      isOpen = !isOpen;
+
+      // Toggle clases
+      hamburger?.classList.toggle("is-active");
+      fullscreenMenu?.classList.toggle("open");
+      document.body.classList.toggle("menu-open");
+
+      // Actualizar aria
+      hamburgerBtn?.setAttribute("aria-expanded", String(isOpen));
+    }
+
+    // Click en el botón hamburger
+    if (hamburgerBtn) {
+      hamburgerBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        toggleMenu();
+      });
+    }
+
+    // Cerrar al hacer click en un link
+    menuLinks?.forEach((link) => {
+      link.addEventListener("click", () => {
+        if (isOpen) toggleMenu();
+      });
+    });
+
+    // Cerrar con ESC
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && isOpen) {
+        toggleMenu();
+      }
+    });
+
+    // Recalcular altura al redimensionar
+    window.addEventListener("resize", () => {
+      if (navbar && fullscreenMenu) {
+        const navbarHeight = navbar.offsetHeight;
+        fullscreenMenu.style.setProperty(
+          "--navbar-height",
+          `${navbarHeight}px`
+        );
+      }
+    });
+
+    let lastScrollTop = 0;
+    const scrollThreshold = 10; // Umbral mínimo de scroll para evitar cambios erráticos
+    let ticking = false;
+
+    function updateNavbarVisibility() {
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
+
+      // Si el menú está abierto, no ocultar el navbar
+      if (isOpen) {
+        ticking = false;
+        return;
+      }
+
+      // Calcular diferencia de scroll
+      const scrollDifference = Math.abs(scrollTop - lastScrollTop);
+
+      // Solo actuar si el scroll supera el umbral
+      if (scrollDifference >= scrollThreshold) {
+        // Scroll hacia abajo - ocultar (después de 80px desde el inicio)
+        if (scrollTop > lastScrollTop && scrollTop > 80) {
+          navbar?.classList.add("-translate-y-full");
+        }
+        // Scroll hacia arriba - mostrar inmediatamente
+        else if (scrollTop < lastScrollTop) {
+          navbar?.classList.remove("-translate-y-full");
+        }
+
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+      }
+
+      ticking = false;
+    }
+
+    // Usar requestAnimationFrame para mejor rendimiento
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          window.requestAnimationFrame(updateNavbarVisibility);
+          ticking = true;
+        }
+      },
+      { passive: true }
+    );
+  }
+
+  // Inicializar en carga de página
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initMenu);
+  } else {
+    initMenu();
+  }
+
+  // Reinicializar con View Transitions de Astro
+  document.addEventListener("astro:page-load", initMenu);
 </script>
 
-<style>
-  /* Forzar color blanco con !important para sobrescribir hamburger.css */
+<style is:global>
+  /* Estilos del hamburger */
   .hamburger-inner,
   .hamburger-inner::before,
   .hamburger-inner::after {
-    background-color: white !important;
+    background-color: rgb(245, 245, 245) !important;
   }
 
-  /* Si quieres un color específico solo en este nav */
-  nav .hamburger-inner,
-  nav .hamburger-inner::before,
-  nav .hamburger-inner::after {
-    background-color: white !important;
+  .hamburger-btn:hover .hamburger-inner,
+  .hamburger-btn:hover .hamburger-inner::before,
+  .hamburger-btn:hover .hamburger-inner::after {
+    background-color: rgb(212, 212, 212) !important;
+  }
+
+  /* Cuando el menú está abierto */
+  #fullscreen-menu.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  #fullscreen-menu.open .menu-link,
+  #fullscreen-menu.open > div > div:nth-child(3) {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      opacity 0.6s ease-out,
+      transform 0.6s ease-out;
+  }
+
+  /* Prevenir scroll cuando el menú está abierto */
+  body.menu-open {
+    overflow: hidden;
+  }
+
+  /* Efecto hover en los links */
+  .menu-link {
+    position: relative;
+  }
+
+  .menu-link::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: #dcbe9a;
+    transition: width 0.4s ease;
+  }
+
+  .menu-link:hover::after {
+    width: 100%;
+  }
+
+  /* Responsive: En móvil mostrar solo 1 columna */
+  @media (max-width: 768px) {
+    #fullscreen-menu > div {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    #fullscreen-menu > div > div:first-child {
+      display: none; /* Ocultar carousel en móvil */
+    }
+
+    #fullscreen-menu > div > div:last-child {
+      display: none; /* Ocultar decoración en móvil */
+    }
   }
 </style>

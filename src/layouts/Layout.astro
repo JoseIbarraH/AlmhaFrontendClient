@@ -1,8 +1,8 @@
 ---
 import Navbar from "@/components/layout/Navbar.astro";
-import { loadTranslations } from "../lib/i18n";
 import "@/assets/css/global.css";
 
+import { loadTranslations } from "../lib/i18n";
 const lang = Astro.params.lang || 'es';
 const t = await loadTranslations(lang);
 
@@ -12,6 +12,10 @@ const {
   keywords = "",
   image = "../assets/images/abdominoplastia.jpg",
 } = Astro.props;
+
+
+
+
 ---
 
 <!doctype html>

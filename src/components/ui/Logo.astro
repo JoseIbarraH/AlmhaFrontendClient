@@ -2,23 +2,32 @@
 import { getRelativeLocaleUrl } from "astro:i18n";
 
 interface Props {
-  size?: string;
   class?: string;
+  size?: "sm" | "md" | "lg";
 }
 
-const {
-  size = "text-xl",
-  class: className = "",
-} = Astro.props;
-
 const currentLang = Astro.currentLocale || "es";
+const { class: className = "", size = "md" } = Astro.props;
+
+// Tamaños predefinidos para el logo
+const sizeClasses = {
+  sm: "h-8 w-auto",      // 32px - Para navbar móvil
+  md: "h-10 w-auto",     // 40px - Para navbar desktop
+  lg: "h-16 w-auto"      // 64px - Para footer u otros
+};
 ---
 
-<div>
+<div class="shrink-0">
   <a
     href={getRelativeLocaleUrl(currentLang, "/")}
-    class={`font-bold ${size} ${className}`}
+    class={`inline-flex items-center transition-opacity hover:opacity-80 ${className}`}
+    aria-label="Ir al inicio"
   >
-    Almha
+    <img
+      src="/src/assets/images/logo.png"
+      alt="Logo"
+      class={`${sizeClasses[size]} object-contain`}
+      loading="eager"
+    />
   </a>
 </div>

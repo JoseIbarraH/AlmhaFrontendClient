@@ -1,0 +1,221 @@
+---
+// Props opcionales para personalizar
+interface Props {
+  buttonDown?: boolean;
+  slides?: Array<{
+    title?: string;
+    description?: string;
+    image?: string;
+    bgColor?: string;
+  }>;
+}
+
+const { buttonDown = false, slides = [] } = Astro.props;
+
+// Slides por defecto si no se pasan
+const defaultSlides = [
+  {
+    title: "Slide 1: ¡Bienvenido!",
+    description: "Contenido del primer slide. Totalmente adaptable.",
+    image: "/src/assets/images/abdominoplastia.jpg",
+    bgColor: "bg-gradient-to-br from-neutral-900 to-neutral-800",
+  },
+  {
+    title: "Slide 2: Efecto Fade",
+    description: "Usamos el elegante efecto de transición 'fade'.",
+    image: "https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature.jpg",
+    bgColor: "bg-gradient-to-br from-[#DCBE9A]/20 to-neutral-900",
+  },
+  {
+    title: "Slide 3: Personalizable",
+    description: "Configura autoplay, navegación y más opciones en el script.",
+    image: "",
+    bgColor: "bg-gradient-to-br from-neutral-800 to-[#202020]",
+  },
+];
+
+const slideData = slides.length > 0 ? slides : defaultSlides;
+
+---
+
+<div class="w-full h-full">
+  <div class="swiper mySwiper w-full h-full">
+    <div class="swiper-wrapper">
+      {
+        slideData.map((slide, index) => (
+          <div class="swiper-slide">
+            {slide.image && slide.image.trim() !== "" ? (
+              <div class="relative w-full h-full">
+                <img
+                  src={slide.image}
+                  alt={slide.title || `Slide ${index + 1}`}
+                  class="w-full h-full object-cover"
+                />
+                {(slide.title || slide.description) && (
+                  <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                    <div class="text-center text-white px-6">
+                      {slide.title && (
+                        <h2 class="text-4xl md:text-6xl font-bold mb-4">
+                          {slide.title}
+                        </h2>
+                      )}
+                      {slide.description && (
+                        <p class="text-lg md:text-xl text-neutral-200">
+                          {slide.description}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div
+                class={`w-full h-full flex items-center justify-center ${slide.bgColor || "bg-neutral-900"}`}
+              >
+                <div class="text-center text-white px-6 max-w-4xl">
+                  {slide.title && (
+                    <h2 class="text-4xl md:text-6xl font-bold mb-4 animate-fade-in">
+                      {slide.title}
+                    </h2>
+                  )}
+                  {slide.description && (
+                    <p class="text-lg md:text-xl text-neutral-200 animate-fade-in-delay">
+                      {slide.description}
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        ))
+      }
+    </div>
+    <div class={buttonDown ? 'swiper-button-container' : ''}>
+      <div class="swiper-button-next object-cover"></div>
+      <div class="swiper-pagination object-cover"></div>
+      <div class="swiper-button-prev object-cover"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  import Swiper from "swiper/bundle";
+  import "swiper/css/bundle";
+
+  function initSwiper() {
+    const swiperEl = document.querySelector(".mySwiper");
+
+    // Si no existe o ya está inicializado, salir
+    if (!swiperEl || (swiperEl as any).swiper) {
+      return;
+    }
+
+    const swiper = new Swiper(".mySwiper", {
+      loop: true,
+      speed: 600,
+
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+
+      autoplay: {
+        delay: 3500,
+        disableOnInteraction: false,
+      },
+
+      effect: "fade",
+      fadeEffect: {
+        crossFade: true,
+      },
+    });
+
+    console.log("Swiper initialized:", swiper); // Debug
+  }
+
+  // Inicializar
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initSwiper);
+  } else {
+    initSwiper();
+  }
+
+  // Para View Transitions de Astro
+  document.addEventListener("astro:page-load", initSwiper);
+</script>
+
+<style is:global>
+  /* Asegurar que swiper y slides ocupen todo el espacio */
+  .swiper,
+  .swiper-wrapper,
+  .swiper-slide {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Estilos de los botones de navegación */
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: white !important;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+  }
+
+  .swiper-button-next:hover,
+  .swiper-button-prev:hover {
+    opacity: 1;
+  }
+
+  /* Estilos de paginación */
+  .swiper-pagination-bullet {
+    background: white  !important;
+    opacity: 0.5;
+  }
+
+  .swiper-pagination-bullet-active {
+    background: #dcbe9a  !important;
+    opacity: 1;
+  }
+
+  .swiper-button-container {
+    display: flex;
+    position: relative;
+    top: -55px;
+    height: fit-content;
+  }
+
+  /* Animaciones */
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.8s ease-out forwards;
+  }
+
+  .animate-fade-in-delay {
+    animation: fade-in 0.8s ease-out 0.2s forwards;
+    opacity: 0;
+  }
+
+  /* Responsive de navegación */
+  @media (max-width: 768px) {
+    .swiper-button-next,
+    .swiper-button-prev {
+      scale: 0.75;
+    }
+  }
+</styl
