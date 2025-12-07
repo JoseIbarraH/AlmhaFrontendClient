@@ -1,0 +1,24 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+interface Props {
+  size?: string;
+  class?: string;
+}
+
+const {
+  size = "text-xl",
+  class: className = "",
+} = Astro.props;
+
+const currentLang = Astro.currentLocale || "es";
+---
+
+<div>
+  <a
+    href={getRelativeLocaleUrl(currentLang, "/")}
+    class={`font-bold ${size} ${className}`}
+  >
+    Almha
+  </a>
+</div>

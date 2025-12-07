@@ -1,0 +1,68 @@
+---
+import ContacButton from "../ui/ContacButton.astro"
+import LanguageSwitcher from "../ui/LanguageSwitcher.astro"
+import Logo from "../ui/Logo.astro"
+
+const apiResponse = () => {
+
+}
+---
+
+<nav class="w-full border-b border-neutral-800 bg-neutral-950 sticky top-0 z-50 backdrop-blur-sm bg-opacity-95">
+  <div class="container mx-auto relative flex items-center justify-between py-4 px-6 lg:px-8">
+
+    <!-- Left: Mobile hamburger -->
+    <button
+      class="hamburger-btn flex items-center transition-colors rounded-lg px-2 py-1 -ml-2"
+      type="button"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+    >
+      <span class="hamburger hamburger--spin scale-75" aria-hidden="true">
+        <span class="hamburger-box">
+          <span class="hamburger-inner"></span>
+        </span>
+      </span>
+      <span class="text-neutral-100 text-sm font-medium">Menú</span>
+    </button>
+
+    <!-- Center: LOGO SIEMPRE CENTRADO -->
+    <div class="absolute left-1/2 -translate-x-1/2">
+      <Logo class="text-white hover:text-neutral-200 transition-colors" />
+    </div>
+
+    <!-- Right: Desktop items -->
+    <div class="hidden md:flex items-center gap-6 ml-auto">
+      <LanguageSwitcher />
+      <ContacButton />
+    </div>
+
+    <!-- Right: Mobile spacer para balance visual -->
+    <div class="w-20 md:hidden"></div>
+
+  </div>
+</nav>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>(".hamburger");
+
+  btn?.addEventListener("click", () => {
+    btn.classList.toggle("is-active");
+  });
+</script>
+
+<style>
+  /* Forzar color blanco con !important para sobrescribir hamburger.css */
+  .hamburger-inner,
+  .hamburger-inner::before,
+  .hamburger-inner::after {
+    background-color: white !important;
+  }
+
+  /* Si quieres un color específico solo en este nav */
+  nav .hamburger-inner,
+  nav .hamburger-inner::before,
+  nav .hamburger-inner::after {
+    background-color: white !important;
+  }
+</style>

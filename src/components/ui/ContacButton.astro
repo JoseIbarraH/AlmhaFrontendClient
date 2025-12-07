@@ -1,0 +1,114 @@
+---
+import { loadTranslations } from "@/lib/i18n";
+
+const lang = Astro.params.lang || "es";
+const t = await loadTranslations(lang);
+---
+
+<button
+  class="group relative px-7 py-3.5 rounded-xl bg-[#DCBE9A]
+         text-[#202020] font-semibold overflow-hidden
+         shadow-lg shadow-[#DCBE9A]/20 hover:shadow-xl hover:shadow-[#DCBE9A]/30
+         transition-all duration-300 ease-out
+         focus:outline-none focus:ring-2 focus:ring-[#DCBE9A] focus:ring-offset-2 focus:ring-offset-neutral-950
+         active:scale-[0.98]
+         hover:bg-[#E8CBA8]
+         before:absolute before:inset-0
+         before:bg-linear-to-br before:from-[#E8CBA8] before:to-[#DCBE9A]
+         before:opacity-0 before:transition-opacity before:duration-300
+         hover:before:opacity-100"
+>
+  <!-- Brillo elegante -->
+  <span
+    class="absolute inset-0 -translate-x-full group-hover:translate-x-full
+           transition-transform duration-1000 ease-out
+           bg-linear-to-r from-transparent via-white/30 to-transparent"
+    aria-hidden="true"
+  ></span>
+
+  <!-- Borde interior sutil -->
+  <span
+    class="absolute inset-px rounded-[11px]
+           bg-linear-to-br from-white/0 to-white/0
+           group-hover:from-white/20 group-hover:to-transparent
+           transition-all duration-300"
+    aria-hidden="true"
+  ></span>
+
+  <!-- Efecto de brillo en las esquinas -->
+  <span
+    class="absolute top-0 left-0 w-20 h-20 bg-white/0 group-hover:bg-white/10
+           rounded-full blur-xl transition-all duration-500 -translate-x-10 -translate-y-10"
+    aria-hidden="true"
+  ></span>
+
+  <!-- Texto del botón -->
+  <span class="relative flex items-center gap-2.5 z-10 tracking-wide">
+    {t.navbar.contactbutton}
+    <svg
+      class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-110"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2.5"
+        d="M13 7l5 5m0 0l-5 5m5-5H6"
+      />
+    </svg>
+  </span>
+</button>
+
+<style>
+  /* Animación de pulso elegante */
+  @keyframes pulse-elegant {
+    0%, 100% {
+      box-shadow: 0 10px 15px -3px rgba(220, 190, 154, 0.2),
+                  0 4px 6px -4px rgba(220, 190, 154, 0.2);
+    }
+    50% {
+      box-shadow: 0 15px 30px -3px rgba(220, 190, 154, 0.3),
+                  0 8px 12px -4px rgba(220, 190, 154, 0.3);
+    }
+  }
+
+  button:hover {
+    animation: pulse-elegant 2.5s ease-in-out infinite;
+  }
+
+  /* Efecto de elevación sutil */
+  button::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 0.75rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  button:hover::after {
+    opacity: 1;
+  }
+
+  /* Asegurar contraste del texto */
+  button {
+    position: relative;
+    isolation: isolate;
+  }
+
+  button span {
+    position: relative;
+    z-index: 10;
+  }
+
+  /* Suavizado de bordes */
+  button {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+</style>

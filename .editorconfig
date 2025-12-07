@@ -1,0 +1,31 @@
+root = true
+
+[*]
+charset = utf-8
+#   end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# 🔹 Archivos PHP → indentación 4 espacios
+[*.php]
+indent_size = 4
+indent_style = space
+
+# 🔹 Archivos de frontend (JS, TS, Vue, Astro, HTML, CSS, SCSS) → indentación 2 espacios
+[*.{js,jsx,ts,tsx,vue,astro,html,css,scss}]
+indent_size = 2
+indent_style = space
+
+# 🔹 Archivos de configuración YAML → indentación 2 espacios
+[*.{yml,yaml}]
+indent_size = 2
+indent_style = space
+
+# 🔹 Markdown → no quitar espacios en blanco al final
+[*.md]
+trim_trailing_whitespace = false
+
+# 🔹 Docker Compose → normalmente 2 espacios también, pero aquí puedes elegir
+[docker-compose.yml]
+indent_size = 2
+indent_style = space

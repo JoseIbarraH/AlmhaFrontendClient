@@ -1,0 +1,174 @@
+---
+import { LANGUAGES, type Language } from "@/lib/languages";
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+const currentLang = Astro.currentLocale || "es";
+const currentLanguage = LANGUAGES.find(lang => lang.code === currentLang);
+---
+
+<div class="language-selector relative">
+  <!-- Botón trigger -->
+  <button
+    type="button"
+    class="flex items-center gap-2 px-3 py-2 rounded-lg
+           bg-neutral-800/50 hover:bg-neutral-800
+           text-neutral-100 transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-[#DCBE9A] focus:ring-offset-2 focus:ring-offset-neutral-950
+           group"
+    aria-label="Cambiar idioma"
+    aria-haspopup="true"
+    aria-expanded="false"
+  >
+    <!-- Ícono de idioma/globo -->
+    <svg
+      class="w-5 h-5 transition-transform duration-300 group-hover:scale-110"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"
+      />
+    </svg>
+
+    <!-- Código del idioma actual -->
+    <span class="text-sm font-medium uppercase">{currentLanguage?.code}</span>
+
+    <!-- Flecha indicadora -->
+    <svg
+      class="w-4 h-4 transition-transform duration-200 chevron"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M19 9l-7 7-7-7"
+      />
+    </svg>
+  </button>
+
+  <!-- Dropdown menu -->
+  <div
+    class="dropdown-menu absolute right-0 mt-2 w-48 rounded-lg
+           bg-neutral-900 border border-neutral-800
+           shadow-xl shadow-black/30
+           opacity-0 invisible scale-95 origin-top-right
+           transition-all duration-200 ease-out
+           z-50"
+    role="menu"
+    aria-orientation="vertical"
+  >
+    <div class="py-1">
+      {LANGUAGES.map((lang: Language) => (
+        <a
+          href={getRelativeLocaleUrl(lang.code, "/")}
+          class={`
+            flex items-center justify-between px-4 py-2.5
+            text-sm transition-colors duration-150
+            ${lang.code === currentLang
+              ? 'bg-[#DCBE9A]/10 text-[#DCBE9A]'
+              : 'text-neutral-300 hover:bg-neutral-800 hover:text-white'
+            }
+          `}
+          role="menuitem"
+        >
+          <span class="flex items-center gap-3">
+            <span class="text-lg">{lang.code}</span>
+            <span class="font-medium">{lang.name}</span>
+          </span>
+
+          {lang.code === currentLang && (
+            <svg
+              class="w-4 h-4 text-[#DCBE9A]"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          )}
+        </a>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Mostrar dropdown cuando está abierto */
+  .language-selector.open .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+  }
+
+  /* Rotar flecha cuando está abierto */
+  .language-selector.open .chevron {
+    transform: rotate(180deg);
+  }
+
+  /* Animación suave del hover */
+  .dropdown-menu a {
+    position: relative;
+  }
+
+  .dropdown-menu a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background: #DCBE9A;
+    transform: scaleY(0);
+    transition: transform 0.2s ease;
+  }
+
+  .dropdown-menu a:hover::before {
+    transform: scaleY(1);
+  }
+</style>
+
+<script>
+  // Toggle del dropdown
+  document.addEventListener('DOMContentLoaded', () => {
+    const selector = document.querySelector('.language-selector');
+    const button = selector?.querySelector('button');
+    const dropdown = selector?.querySelector('.dropdown-menu');
+
+    button?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      selector?.classList.toggle('open');
+      const isOpen = selector?.classList.contains('open');
+      button.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    // Cerrar al hacer click fuera
+    document.addEventListener('click', (e) => {
+      if (!selector?.contains(e.target as Node)) {
+        selector?.classList.remove('open');
+        button?.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Cerrar con ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && selector?.classList.contains('open')) {
+        selector.classList.remove('open');
+        button?.setAttribute('aria-expanded', 'false');
+        button?.focus();
+      }
+    });
+  });
+</script>
