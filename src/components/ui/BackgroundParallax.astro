@@ -1,0 +1,21 @@
+---
+const {
+  id = "default",
+  title = "Titulo por defecto",
+  subtitle = "Subtitulo por defecto",
+  bg = "/src/assets/images/abdominoplastia.jpg"
+} = Astro.props;
+---
+
+<div
+  id={id}
+  class="h-screen bg-fixed bg-center bg-cover bg-no-repeat flex justify-center items-center"
+  style={`background-image: url(${bg});`}
+>
+  <section class="px-6 py-20 bg-transparent text-center">
+    <h2 class="text-3xl font-bold mb-4">{title}</h2>
+    <p class="text-neutral-700">
+      {subtitle}
+    </p>
+  </section>
+</div>

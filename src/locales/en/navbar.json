@@ -1,6 +1,22 @@
 {
-    "links": {
-        "service": "Services"
+    "navigation": {
+        "title": "Navigation",
+        "subtitle": "Discover everything we offer you"
     },
-    "contactbutton": "Contact Us"
+    "links": {
+        "home": "Home",
+        "service": "Procedures",
+        "about": "About Us",
+        "contact": "Contact",
+        "blog": "Blog"
+    },
+    "menu": "Menu",
+    "contactbutton": "Contact Us",
+    "contact": {
+        "title": "Contact",
+        "subtitle": "We are here for you",
+        "phone": "Phone",
+        "email": "Email",
+        "location": "Location"
+    }
 }

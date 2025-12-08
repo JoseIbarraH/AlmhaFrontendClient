@@ -4,7 +4,7 @@ interface Props {
   buttonDown?: boolean;
   slides?: Array<{
     title?: string;
-    description?: string;
+    subtitle?: string;
     image?: string;
     bgColor?: string;
   }>;
@@ -16,22 +16,16 @@ const { buttonDown = false, slides = [] } = Astro.props;
 const defaultSlides = [
   {
     title: "Slide 1: ¡Bienvenido!",
-    description: "Contenido del primer slide. Totalmente adaptable.",
+    subtitle: "Contenido del primer slide. Totalmente adaptable.",
     image: "/src/assets/images/abdominoplastia.jpg",
     bgColor: "bg-gradient-to-br from-neutral-900 to-neutral-800",
   },
   {
     title: "Slide 2: Efecto Fade",
-    description: "Usamos el elegante efecto de transición 'fade'.",
+    subtitle: "Usamos el elegante efecto de transición 'fade'.",
     image: "https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature.jpg",
     bgColor: "bg-gradient-to-br from-[#DCBE9A]/20 to-neutral-900",
-  },
-  {
-    title: "Slide 3: Personalizable",
-    description: "Configura autoplay, navegación y más opciones en el script.",
-    image: "",
-    bgColor: "bg-gradient-to-br from-neutral-800 to-[#202020]",
-  },
+  }
 ];
 
 const slideData = slides.length > 0 ? slides : defaultSlides;
@@ -51,7 +45,7 @@ const slideData = slides.length > 0 ? slides : defaultSlides;
                   alt={slide.title || `Slide ${index + 1}`}
                   class="w-full h-full object-cover"
                 />
-                {(slide.title || slide.description) && (
+                {(slide.title || slide.subtitle) && (
                   <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
                     <div class="text-center text-white px-6">
                       {slide.title && (
@@ -59,9 +53,9 @@ const slideData = slides.length > 0 ? slides : defaultSlides;
                           {slide.title}
                         </h2>
                       )}
-                      {slide.description && (
+                      {slide.subtitle && (
                         <p class="text-lg md:text-xl text-neutral-200">
-                          {slide.description}
+                          {slide.subtitle}
                         </p>
                       )}
                     </div>
@@ -78,9 +72,9 @@ const slideData = slides.length > 0 ? slides : defaultSlides;
                       {slide.title}
                     </h2>
                   )}
-                  {slide.description && (
+                  {slide.subtitle && (
                     <p class="text-lg md:text-xl text-neutral-200 animate-fade-in-delay">
-                      {slide.description}
+                      {slide.subtitle}
                     </p>
                   )}
                 </div>
@@ -135,8 +129,6 @@ const slideData = slides.length > 0 ? slides : defaultSlides;
         crossFade: true,
       },
     });
-
-    console.log("Swiper initialized:", swiper); // Debug
   }
 
   // Inicializar

@@ -12,6 +12,7 @@
     "@astrojs/node": "^9.5.1",
     "@tailwindcss/vite": "^4.1.17",
     "astro": "^5.16.4",
+    "axios": "^1.13.2",
     "hamburgers": "^1.2.1",
     "lucide-static": "^0.556.0",
     "swiper": "^12.0.3",

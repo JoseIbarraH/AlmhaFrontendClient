@@ -1,10 +1,313 @@
 ---
-import Carousel from '@/components/layout/Carousel.astro';
-import Layout from '../../layouts/Layout.astro';
+import Carousel from "@/components/shared/Carousel.astro";
+import Layout from "../../layouts/Layout.astro";
+import BackgroundParallax from "@/components/ui/BackgroundParallax.astro";
 
-
+const {
+  backgrounds = [],
+  carousel = [],
+  carouselTool = [],
+  imageVideo = [],
+} = Astro.locals.global?.design || {};
 ---
 
 <Layout>
-  <Carousel />
+  <Carousel slides={carousel.carousel} />
+
+  <div class="h-[500px] bg-white flex justify-center items-center">
+    <h1>Texto</h1>
+  </div>
+
+  <div class="parallax-wrapper">
+    <!-- Indicador mejorado -->
+    <nav
+      id="parallax-nav"
+      class="z-50 lg:block
+            opacity-0 invisible transition-opacity duration-500 ease-out
+            absolute lg:right-8 lg:w-fit"
+      aria-label="Navegación de secciones parallax"
+    >
+      <div class="flex flex-col gap-6 items-end">
+        <!-- Indicador 1 -->
+        <a
+          href="#parallax1"
+          data-target="parallax1"
+          class="parallax-link group flex items-center gap-4 cursor-pointer"
+        >
+          <span
+            class="indicator-label text-white text-sm font-medium
+                       opacity-0 group-hover:opacity-100
+                       translate-x-3 group-hover:translate-x-0
+                       transition-all duration-300 ease-out
+                       bg-neutral-900/90 backdrop-blur-md px-4 py-2 rounded-lg
+                       shadow-lg whitespace-nowrap"
+          >
+            {backgrounds.background1[0]?.title || "Sección 1"}
+          </span>
+          <div class="indicator-wrapper relative">
+            <div
+              id="dot-parallax1"
+              class="indicator-dot w-4 h-4 rounded-full bg-white/30
+                     group-hover:bg-[#DCBE9A]/60
+                     transition-all duration-300 ease-out
+                     ring-2 ring-white/20 group-hover:ring-[#DCBE9A]/40
+                     cursor-pointer"
+            >
+            </div>
+            <div
+              class="indicator-pulse absolute inset-0 rounded-full bg-[#DCBE9A] opacity-0"
+            >
+            </div>
+          </div>
+        </a>
+
+        <!-- Indicador 2 -->
+        <a
+          href="#parallax2"
+          data-target="parallax2"
+          class="parallax-link group flex items-center gap-4 cursor-pointer"
+        >
+          <span
+            class="indicator-label text-white text-sm font-medium
+                       opacity-0 group-hover:opacity-100
+                       translate-x-3 group-hover:translate-x-0
+                       transition-all duration-300 ease-out delay-75
+                       bg-neutral-900/90 backdrop-blur-md px-4 py-2 rounded-lg
+                       shadow-lg whitespace-nowrap"
+          >
+            {backgrounds.background2[0]?.title || "Sección 2"}
+          </span>
+          <div class="indicator-wrapper relative">
+            <div
+              id="dot-parallax2"
+              class="indicator-dot w-4 h-4 rounded-full bg-white/30
+                     group-hover:bg-[#DCBE9A]/60
+                     transition-all duration-300 ease-out
+                     ring-2 ring-white/20 group-hover:ring-[#DCBE9A]/40
+                     cursor-pointer"
+            >
+            </div>
+            <div
+              class="indicator-pulse absolute inset-0 rounded-full bg-[#DCBE9A] opacity-0"
+            >
+            </div>
+          </div>
+        </a>
+
+        <!-- Indicador 3 -->
+        <a
+          href="#parallax3"
+          data-target="parallax3"
+          class="parallax-link group flex items-center gap-4 cursor-pointer"
+        >
+          <span
+            class="indicator-label text-white text-sm font-medium
+                       opacity-0 group-hover:opacity-100
+                       translate-x-3 group-hover:translate-x-0
+                       transition-all duration-300 ease-out delay-100
+                       bg-neutral-900/90 backdrop-blur-md px-4 py-2 rounded-lg
+                       shadow-lg whitespace-nowrap"
+          >
+            {backgrounds.background3[0]?.title || "Sección 3"}
+          </span>
+          <div class="indicator-wrapper relative">
+            <div
+              id="dot-parallax3"
+              class="indicator-dot w-4 h-4 rounded-full bg-white/30
+                     group-hover:bg-[#DCBE9A]/60
+                     transition-all duration-300 ease-out
+                     ring-2 ring-white/20 group-hover:ring-[#DCBE9A]/40
+                     cursor-pointer"
+            >
+            </div>
+            <div
+              class="indicator-pulse absolute inset-0 rounded-full bg-[#DCBE9A] opacity-0"
+            >
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Línea vertical decorativa -->
+      <div
+        class="absolute right-[7px] top-0 bottom-0 w-0.5 bg-linear-to-b from-transparent via-white/20 to-transparent -z-10"
+      >
+      </div>
+    </nav>
+
+    <BackgroundParallax
+      title={backgrounds.background1[0]?.title}
+      subtitle={backgrounds.background1[0]?.subtitle}
+      bg={backgrounds.background1[0]?.image}
+      id="parallax1"
+    />
+    <BackgroundParallax
+      title={backgrounds.background2[0]?.title}
+      subtitle={backgrounds.background2[0]?.subtitle}
+      bg={backgrounds.background2[0]?.image}
+      id="parallax2"
+    />
+    <BackgroundParallax
+      title={backgrounds.background3[0]?.title}
+      subtitle={backgrounds.background3[0]?.subtitle}
+      bg={backgrounds.background3[0]?.image}
+      id="parallax3"
+    />
+  </div>
 </Layout>
+
+<script>
+  function initParallaxIndicator() {
+    const parallaxNav = document.querySelector("#parallax-nav");
+    const parallaxWrapper = document.querySelector(".parallax-wrapper");
+    const elements = document.querySelectorAll(
+      "#parallax1, #parallax2, #parallax3"
+    );
+    const links = document.querySelectorAll(".parallax-link");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const targetId = entry.target.id;
+          const dot = document.querySelector(`#dot-${targetId}`);
+          const pulse = dot?.nextElementSibling;
+
+          if (entry.isIntersecting) {
+            dot?.classList.add("active");
+            dot?.classList.remove("bg-white/30");
+            dot?.classList.add(
+              "bg-[#DCBE9A]",
+              "scale-150",
+              "ring-[#DCBE9A]/60"
+            );
+            pulse?.classList.add("animate-ping");
+          } else {
+            dot?.classList.remove(
+              "active",
+              "bg-[#DCBE9A]",
+              "scale-150",
+              "ring-[#DCBE9A]/60"
+            );
+            dot?.classList.add("bg-white/30");
+            pulse?.classList.remove("animate-ping");
+          }
+        });
+      },
+      {
+        threshold: 0.5,
+      }
+    );
+
+    elements.forEach((el) => observer.observe(el));
+
+    if (parallaxWrapper && parallaxNav) {
+      const visibilityObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              parallaxNav.classList.remove("opacity-0", "invisible");
+              parallaxNav.classList.add("opacity-100", "visible");
+            } else {
+              parallaxNav.classList.remove("opacity-100", "visible");
+              parallaxNav.classList.add("opacity-0", "invisible");
+            }
+          });
+        },
+        {
+          rootMargin: "0px",
+          threshold: 0,
+        }
+      );
+
+      visibilityObserver.observe(parallaxWrapper);
+    }
+
+    links.forEach((link) => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute("data-target");
+        const targetSection = document.getElementById(targetId || "");
+
+        if (targetSection) {
+          targetSection.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }
+      });
+    });
+  }
+
+  // ... (Tu código existente de inicialización y astro:page-load) ...
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initParallaxIndicator);
+  } else {
+    initParallaxIndicator();
+  }
+
+  document.addEventListener("astro:page-load", initParallaxIndicator);
+</script>
+
+<style>
+  .parallax-wrapper {
+    position: relative;
+  }
+
+  /* Animación de glow para indicador activo */
+  .indicator-dot.active {
+    box-shadow:
+      0 0 20px rgba(220, 190, 154, 0.8),
+      0 0 40px rgba(220, 190, 154, 0.4);
+  }
+
+  /* Animación de pulso */
+  @keyframes ping {
+    75%,
+    100% {
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+
+  .animate-ping {
+    animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  /* Efecto de brillo en hover */
+  .parallax-link:hover .indicator-dot {
+    box-shadow: 0 0 15px rgba(220, 190, 154, 0.5);
+  }
+
+  /* Transiciones suaves */
+  .indicator-dot {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Responsive: ocultar en móvil/tablet */
+  @media (max-width: 1024px) {
+    #parallax-nav {
+      display: none;
+    }
+  }
+
+  #parallax-nav {
+    position: absolute;
+    right: 32px;
+    transform: none;
+    top: 0;
+  }
+
+  #parallax-nav.is-fixed {
+    position: fixed;
+    top: 50%;
+    right: 32px;
+    transform: translateY(-50%);
+  }
+
+  #parallax-nav.is-absolute-top,
+  #parallax-nav.is-absolute-bottom {
+    position: absolute;
+    transform: none;
+    right: 32px;
+  }
+</style>
