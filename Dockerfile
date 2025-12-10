@@ -41,8 +41,9 @@ RUN npm install --omit=dev
 # 3. Copiar la salida del build de Astro
 # El adaptador de Node.js de Astro genera la carpeta 'dist' y un 'entry.mjs'
 # o estructura similar para iniciar el servidor.
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/server ./server
+COPY --from=builder /dist ./dist
+COPY --from=builder /dist/client ./client
+COPY --from=builder /dist/server ./server
 
 
 # Comando de inicio: Ejecuta el servidor Node.js generado por Astro
