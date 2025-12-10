@@ -26,8 +26,10 @@ RUN npm run build
 FROM node:20-slim
 WORKDIR /app
 
-# Establecer la variable de entorno para el puerto
-# Dokploy puede sobrescribir esto, por defecto 3000
+# Establecer las variables de entorno
+# HOST=0.0.0.0 permite que el servidor escuche en todas las interfaces (necesario para Docker)
+# PORT puede ser sobrescrito por Dokploy, por defecto 3000
+ENV HOST=0.0.0.0
 ENV PORT=3000
 
 # Exponer el puerto de escucha de la aplicación
