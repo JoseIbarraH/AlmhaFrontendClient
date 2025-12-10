@@ -12,7 +12,7 @@ const {
 ---
 
 <Layout>
-  <Carousel slides={carousel.carousel} />
+  <Carousel slides={carousel?.carousel} />
 
   <div class="h-[500px] bg-white flex justify-center items-center">
     <h1>Texto</h1>
@@ -42,7 +42,7 @@ const {
                        bg-neutral-900/90 backdrop-blur-md px-4 py-2 rounded-lg
                        shadow-lg whitespace-nowrap"
           >
-            {backgrounds.background1[0]?.title || "Sección 1"}
+            {backgrounds?.background1?.[0]?.title || "Sección 1"}
           </span>
           <div class="indicator-wrapper relative">
             <div
@@ -75,7 +75,7 @@ const {
                        bg-neutral-900/90 backdrop-blur-md px-4 py-2 rounded-lg
                        shadow-lg whitespace-nowrap"
           >
-            {backgrounds.background2[0]?.title || "Sección 2"}
+            {backgrounds?.background2?.[0]?.title || "Sección 2"}
           </span>
           <div class="indicator-wrapper relative">
             <div
@@ -108,7 +108,7 @@ const {
                        bg-neutral-900/90 backdrop-blur-md px-4 py-2 rounded-lg
                        shadow-lg whitespace-nowrap"
           >
-            {backgrounds.background3[0]?.title || "Sección 3"}
+            {backgrounds.background3?.[0]?.title || "Sección 3"}
           </span>
           <div class="indicator-wrapper relative">
             <div
@@ -136,21 +136,21 @@ const {
     </nav>
 
     <BackgroundParallax
-      title={backgrounds.background1[0]?.title}
-      subtitle={backgrounds.background1[0]?.subtitle}
-      bg={backgrounds.background1[0]?.image}
+      title={backgrounds?.background1?.[0]?.title}
+      subtitle={backgrounds?.background1?.[0]?.subtitle}
+      bg={backgrounds?.background1?.[0]?.image}
       id="parallax1"
     />
     <BackgroundParallax
-      title={backgrounds.background2[0]?.title}
-      subtitle={backgrounds.background2[0]?.subtitle}
-      bg={backgrounds.background2[0]?.image}
+      title={backgrounds?.background2?.[0]?.title}
+      subtitle={backgrounds?.background2?.[0]?.subtitle}
+      bg={backgrounds?.background2?.[0]?.image}
       id="parallax2"
     />
     <BackgroundParallax
-      title={backgrounds.background3[0]?.title}
-      subtitle={backgrounds.background3[0]?.subtitle}
-      bg={backgrounds.background3[0]?.image}
+      title={backgrounds?.background3?.[0]?.title}
+      subtitle={backgrounds?.background3?.[0]?.subtitle}
+      bg={backgrounds?.background3?.[0]?.image}
       id="parallax3"
     />
   </div>

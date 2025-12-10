@@ -13,7 +13,7 @@ const {
   image = "../assets/images/abdominoplastia.jpg",
 } = Astro.props;
 
-const { carouselNavbar = [] } = Astro.locals.global.design;
+const { carouselNavbar = [] } = Astro.locals?.global?.design || {};
 ---
 
 <!doctype html>
@@ -42,7 +42,7 @@ const { carouselNavbar = [] } = Astro.locals.global.design;
     <meta name="generator" content={Astro.generator} />
   </head>
   <body>
-    <Navbar images={carouselNavbar.carouselNavbar} />
+    <Navbar images={carouselNavbar?.carouselNavbar} />
     <slot />
   </body>
 </html>
