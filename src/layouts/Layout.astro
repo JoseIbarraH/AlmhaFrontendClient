@@ -1,5 +1,6 @@
 ---
 import Navbar from "@/components/layout/Navbar.astro";
+import defaultImage from "@/assets/images/abdominoplastia.jpg";
 import "@/assets/css/global.css";
 
 import { loadTranslations } from "../lib/i18n";
@@ -10,7 +11,7 @@ const {
   title = "AlmhaPlasticSurgery",
   description = "Descripción por defecto",
   keywords = "",
-  image = "../assets/images/abdominoplastia.jpg",
+  image = defaultImage.src,
 } = Astro.props;
 
 const { carouselNavbar = [] } = Astro.locals?.global?.design || {};
