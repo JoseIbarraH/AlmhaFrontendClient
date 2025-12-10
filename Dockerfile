@@ -26,8 +26,9 @@ RUN npm run build
 FROM node:20-slim
 WORKDIR /app
 
-# Establecer la variable de entorno para el puerto (opcional, por defecto 3000)
-ENV PORT=1423
+# Establecer la variable de entorno para el puerto
+# Dokploy puede sobrescribir esto, por defecto 3000
+ENV PORT=3000
 
 # Exponer el puerto de escucha de la aplicación
 EXPOSE ${PORT}
@@ -38,12 +39,9 @@ COPY package*.json .
 # 2. Copiar solo las dependencias de producción (más seguro y pequeño)
 RUN npm install --omit=dev
 
-# 3. Copiar la salida del build de Astro
-# El adaptador de Node.js de Astro genera la carpeta 'dist' y un 'entry.mjs'
-# o estructura similar para iniciar el servidor.
-COPY --from=builder /dist ./dist
-COPY --from=builder /dist/client ./client
-COPY --from=builder /dist/server ./server
+# 3. Copiar la salida del build de Astro desde la etapa builder
+# El adaptador de Node.js de Astro genera la carpeta 'dist' con el servidor SSR
+COPY --from=builder /app/dist ./dist
 
 
 # Comando de inicio: Ejecuta el servidor Node.js generado por Astro
