@@ -27,7 +27,7 @@ const { images = [] } = Astro.props;
   <!-- Navbar Principal -->
   <nav
     id="main-navbar"
-    class="w-full border-b border-neutral-700 bg-linear-to-r from-neutral-900 to-neutral-950 shadow-xl shadow-black/50 fixed top-0 z-50 backdrop-blur-md bg-opacity-80 transition-transform duration-300 ease-in-out"
+    class="w-full border-b border-[#7D6A5D]/30 bg-linear-to-r from-[#513A31] to-[#7D6A5D] shadow-xl shadow-black/30 fixed top-0 z-50 backdrop-blur-md bg-opacity-95 transition-transform duration-300 ease-in-out"
   >
     <div
       class="container mx-auto relative flex items-center justify-between py-4 px-6 lg:px-8"
@@ -35,7 +35,7 @@ const { images = [] } = Astro.props;
       <!-- Left: Mobile hamburger -->
       <button
         id="hamburger-btn"
-        class="hamburger-btn flex items-center transition-colors rounded-lg px-2 py-1 -ml-2 z-50"
+        class="hamburger-btn flex items-center transition-colors rounded-lg px-2 py-1 -ml-2 z-50 hover:bg-[#FEEBDD]/10"
         type="button"
         aria-label="Toggle menu"
         aria-expanded="false"
@@ -45,8 +45,7 @@ const { images = [] } = Astro.props;
             <span class="hamburger-inner"></span>
           </span>
         </span>
-        <span class="text-neutral-100 text-sm font-medium">{t.navbar.menu}</span
-        >
+        <span class="text-[#FFF9F6] text-sm font-medium">{t.navbar.menu}</span>
       </button>
 
       <!-- Center: LOGO SIEMPRE CENTRADO -->
@@ -55,7 +54,7 @@ const { images = [] } = Astro.props;
       >
         <div class="overflow-hidden">
           <Logo
-            class="text-white hover:text-neutral-200 transition-colors w-full h-auto max-h-10 object-contain"
+            class="text-[#FEEBDD] hover:text-[#FFF9F6] transition-colors w-full h-auto max-h-10 object-contain"
           />
         </div>
       </div>
@@ -73,14 +72,15 @@ const { images = [] } = Astro.props;
   <!-- Menú Fullscreen -->
   <div
     id="fullscreen-menu"
-    class="fixed left-0 right-0 bg-linear-to-br from-neutral-900/98 to-neutral-950/98 backdrop-blur-md z-40
+    class="fixed left-0 right-0 bg-linear-to-br from-[#513A31]/98 to-[#7D6A5D]/98 backdrop-blur-md z-40
            opacity-0 invisible transition-all duration-500 ease-out overflow-hidden"
     style="top: var(--navbar-height, 73px); bottom: 0;"
   >
     <!-- Grid responsivo -->
     <div class="grid grid-cols-1 md:grid-cols-4 h-full w-full">
       <!-- Columna 1: Carousel - OCULTA EN MÓVIL -->
-      <div class="h-full w-full overflow-hidden hidden md:block">
+      <div class="h-full w-full overflow-hidden hidden md:block relative">
+        <div class="absolute inset-0 bg-linear-to-r from-transparent to-[#513A31]/30 z-10"></div>
         <Carousel buttonDown={true} slides={images} />
       </div>
 
@@ -90,11 +90,11 @@ const { images = [] } = Astro.props;
       >
         <div>
           <span
-            class="text-[#DCBE9A] text-xs md:text-sm font-semibold tracking-widest uppercase"
+            class="text-[#FEEBDD] text-xs md:text-sm font-semibold tracking-widest uppercase"
           >
             {t.navbar.navigation.title}
           </span>
-          <h2 class="text-xl md:text-2xl font-bold text-white mt-2 md:mt-4">
+          <h2 class="text-xl md:text-2xl font-bold text-[#FFF9F6] mt-2 md:mt-4">
             {t.navbar.navigation.subtitle}
           </h2>
         </div>
@@ -104,47 +104,47 @@ const { images = [] } = Astro.props;
             <a
               href={getRelativeLocaleUrl(currentLang, item.href)}
               class="menu-link-wrapper group flex items-center gap-3 py-2 px-4 -mx-4 rounded-lg
-                    hover:bg-white/5 transition-all duration-300
+                    hover:bg-[#FEEBDD]/10 transition-all duration-300
                     opacity-0 translate-y-8"
               style={`transition-delay: ${index * 100}ms`}
             >
               <div
                 class="shrink-0 w-6 h-6 flex items-center justify-center
-                          bg-[#DCBE9A]/10 group-hover:bg-[#DCBE9A]/20
+                          bg-[#FEEBDD]/20 group-hover:bg-[#FEEBDD]/30
                           rounded-md transition-all duration-300
                           group-hover:translate-x-1"
               >
                 <Icon
                   name="arrow-right"
-                  class="w-4 h-4 text-[#DCBE9A] transition-transform duration-300 group-hover:scale-110"
+                  class="w-4 h-4 text-[#FEEBDD] transition-transform duration-300 group-hover:scale-110"
                 />
               </div>
 
               <span
-                class="text-white text-xl md:text-2xl font-bold
-                          group-hover:text-[#DCBE9A] transition-colors duration-300
+                class="text-[#FFF9F6] text-xl md:text-2xl font-bold
+                          group-hover:text-[#FEEBDD] transition-colors duration-300
                           group-hover:translate-x-1"
               >
                 {item.label}
               </span>
 
               <div
-                class="ml-auto w-0 h-0.5 bg-[#DCBE9A]
+                class="ml-auto w-0 h-0.5 bg-[#FEEBDD]
                           group-hover:w-8 transition-all duration-500 rounded-full"
-              ></div>
+              />
             </a>
           ))
         }
         <!-- Separador derecho -->
         <div
-          class="absolute right-0 top-0 bottom-0 w-px bg-linear-to-b from-transparent via-[#DCBE9A]/30 to-transparent"
+          class="absolute right-0 top-0 bottom-0 w-px bg-linear-to-b from-transparent via-[#FEEBDD]/30 to-transparent"
         >
         </div>
       </div>
 
       <!-- Columna 3: Procedimientos - OCULTA EN MÓVIL -->
       <div
-        class="h-full flex-col items-center justify-start px-4 py-6 relative overflow-hidden hidden md:flex"
+        class="h-full flex-col items-center justify-start px-4 py-6 relative overflow-hidden hidden md:flex bg-[#513A31]/20"
       >
         <!-- Contenedor con scroll interno -->
         <div
@@ -157,7 +157,7 @@ const { images = [] } = Astro.props;
 
         <!-- Separador vertical -->
         <div
-          class="absolute right-0 top-0 bottom-0 w-px bg-linear-to-b from-transparent via-[#DCBE9A]/30 to-transparent"
+          class="absolute right-0 top-0 bottom-0 w-px bg-linear-to-b from-transparent via-[#FEEBDD]/30 to-transparent"
         >
         </div>
       </div>
@@ -167,15 +167,15 @@ const { images = [] } = Astro.props;
         <div
           class="h-full flex flex-col items-start justify-center gap-4 md:gap-6 px-6 md:px-10 relative"
         >
-          <div class="text-white text-xl md:text-2xl font-bold">
+          <div class="text-[#FFF9F6] text-xl md:text-2xl font-bold">
             <div>
               <span
-                class="text-[#DCBE9A] text-xs md:text-sm font-semibold tracking-widest uppercase"
+                class="text-[#FEEBDD] text-xs md:text-sm font-semibold tracking-widest uppercase"
               >
                 {t.navbar.contact.title}
               </span>
               <h2
-                class="text-xl md:text-2xl font-bold text-white mt-2 md:mt-4 mb-4 md:mb-6"
+                class="text-xl md:text-2xl font-bold text-[#FFF9F6] mt-2 md:mt-4 mb-4 md:mb-6"
               >
                 {t.navbar.contact.subtitle}
               </h2>
@@ -206,11 +206,11 @@ const { images = [] } = Astro.props;
           class="absolute inset-0 pointer-events-none opacity-50 md:opacity-100"
         >
           <div
-            class="absolute top-1/4 right-1/4 w-40 h-40 md:w-64 md:h-64 bg-[#DCBE9A]/5 rounded-full blur-3xl"
+            class="absolute top-1/4 right-1/4 w-40 h-40 md:w-64 md:h-64 bg-[#FEEBDD]/10 rounded-full blur-3xl"
           >
           </div>
           <div
-            class="absolute bottom-1/4 left-1/4 w-60 h-60 md:w-96 md:h-96 bg-[#DCBE9A]/3 rounded-full blur-3xl"
+            class="absolute bottom-1/4 left-1/4 w-60 h-60 md:w-96 md:h-96 bg-[#FEEBDD]/5 rounded-full blur-3xl"
           >
           </div>
         </div>
@@ -281,30 +281,24 @@ const { images = [] } = Astro.props;
     });
 
     let lastScrollTop = 0;
-    const scrollThreshold = 10; // Umbral mínimo de scroll para evitar cambios erráticos
+    const scrollThreshold = 10;
     let ticking = false;
 
     function updateNavbarVisibility() {
       const scrollTop =
         window.pageYOffset || document.documentElement.scrollTop;
 
-      // Si el menú está abierto, no ocultar el navbar
       if (isOpen) {
         ticking = false;
         return;
       }
 
-      // Calcular diferencia de scroll
       const scrollDifference = Math.abs(scrollTop - lastScrollTop);
 
-      // Solo actuar si el scroll supera el umbral
       if (scrollDifference >= scrollThreshold) {
-        // Scroll hacia abajo - ocultar (después de 80px desde el inicio)
         if (scrollTop > lastScrollTop && scrollTop > 80) {
           navbar?.classList.add("-translate-y-full");
-        }
-        // Scroll hacia arriba - mostrar inmediatamente
-        else if (scrollTop < lastScrollTop) {
+        } else if (scrollTop < lastScrollTop) {
           navbar?.classList.remove("-translate-y-full");
         }
 
@@ -314,7 +308,6 @@ const { images = [] } = Astro.props;
       ticking = false;
     }
 
-    // Usar requestAnimationFrame para mejor rendimiento
     window.addEventListener(
       "scroll",
       () => {
@@ -327,29 +320,27 @@ const { images = [] } = Astro.props;
     );
   }
 
-  // Inicializar en carga de página
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initMenu);
   } else {
     initMenu();
   }
 
-  // Reinicializar con View Transitions de Astro
   document.addEventListener("astro:page-load", initMenu);
 </script>
 
 <style is:global>
-  /* Estilos del hamburger */
+  /* Estilos del hamburger con nueva paleta */
   .hamburger-inner,
   .hamburger-inner::before,
   .hamburger-inner::after {
-    background-color: rgb(245, 245, 245) !important;
+    background-color: #FEEBDD !important;
   }
 
   .hamburger-btn:hover .hamburger-inner,
   .hamburger-btn:hover .hamburger-inner::before,
   .hamburger-btn:hover .hamburger-inner::after {
-    background-color: rgb(212, 212, 212) !important;
+    background-color: #FFF9F6 !important;
   }
 
   /* Cuando el menú está abierto */
@@ -380,11 +371,11 @@ const { images = [] } = Astro.props;
     }
 
     #fullscreen-menu > div > div:first-child {
-      display: none; /* Ocultar carousel en móvil */
+      display: none;
     }
 
     #fullscreen-menu > div > div:last-child {
-      display: none; /* Ocultar decoración en móvil */
+      display: none;
     }
   }
 
@@ -406,7 +397,7 @@ const { images = [] } = Astro.props;
     transform: translateY(-50%);
     width: 3px;
     height: 0;
-    background: linear-gradient(to bottom, transparent, #dcbe9a, transparent);
+    background: linear-gradient(to bottom, transparent, #FEEBDD, transparent);
     border-radius: 2px;
     transition: height 0.3s ease;
   }
@@ -428,5 +419,24 @@ const { images = [] } = Astro.props;
 
   .menu-link-wrapper:hover svg {
     animation: icon-pulse 1s ease-in-out infinite;
+  }
+
+  /* Scrollbar personalizado */
+  .scrollbar-custom::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-track {
+    background: #7D6A5D;
+    border-radius: 10px;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-thumb {
+    background: #FEEBDD;
+    border-radius: 10px;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+    background: #D6C4B6;
   }
 </style>

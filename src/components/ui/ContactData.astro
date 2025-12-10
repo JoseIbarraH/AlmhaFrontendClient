@@ -6,21 +6,21 @@ const { icon, title, value } = Astro.props;
 
 <div class="flex items-start">
   <div
-    class="w-12 h-12 bg-gold rounded-full flex items-center justify-center mr-4 shrink-0 text-white hover:text-[#DCBE9A]"
+    class="w-12 h-12 bg-gold rounded-full flex items-center justify-center mr-4 shrink-0 text-[#FFF9F6] hover:text-[#D6C4B6]"
   >
     <Icon name={icon} />
   </div>
   <div>
     <div
-      class="font-semibold text-dark text-[20px] menu-link text-white text-2xl md:text-2xl lg:text-2xl
-             hover:text-[#DCBE9A] transition-all duration-300
+      class="font-semibold text-dark text-[20px] menu-link text-[#FFF9F6] text-2xl md:text-2xl lg:text-2xl
+             hover:text-[#D6C4B6] transition-all duration-300
              opacity-0"
     >
       {title}
     </div>
     <div
-      class="text-gray-600 text-[20px] menu-link text-2xl md:text-2xl lg:text-2xl font-bold
-             hover:text-[#DCBE9A] transition-all duration-300
+      class="text-[#FFF9F6] text-[20px] menu-link text-2xl md:text-2xl lg:text-2xl font-bold
+             hover:text-[#D6C4B6] transition-all duration-300
              opacity-0"
     >
       {value}
@@ -40,7 +40,7 @@ const { icon, title, value } = Astro.props;
     left: 0;
     width: 0;
     height: 3px;
-    background: #dcbe9a;
+    background: #D6C4B6;
     transition: width 0.4s ease;
   }
 </style>

@@ -1,0 +1,156 @@
+---
+import Logo from "@/components/ui/LogoName.astro";
+import Icon from "../ui/Icon.astro";
+import { loadTranslations } from "@/lib/i18n";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import BackgroundParallax from "../ui/BackgroundParallax.astro";
+import img from "@/assets/images/1150360.jpg"
+
+const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
+
+const menuItems = [
+  { href: "/", label: t.navbar.links.home || "Inicio" },
+  { href: "/service", label: t.navbar.links.service || "Procedimientos" },
+  { href: "/about", label: t.navbar.links.about || "Nosotros" },
+  { href: "/contact", label: t.navbar.links.contact || "Contacto" },
+  { href: "/blog", label: t.navbar.links.blog || "Blog" },
+];
+
+const socialLinks = [
+  { name: "facebook", href: "#", label: "Facebook" },
+  { name: "instagram", href: "#", label: "Instagram" },
+  { name: "twitter", href: "#", label: "Twitter" },
+];
+---
+
+<footer class="bg-[#513A31] text-[#FFF9F6]">
+  <div class="max-w-7xl mx-auto px-6 py-12 lg:py-16">
+    <!-- Grid principal -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-8">
+
+      <!-- Columna 1: Logo y Redes Sociales -->
+      <div class="flex flex-col items-center md:items-start gap-6">
+        <Logo size="xl" class="text-[#FEEBDD]" />
+
+        <p class="text-[#D6C4B6] text-center md:text-left max-w-xs">
+          Cuidando tu salud con profesionalismo y dedicación.
+        </p>
+
+        <div class="flex gap-4">
+          {socialLinks.map((social) => (
+            <a
+              href={social.href}
+              aria-label={social.label}
+              class="w-10 h-10 flex justify-center items-center rounded-full
+                     bg-[#7D6A5D] hover:bg-[#FEEBDD]
+                     text-[#FFF9F6] hover:text-[#513A31]
+                     transition-all duration-300 hover:scale-110"
+            >
+              <Icon name={social.name} class="w-5 h-5" />
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Columna 2: Navegación -->
+      <div class="flex flex-col gap-6">
+        <h3 class="text-[#FEEBDD] text-lg font-bold mb-2">
+          Navegación
+        </h3>
+
+        <nav class="flex flex-col gap-3">
+          {menuItems.map((item) => (
+            <a
+              href={getRelativeLocaleUrl(currentLang, item.href)}
+              class="group flex items-center gap-3 text-[#D6C4B6] hover:text-[#FEEBDD]
+                     transition-all duration-300 w-fit"
+            >
+              <span class="w-0 h-0.5 bg-[#FEEBDD] group-hover:w-6 transition-all duration-300"></span>
+              <span class="group-hover:translate-x-1 transition-transform duration-300">
+                {item.label}
+              </span>
+            </a>
+          ))}
+        </nav>
+      </div>
+
+      <!-- Columna 3: Contacto -->
+      <div class="flex flex-col gap-6">
+        <h3 class="text-[#FEEBDD] text-lg font-bold mb-2">
+          Contacto
+        </h3>
+
+        <div class="flex flex-col gap-4 text-[#D6C4B6]">
+          <div class="flex items-start gap-3">
+            <Icon name="map-pin" class="w-5 h-5 text-[#FEEBDD] shrink-0 mt-1" />
+            <p class="text-sm">
+              Cartagena, Bolívar<br />
+              Colombia
+            </p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <Icon name="phone" class="w-5 h-5 text-[#FEEBDD] shrink-0" />
+            <a href="tel:+57" class="text-sm hover:text-[#FEEBDD] transition-colors">
+              +57 (XXX) XXX-XXXX
+            </a>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <Icon name="mail" class="w-5 h-5 text-[#FEEBDD] shrink-0" />
+            <a href="mailto:info@almha.com" class="text-sm hover:text-[#FEEBDD] transition-colors">
+              info@almha.com
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="my-8 h-px bg-[#7D6A5D]"></div>
+
+    <!-- Copyright -->
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-[#D6C4B6]">
+      <p>
+        © {new Date().getFullYear()} Almha. Todos los derechos reservados.
+      </p>
+
+      <div class="flex gap-6">
+        <a href="#" class="hover:text-[#FEEBDD] transition-colors">
+          Política de Privacidad
+        </a>
+        <a href="#" class="hover:text-[#FEEBDD] transition-colors">
+          Términos de Uso
+        </a>
+      </div>
+    </div>
+  </div>
+  <div>
+    <BackgroundParallax fullScreen={false} bg={img.src}/>
+  </div>
+</footer>
+
+<style>
+  /* Animación de entrada para los enlaces */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  footer nav a {
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+
+  footer nav a:nth-child(1) { animation-delay: 0.1s; }
+  footer nav a:nth-child(2) { animation-delay: 0.2s; }
+  footer nav a:nth-child(3) { animation-delay: 0.3s; }
+  footer nav a:nth-child(4) { animation-delay: 0.4s; }
+  footer nav a:nth-child(5) { animation-delay: 0.5s; }
+</style>

@@ -1,6 +1,6 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
-import logoImage from "@/assets/images/logo.png";
+import logoText from "@/assets/images/imagotipo_beige.png"
 
 interface Props {
   class?: string;
@@ -38,7 +38,7 @@ const computedSize =
     aria-label="Ir al inicio"
   >
     <img
-      src={logoImage.src}
+      src={logoText.src}
       alt="Logo"
       class={computedSize + " object-contain w-full"}
       loading="eager"

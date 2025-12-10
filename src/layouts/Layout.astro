@@ -1,5 +1,6 @@
 ---
 import Navbar from "@/components/layout/Navbar.astro";
+import Footer from "@/components/layout/Footer.astro";
 import defaultImage from "@/assets/images/abdominoplastia.jpg";
 import "@/assets/css/global.css";
 
@@ -60,6 +61,7 @@ const GA_MEASUREMENT_ID = 'G-5G7KLND29N';
   <body>
     <Navbar images={carouselNavbar?.carouselNavbar} />
     <slot />
+    <Footer />
   </body>
 </html>
 

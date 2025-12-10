@@ -3,15 +3,16 @@ import defaultImage from "@/assets/images/abdominoplastia.jpg";
 
 const {
   id = "default",
-  title = "Titulo por defecto",
-  subtitle = "Subtitulo por defecto",
-  bg = defaultImage.src
+  title = "",
+  subtitle = "",
+  bg = defaultImage.src,
+  fullScreen = true
 } = Astro.props;
 ---
 
 <div
   id={id}
-  class="h-screen bg-fixed bg-center bg-cover bg-no-repeat flex justify-center items-center"
+  class={`bg-fixed bg-center bg-cover bg-no-repeat flex justify-center items-center ${fullScreen ? 'h-screen' : ''}`}
   style={`background-image: url(${bg});`}
 >
   <section class="px-6 py-20 bg-transparent text-center">
