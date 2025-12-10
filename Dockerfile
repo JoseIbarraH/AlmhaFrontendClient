@@ -27,7 +27,7 @@ FROM node:20-slim
 WORKDIR /app
 
 # Establecer la variable de entorno para el puerto (opcional, por defecto 3000)
-ENV PORT=3000
+ENV PORT=1423
 
 # Exponer el puerto de escucha de la aplicación
 EXPOSE ${PORT}
