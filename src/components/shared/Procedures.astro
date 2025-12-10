@@ -1,4 +1,5 @@
 ---
+import defaultImage from "@/assets/images/abdominoplastia.jpg";
 interface Props {
   image?: string;
   title?: string;
@@ -7,7 +8,7 @@ interface Props {
 }
 
 const {
-  image = "/src/assets/images/abdominoplastia.jpg",
+  image = defaultImage.src,
   title = "Titulo",
   description = "Descripcion",
   href = "#",
