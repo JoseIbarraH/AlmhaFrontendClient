@@ -1,0 +1,324 @@
+---
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout>
+  <!-- ==================== SOBRE NOSOTROS ==================== -->
+  <div id="about-content" class="tab-content active">
+    <!-- Hero Section -->
+    <section
+      class="relative h-[70vh] bg-linear-to-br from-[#513A31] to-[#7D6A5D] overflow-hidden"
+    >
+      <div class="absolute inset-0">
+        <img
+          src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200"
+          alt="Clínica"
+          class="w-full h-full object-cover opacity-20"
+        />
+      </div>
+      <div
+        class="absolute top-0 right-0 w-96 h-96 bg-[#FEEBDD]/10 rounded-full blur-3xl"
+      >
+      </div>
+      <div
+        class="absolute bottom-0 left-0 w-72 h-72 bg-[#FEEBDD]/5 rounded-full blur-2xl"
+      >
+      </div>
+
+      <div
+        class="relative z-10 h-full flex items-center max-w-7xl mx-auto px-6"
+      >
+        <div class="max-w-3xl">
+          <span
+            class="inline-block px-4 py-2 bg-[#FEEBDD]/20 backdrop-blur-sm text-[#FEEBDD] rounded-full text-sm font-semibold mb-4"
+          >
+            Nuestra Historia
+          </span>
+          <h1 class="text-5xl md:text-6xl font-bold text-[#FFF9F6] mb-6">
+            Dedicados a Tu Bienestar
+          </h1>
+          <p class="text-xl text-[#FEEBDD]/90 leading-relaxed">
+            Más de 15 años transformando vidas con profesionalismo, ética y los
+            más altos estándares de calidad en cirugía estética
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Misión y Visión -->
+    <section class="py-20 bg-white">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid md:grid-cols-2 gap-12">
+          <div class="relative group">
+            <div
+              class="absolute -inset-4 bg-linear-to-br from-[#FEEBDD]/20 to-transparent rounded-3xl blur-xl group-hover:blur-2xl transition-all"
+            >
+            </div>
+            <div
+              class="relative bg-[#FFF9F6] rounded-2xl p-8 shadow-xl border-2 border-[#D6C4B6]/30"
+            >
+              <div
+                class="w-16 h-16 bg-linear-to-br from-[#513A31] to-[#7D6A5D] rounded-2xl flex items-center justify-center mb-6"
+              >
+                <svg
+                  class="w-8 h-8 text-[#FEEBDD]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+              </div>
+              <h2 class="text-3xl font-bold text-[#513A31] mb-4">
+                Nuestra Misión
+              </h2>
+              <p class="text-[#7D6A5D] leading-relaxed text-lg">
+                Proporcionar servicios de cirugía estética de clase mundial,
+                combinando tecnología de vanguardia con un enfoque humano y
+                personalizado para cada paciente.
+              </p>
+            </div>
+          </div>
+
+          <div class="relative group">
+            <div
+              class="absolute -inset-4 bg-linear-to-br from-[#FEEBDD]/20 to-transparent rounded-3xl blur-xl group-hover:blur-2xl transition-all"
+            >
+            </div>
+            <div
+              class="relative bg-[#FFF9F6] rounded-2xl p-8 shadow-xl border-2 border-[#D6C4B6]/30"
+            >
+              <div
+                class="w-16 h-16 bg-linear-to-br from-[#513A31] to-[#7D6A5D] rounded-2xl flex items-center justify-center mb-6"
+              >
+                <svg
+                  class="w-8 h-8 text-[#FEEBDD]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                  ></path>
+                </svg>
+              </div>
+              <h2 class="text-3xl font-bold text-[#513A31] mb-4">
+                Nuestra Visión
+              </h2>
+              <p class="text-[#7D6A5D] leading-relaxed text-lg">
+                Ser la clínica de referencia en cirugía estética, reconocida por
+                nuestra excelencia médica, innovación constante y el compromiso
+                genuino con el bienestar de nuestros pacientes.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Valores -->
+    <section class="py-20 bg-linear-to-b from-white to-[#FFF9F6]">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+          <span
+            class="inline-block px-4 py-2 bg-[#FEEBDD]/20 text-[#7D6A5D] rounded-full text-sm font-semibold mb-4"
+          >
+            Lo que nos define
+          </span>
+          <h2 class="text-4xl md:text-5xl font-bold text-[#513A31] mb-4">
+            Nuestros Valores
+          </h2>
+          <p class="text-xl text-[#7D6A5D] max-w-2xl mx-auto">
+            Los principios que guían cada decisión y procedimiento en nuestra
+            clínica
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <div
+            class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all hover:-translate-y-2 border border-[#D6C4B6]/20"
+          >
+            <div
+              class="w-14 h-14 bg-[#FEEBDD] rounded-xl flex items-center justify-center mb-6"
+            >
+              <svg
+                class="w-7 h-7 text-[#513A31]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                ></path>
+              </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-[#513A31] mb-3">Seguridad</h3>
+            <p class="text-[#7D6A5D] leading-relaxed">
+              Protocolos rigurosos y tecnología de última generación para
+              garantizar tu bienestar en cada procedimiento.
+            </p>
+          </div>
+
+          <div
+            class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all hover:-translate-y-2 border border-[#D6C4B6]/20"
+          >
+            <div
+              class="w-14 h-14 bg-[#FEEBDD] rounded-xl flex items-center justify-center mb-6"
+            >
+              <svg
+                class="w-7 h-7 text-[#513A31]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                ></path>
+              </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-[#513A31] mb-3">Empatía</h3>
+            <p class="text-[#7D6A5D] leading-relaxed">
+              Entendemos tus deseos y preocupaciones, acompañándote con calidez
+              en cada etapa de tu transformación.
+            </p>
+          </div>
+
+          <div
+            class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all hover:-translate-y-2 border border-[#D6C4B6]/20"
+          >
+            <div
+              class="w-14 h-14 bg-[#FEEBDD] rounded-xl flex items-center justify-center mb-6"
+            >
+              <svg
+                class="w-7 h-7 text-[#513A31]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                ></path>
+              </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-[#513A31] mb-3">Innovación</h3>
+            <p class="text-[#7D6A5D] leading-relaxed">
+              Actualización constante en técnicas y equipos para ofrecerte los
+              mejores resultados posibles.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Equipo -->
+    <section class="py-20 bg-white">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+          <span
+            class="inline-block px-4 py-2 bg-[#FEEBDD]/20 text-[#7D6A5D] rounded-full text-sm font-semibold mb-4"
+          >
+            Conoce a nuestro equipo
+          </span>
+          <h2 class="text-4xl md:text-5xl font-bold text-[#513A31] mb-4">
+            Profesionales Destacados
+          </h2>
+          <p class="text-xl text-[#7D6A5D] max-w-2xl mx-auto">
+            Especialistas certificados con años de experiencia y formación
+            internacional
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="group">
+            <div class="relative overflow-hidden rounded-2xl mb-6">
+              <img
+                src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400"
+                alt="Doctor"
+                class="w-full h-96 object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <div
+                class="absolute inset-0 bg-linear-to-t from-[#513A31]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+              </div>
+            </div>
+            <h3 class="text-2xl font-bold text-[#513A31] mb-2">
+              Dr. Carlos Méndez
+            </h3>
+            <p class="text-[#7D6A5D] font-medium mb-3">Cirujano Plástico</p>
+            <p class="text-[#7D6A5D] text-sm">
+              Especialista en cirugía reconstructiva y estética con más de 20
+              años de experiencia.
+            </p>
+          </div>
+
+          <div class="group">
+            <div class="relative overflow-hidden rounded-2xl mb-6">
+              <img
+                src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400"
+                alt="Doctora"
+                class="w-full h-96 object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <div
+                class="absolute inset-0 bg-linear-to-t from-[#513A31]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+              </div>
+            </div>
+            <h3 class="text-2xl font-bold text-[#513A31] mb-2">
+              Dra. Ana Rodríguez
+            </h3>
+            <p class="text-[#7D6A5D] font-medium mb-3">
+              Cirujana Estética Facial
+            </p>
+            <p class="text-[#7D6A5D] text-sm">
+              Experta en procedimientos faciales mínimamente invasivos y
+              rejuvenecimiento.
+            </p>
+          </div>
+
+          <div class="group">
+            <div class="relative overflow-hidden rounded-2xl mb-6">
+              <img
+                src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400"
+                alt="Doctor"
+                class="w-full h-96 object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <div
+                class="absolute inset-0 bg-linear-to-t from-[#513A31]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+              </div>
+            </div>
+            <h3 class="text-2xl font-bold text-[#513A31] mb-2">
+              Dr. Luis Torres
+            </h3>
+            <p class="text-[#7D6A5D] font-medium mb-3">Cirujano Corporal</p>
+            <p class="text-[#7D6A5D] text-sm">
+              Especializado en contorno corporal y procedimientos
+              post-bariátricos.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>

@@ -1,13 +1,229 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/partials/blog/Header.astro";
+import ImgHeader from "@/assets/images/abdominoplastia.jpg";
+import Card from "@/components/partials/blog/Card.astro";
+import Icon from "@/components/ui/Icon.astro";
 
+const categories = [
+  { name: "Todos", count: 24, active: true },
+  { name: "General", count: 8 },
+  { name: "Procedimientos", count: 12 },
+  { name: "Recuperación", count: 6 },
+  { name: "Testimonios", count: 4 },
+];
 
+const popularTags = [
+  "Rinoplastia", "Liposucción", "Abdominoplastia",
+  "Recuperación", "Cuidados", "Resultados"
+];
 ---
 
-
 <Layout>
-  <div>
-    <h1>Blog</h1>
+  <div class="bg-[#FFF9F6]">
+    <!-- Hero Section -->
+    <section class="relative h-[70vh] overflow-hidden">
+      <Header image={ImgHeader.src} />
+    </section>
 
+    <!-- Main Content -->
+    <section class="max-w-7xl mx-auto py-16 px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+
+        <!-- Columna Principal - Artículos -->
+        <div class="lg:col-span-8">
+          <!-- Header de sección -->
+          <div class="mb-8">
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <h2 class="text-3xl font-bold text-[#513A31] font-serif mb-2">
+                  Todos los Procedimientos
+                </h2>
+                <p class="text-[#7D6A5D]">24 artículos disponibles</p>
+              </div>
+
+              <!-- Ordenar por -->
+              <div class="hidden md:block">
+                <select class="px-4 py-2 bg-[#FFF9F6] border-2 border-[#D6C4B6] rounded-lg text-[#513A31] font-medium focus:outline-none focus:border-[#FEEBDD] transition-colors">
+                  <option>Más recientes</option>
+                  <option>Más antiguos</option>
+                  <option>Más leídos</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Barra de búsqueda -->
+            <div class="relative">
+              <input
+                type="search"
+                placeholder="Buscar artículos..."
+                class="w-full px-5 py-3 pl-12 bg-white border-2 border-[#D6C4B6] rounded-xl text-[#513A31] placeholder-[#D6C4B6] focus:outline-none focus:border-[#FEEBDD] transition-colors"
+              />
+              <Icon name="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#7D6A5D]" />
+            </div>
+          </div>
+
+          <!-- Grid de Cards -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+          </div>
+
+          <!-- Paginación -->
+          <div class="flex items-center justify-center gap-2 mt-12">
+            <button class="px-4 py-2 rounded-lg border-2 border-[#D6C4B6] text-[#513A31] hover:bg-[#FEEBDD] hover:border-[#FEEBDD] transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+              <Icon name="chevron-left" class="w-5 h-5" />
+            </button>
+
+            <button class="px-4 py-2 rounded-lg bg-[#513A31] text-[#FEEBDD] font-semibold">
+              1
+            </button>
+            <button class="px-4 py-2 rounded-lg border-2 border-[#D6C4B6] text-[#513A31] hover:bg-[#FEEBDD] hover:border-[#FEEBDD] transition-all">
+              2
+            </button>
+            <button class="px-4 py-2 rounded-lg border-2 border-[#D6C4B6] text-[#513A31] hover:bg-[#FEEBDD] hover:border-[#FEEBDD] transition-all">
+              3
+            </button>
+            <span class="px-2 text-[#7D6A5D]">...</span>
+            <button class="px-4 py-2 rounded-lg border-2 border-[#D6C4B6] text-[#513A31] hover:bg-[#FEEBDD] hover:border-[#FEEBDD] transition-all">
+              10
+            </button>
+
+            <button class="px-4 py-2 rounded-lg border-2 border-[#D6C4B6] text-[#513A31] hover:bg-[#FEEBDD] hover:border-[#FEEBDD] transition-all">
+              <Icon name="chevron-right" class="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="lg:col-span-4 space-y-8">
+
+          <!-- Categorías -->
+          <div class="bg-white rounded-2xl p-6 shadow-lg shadow-[#513A31]/5 border border-[#D6C4B6]/20">
+            <h3 class="text-xl font-bold text-[#513A31] mb-4 flex items-center gap-2">
+              <Icon name="folder" class="w-5 h-5 text-[#FEEBDD]" />
+              Categorías
+            </h3>
+            <ul class="space-y-2">
+              {categories.map((category) => (
+                <li>
+                  <a
+                    href="#"
+                    class={`flex items-center justify-between px-4 py-3 rounded-lg transition-all duration-200 group ${
+                      category.active
+                        ? 'bg-[#513A31] text-[#FEEBDD]'
+                        : 'hover:bg-[#FEEBDD]/20 text-[#7D6A5D] hover:text-[#513A31]'
+                    }`}
+                  >
+                    <span class="font-medium">{category.name}</span>
+                    <span class={`text-sm px-2 py-1 rounded-full ${
+                      category.active
+                        ? 'bg-[#FEEBDD]/20 text-[#FEEBDD]'
+                        : 'bg-[#D6C4B6]/20 text-[#7D6A5D] group-hover:bg-[#513A31]/10'
+                    }`}>
+                      {category.count}
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- Tags Populares -->
+          <div class="bg-white rounded-2xl p-6 shadow-lg shadow-[#513A31]/5 border border-[#D6C4B6]/20">
+            <h3 class="text-xl font-bold text-[#513A31] mb-4 flex items-center gap-2">
+              <Icon name="tag" class="w-5 h-5 text-[#FEEBDD]" />
+              Tags Populares
+            </h3>
+            <div class="flex flex-wrap gap-2">
+              {popularTags.map((tag) => (
+                <a
+                  href="#"
+                  class="px-4 py-2 bg-[#FFF9F6] border-2 border-[#D6C4B6] rounded-full text-sm font-medium text-[#7D6A5D] hover:bg-[#FEEBDD] hover:border-[#FEEBDD] hover:text-[#513A31] transition-all"
+                >
+                  {tag}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <!-- Newsletter -->
+          <div class="bg-linear-to-br from-[#513A31] to-[#7D6A5D] rounded-2xl p-6 shadow-xl relative overflow-hidden">
+            <!-- Decoración -->
+            <div class="absolute top-0 right-0 w-32 h-32 bg-[#FEEBDD]/10 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-0 w-24 h-24 bg-[#FEEBDD]/5 rounded-full blur-2xl"></div>
+
+            <div class="relative z-10">
+              <div class="w-12 h-12 bg-[#FEEBDD] rounded-xl flex items-center justify-center mb-4">
+                <Icon name="mail" class="w-6 h-6 text-[#513A31]" />
+              </div>
+
+              <h3 class="text-xl font-bold text-[#FEEBDD] mb-2">
+                Newsletter
+              </h3>
+              <p class="text-[#D6C4B6] text-sm mb-4">
+                Recibe contenido exclusivo directamente en tu correo
+              </p>
+
+              <form class="space-y-3">
+                <input
+                  type="email"
+                  placeholder="tu@email.com"
+                  class="w-full px-4 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-[#FEEBDD]/30 text-[#FFF9F6] placeholder-[#D6C4B6] focus:outline-none focus:border-[#FEEBDD] transition-colors"
+                />
+                <button
+                  type="submit"
+                  class="w-full px-4 py-3 bg-[#FEEBDD] text-[#513A31] font-semibold rounded-lg hover:bg-[#FFF9F6] transition-colors flex items-center justify-center gap-2"
+                >
+                  Suscribirme
+                  <Icon name="arrow-right" class="w-4 h-4" />
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Artículos Recientes -->
+          <div class="bg-white rounded-2xl p-6 shadow-lg shadow-[#513A31]/5 border border-[#D6C4B6]/20">
+            <h3 class="text-xl font-bold text-[#513A31] mb-4 flex items-center gap-2">
+              <Icon name="clock" class="w-5 h-5 text-[#FEEBDD]" />
+              Artículos Recientes
+            </h3>
+            <ul class="space-y-4">
+              {[1, 2, 3].map(() => (
+                <li class="group">
+                  <a href="#" class="flex gap-3 hover:bg-[#FEEBDD]/10 p-2 rounded-lg transition-colors">
+                    <img
+                      src="/src/assets/images/abdominoplastia.jpg"
+                      alt="Artículo"
+                      class="w-16 h-16 object-cover rounded-lg"
+                    />
+                    <div class="flex-1">
+                      <h4 class="text-sm font-semibold text-[#513A31] group-hover:text-[#7D6A5D] line-clamp-2 transition-colors">
+                        Título del artículo reciente
+                      </h4>
+                      <span class="text-xs text-[#D6C4B6]">Hace 2 días</span>
+                    </div>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+        </aside>
+      </div>
+    </section>
   </div>
 </Layout>
+
+<style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

@@ -28,6 +28,7 @@ interface Props {
 
 const { images = [], topServices: topServices = [] } = Astro.props as Props;
 
+console.log('Top: ', topServices)
 ---
 
 <div class="relative">
@@ -166,7 +167,7 @@ const { images = [], topServices: topServices = [] } = Astro.props as Props;
           class="w-full h-full overflow-y-auto scrollbar-custom flex flex-col gap-4 pr-2"
         >
           {
-            topServices.map((item, index) => (
+            topServices.map((item, __index) => (
               <Procedures
                 image={item.image}
                 title={item.title}

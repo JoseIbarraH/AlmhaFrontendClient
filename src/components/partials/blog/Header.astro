@@ -1,0 +1,35 @@
+---
+interface Props {
+  image?: string;
+}
+
+const { image = "" } = Astro.props;
+---
+
+<div>
+  <img src={image} alt="Rinoplastia" class="w-full h-full object-cover" />
+
+  <!-- Overlay con gradiente -->
+  <div
+    class="absolute inset-0 bg-linear-to-b from-[#513A31]/60 via-[#513A31]/40 to-transparent"
+  >
+  </div>
+
+  <!-- Contenido del Hero -->
+  <div class="absolute inset-0 flex items-center justify-center text-center">
+    <div class="max-w-3xl px-6">
+      <span
+        class="inline-block px-4 py-2 bg-[#FEEBDD]/90 backdrop-blur-sm text-[#513A31] rounded-full text-sm font-semibold mb-4"
+      >
+        Blog Almha
+      </span>
+      <h1 class="text-4xl md:text-6xl font-bold text-[#FFF9F6] mb-4 font-serif">
+        Nuestro Blog
+      </h1>
+      <p class="text-lg md:text-xl text-[#FEEBDD] max-w-2xl mx-auto">
+        Descubre información valiosa sobre procedimientos, cuidados y
+        testimonios
+      </p>
+    </div>
+  </div>
+</div>
