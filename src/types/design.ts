@@ -48,3 +48,12 @@ export interface Setting {
   id: number;
   enabled: boolean;
 }
+
+export interface TopServices {
+  title: string
+  slug: string
+  image: string
+  category: string
+  created_at: string
+  updated_at: string
+}

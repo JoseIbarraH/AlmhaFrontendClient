@@ -9,7 +9,7 @@ export const onRequest = async (
     next: () => Promise<Response>
 ): Promise<Response> => {
     try {
-        const { data } = await api.get<ApiResponse<DesignSettingsResponse>>('api/design/client');
+        const { data } = await api.get<ApiResponse<DesignSettingsResponse>>('api/client/design');
         const design = data.data;
 
         context.locals.global = {

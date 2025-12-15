@@ -1,4 +1,5 @@
 ---
+import Procedures from "@/components/shared/Procedures.astro";
 import LanguageSwitcher from "../ui/LanguageSwitcher.astro";
 import ContacButton from "../ui/ContacButton.astro";
 import { getRelativeLocaleUrl } from "astro:i18n";
@@ -6,8 +7,8 @@ import ContactData from "../ui/ContactData.astro";
 import Carousel from "../shared/Carousel.astro";
 import { loadTranslations } from "@/lib/i18n";
 import Logo from "../ui/Logo.astro";
-import Procedures from "@/components/shared/Procedures.astro";
 import Icon from "../ui/Icon.astro";
+import type { TopServices } from "@/types/design"
 
 const currentLang = Astro.currentLocale || "es";
 const t = await loadTranslations(currentLang);
@@ -20,7 +21,13 @@ const menuItems = [
   { href: "/blog", label: t.navbar.links.blog || "Blog" },
 ];
 
-const { images = [] } = Astro.props;
+interface Props {
+  images?: any[];
+  topServices?: TopServices[];
+}
+
+const { images = [], topServices: topServices = [] } = Astro.props as Props;
+
 ---
 
 <div class="relative">
@@ -80,7 +87,10 @@ const { images = [] } = Astro.props;
     <div class="grid grid-cols-1 md:grid-cols-4 h-full w-full">
       <!-- Columna 1: Carousel - OCULTA EN MÓVIL -->
       <div class="h-full w-full overflow-hidden hidden md:block relative">
-        <div class="absolute inset-0 bg-linear-to-r from-transparent to-[#513A31]/30 z-10"></div>
+        <div
+          class="absolute inset-0 bg-linear-to-r from-transparent to-[#513A31]/30 z-10"
+        >
+        </div>
         <Carousel buttonDown={true} slides={images} />
       </div>
 
@@ -135,6 +145,11 @@ const { images = [] } = Astro.props;
             </a>
           ))
         }
+
+        <div class="flex justify-center items-center w-full md:hidden mt-20">
+          <ContacButton />
+        </div>
+
         <!-- Separador derecho -->
         <div
           class="absolute right-0 top-0 bottom-0 w-px bg-linear-to-b from-transparent via-[#FEEBDD]/30 to-transparent"
@@ -150,9 +165,15 @@ const { images = [] } = Astro.props;
         <div
           class="w-full h-full overflow-y-auto scrollbar-custom flex flex-col gap-4 pr-2"
         >
-          <Procedures />
-          <Procedures />
-          <Procedures />
+          {
+            topServices.map((item, index) => (
+              <Procedures
+                image={item.image}
+                title={item.title}
+                slug={item.slug}
+              />
+            ))
+          }
         </div>
 
         <!-- Separador vertical -->
@@ -214,6 +235,7 @@ const { images = [] } = Astro.props;
           >
           </div>
         </div>
+        <div class="logo"></div>
       </div>
     </div>
   </div>
@@ -334,13 +356,13 @@ const { images = [] } = Astro.props;
   .hamburger-inner,
   .hamburger-inner::before,
   .hamburger-inner::after {
-    background-color: #FEEBDD !important;
+    background-color: #feebdd !important;
   }
 
   .hamburger-btn:hover .hamburger-inner,
   .hamburger-btn:hover .hamburger-inner::before,
   .hamburger-btn:hover .hamburger-inner::after {
-    background-color: #FFF9F6 !important;
+    background-color: #fff9f6 !important;
   }
 
   /* Cuando el menú está abierto */
@@ -397,7 +419,7 @@ const { images = [] } = Astro.props;
     transform: translateY(-50%);
     width: 3px;
     height: 0;
-    background: linear-gradient(to bottom, transparent, #FEEBDD, transparent);
+    background: linear-gradient(to bottom, transparent, #feebdd, transparent);
     border-radius: 2px;
     transition: height 0.3s ease;
   }
@@ -427,16 +449,35 @@ const { images = [] } = Astro.props;
   }
 
   .scrollbar-custom::-webkit-scrollbar-track {
-    background: #7D6A5D;
+    background: #7d6a5d;
     border-radius: 10px;
   }
 
   .scrollbar-custom::-webkit-scrollbar-thumb {
-    background: #FEEBDD;
+    background: #feebdd;
     border-radius: 10px;
   }
 
   .scrollbar-custom::-webkit-scrollbar-thumb:hover {
-    background: #D6C4B6;
+    background: #d6c4b6;
   }
+
+  .logo {
+    /* 1. Posicionamiento: Usamos 'absolute' para fijarlo a la esquina */
+    position: absolute;
+
+    /* 2. Dimensiones: Necesitas un tamaño para que la imagen se muestre */
+    width: 100px;
+    height: 100px;
+
+    /* 3. Colocación en la esquina inferior derecha */
+    /* Fija el elemento a 20px del borde inferior y 20px del borde derecho */
+    bottom: 20px;
+    right: 20px;
+
+    /* 4. Imagen de fondo */
+    background: url("/src/assets/images/logo.png");
+    background-size: 100% 100%; /* El 100% hace que la imagen llene el espacio de 100x100px */
+    background-repeat: no-repeat; /* Asegura que no se repita */
+}
 </style>
