@@ -8,17 +8,60 @@ const {
   bg = defaultImage.src,
   fullScreen = true
 } = Astro.props;
+
+// Detectar si es video por extensión
+const isVideo = (url: string) => {
+  if (!url) return false;
+  const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov', '.avi', '.mkv', '.m4v'];
+  return videoExtensions.some(ext => url.toLowerCase().endsWith(ext));
+};
+
+const isVideoBackground = isVideo(bg);
 ---
 
 <div
   id={id}
-  class={`bg-fixed bg-center bg-cover bg-no-repeat flex justify-center items-center ${fullScreen ? 'h-screen' : ''}`}
-  style={`background-image: url(${bg});`}
+  class={`relative overflow-hidden flex justify-center items-center ${fullScreen ? 'h-screen' : ''}`}
 >
-  <section class="px-6 py-20 bg-transparent text-center">
-    <h2 class="text-3xl font-bold mb-4">{title}</h2>
-    <p class="text-neutral-700">
+  {isVideoBackground ? (
+    <!-- Video de fondo -->
+    <video
+      class="absolute inset-0 w-full h-full object-cover"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+    >
+      <source src={bg} type={`video/${bg.split('.').pop()}`} />
+    </video>
+  ) : (
+    <!-- Imagen de fondo con parallax -->
+    <div
+      class="absolute inset-0 w-full h-full bg-fixed bg-center bg-cover bg-no-repeat"
+      style={`background-image: url(${bg});`}
+    />
+  )}
+
+  <!-- Overlay oscuro -->
+  <div class="absolute inset-0 bg-black/40"></div>
+
+  <!-- Contenido -->
+  <section class="relative z-10 px-6 py-20 bg-transparent text-center">
+    <h2 class="text-3xl font-bold mb-4 text-white">{title}</h2>
+    <p class="text-neutral-200">
       {subtitle}
     </p>
   </section>
 </div>
+
+<style>
+  /* Ocultar controles del video */
+  video::-webkit-media-controls {
+    display: none !important;
+  }
+
+  video::-webkit-media-controls-enclosure {
+    display: none !important;
+  }
+</style>

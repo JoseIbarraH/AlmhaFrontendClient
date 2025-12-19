@@ -1,11 +1,15 @@
 import axios from "axios";
 
+const baseURL = import.meta.env.PUBLIC_API_URL || "http://localhost:8000";
 
-const api = axios.create({
-  baseURL: import.meta.env.PUBLIC_API_URL,
-  headers: {
-    'Content-Type': 'application/json'
-  }
-});
+export function createApi(lang: string) {
+  const api = axios.create({
+    baseURL,
+    headers: {
+      "Content-Type": "application/json",
+      "Accept-Language": lang,
+    },
+  });
 
-export default api;
+  return api;
+}

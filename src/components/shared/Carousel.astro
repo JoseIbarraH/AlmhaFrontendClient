@@ -33,6 +33,12 @@ const defaultSlides = [
 
 const slideData = slides.length > 0 ? slides : defaultSlides;
 
+// Detectar si es video por extensión
+const isVideo = (url: string) => {
+  if (!url) return false;
+  const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov', '.avi', '.mkv', '.m4v'];
+  return videoExtensions.some(ext => url.toLowerCase().endsWith(ext));
+};
 ---
 
 <div class="w-full h-full">
@@ -43,11 +49,23 @@ const slideData = slides.length > 0 ? slides : defaultSlides;
           <div class="swiper-slide">
             {slide.image && slide.image.trim() !== "" ? (
               <div class="relative w-full h-full">
-                <img
-                  src={slide.image}
-                  alt={slide.title || `Slide ${index + 1}`}
-                  class="w-full h-full object-cover"
-                />
+                {isVideo(slide.image) ? (
+                  <video
+                    src={slide.image}
+                    class="w-full h-full object-cover"
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    preload="auto"
+                  />
+                ) : (
+                  <img
+                    src={slide.image}
+                    alt={slide.title || `Slide ${index + 1}`}
+                    class="w-full h-full object-cover"
+                  />
+                )}
                 {(slide.title || slide.subtitle) && (
                   <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
                     <div class="text-center text-white px-6">
@@ -183,6 +201,15 @@ const slideData = slides.length > 0 ? slides : defaultSlides;
     position: relative;
     top: -55px;
     height: fit-content;
+  }
+
+  /* Ocultar controles del video */
+  video::-webkit-media-controls {
+    display: none !important;
+  }
+
+  video::-webkit-media-controls-enclosure {
+    display: none !important;
   }
 
   /* Animaciones */

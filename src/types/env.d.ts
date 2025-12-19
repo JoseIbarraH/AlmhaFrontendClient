@@ -16,6 +16,7 @@ interface Item {
 // Extiende la interfaz `Locals` de Astro
 declare namespace App {
   interface Locals {
+    api: AxiosInstance;
     global: {
       design: DesignSettingsResponse;
     };

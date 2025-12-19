@@ -2,6 +2,7 @@
 import Carousel from "@/components/shared/Carousel.astro";
 import Layout from "../../layouts/Layout.astro";
 import BackgroundParallax from "@/components/ui/BackgroundParallax.astro";
+import ImageVideo from "@/components/shared/ImageVideo.astro";
 
 const {
   backgrounds = [],
@@ -10,10 +11,23 @@ const {
   imageVideo = [],
 } = Astro.locals.global?.design || {};
 
+/* console.log("carousel: ", carousel); */
 ---
 
 <Layout>
-  <Carousel slides={carousel?.carousel} />
+  <>
+    {
+      carousel?.carouselSetting?.enabled && (
+        <Carousel slides={carousel?.carousel} />
+      )
+    }
+
+    {
+      imageVideo?.imageVideoSetting?.enabled && (
+        <ImageVideo image={imageVideo?.imageVideo} />
+      )
+    }
+  </>
 
   <div class="h-[500px] bg-white flex justify-center items-center">
     <h1>Texto</h1>
@@ -21,7 +35,7 @@ const {
 
   <div class="parallax-wrapper">
     <!-- Indicador mejorado -->
-    <nav
+    <!-- <nav
       id="parallax-nav"
       class="z-50 lg:block
             opacity-0 invisible transition-opacity duration-500 ease-out
@@ -29,7 +43,7 @@ const {
       aria-label="Navegación de secciones parallax"
     >
       <div class="flex flex-col gap-6 items-end">
-        <!-- Indicador 1 -->
+        
         <a
           href="#parallax1"
           data-target="parallax1"
@@ -62,7 +76,6 @@ const {
           </div>
         </a>
 
-        <!-- Indicador 2 -->
         <a
           href="#parallax2"
           data-target="parallax2"
@@ -95,7 +108,6 @@ const {
           </div>
         </a>
 
-        <!-- Indicador 3 -->
         <a
           href="#parallax3"
           data-target="parallax3"
@@ -129,12 +141,11 @@ const {
         </a>
       </div>
 
-      <!-- Línea vertical decorativa -->
       <div
         class="absolute right-[7px] top-0 bottom-0 w-0.5 bg-linear-to-b from-transparent via-white/20 to-transparent -z-10"
       >
       </div>
-    </nav>
+    </nav> -->
 
     <BackgroundParallax
       title={backgrounds?.background1?.[0]?.title}
@@ -162,7 +173,7 @@ const {
     const parallaxNav = document.querySelector("#parallax-nav");
     const parallaxWrapper = document.querySelector(".parallax-wrapper");
     const elements = document.querySelectorAll(
-      "#parallax1, #parallax2, #parallax3"
+      "#parallax1, #parallax2, #parallax3",
     );
     const links = document.querySelectorAll(".parallax-link");
 
@@ -179,7 +190,7 @@ const {
             dot?.classList.add(
               "bg-[#DCBE9A]",
               "scale-150",
-              "ring-[#DCBE9A]/60"
+              "ring-[#DCBE9A]/60",
             );
             pulse?.classList.add("animate-ping");
           } else {
@@ -187,7 +198,7 @@ const {
               "active",
               "bg-[#DCBE9A]",
               "scale-150",
-              "ring-[#DCBE9A]/60"
+              "ring-[#DCBE9A]/60",
             );
             dot?.classList.add("bg-white/30");
             pulse?.classList.remove("animate-ping");
@@ -196,7 +207,7 @@ const {
       },
       {
         threshold: 0.5,
-      }
+      },
     );
 
     elements.forEach((el) => observer.observe(el));
@@ -217,7 +228,7 @@ const {
         {
           rootMargin: "0px",
           threshold: 0,
-        }
+        },
       );
 
       visibilityObserver.observe(parallaxWrapper);
