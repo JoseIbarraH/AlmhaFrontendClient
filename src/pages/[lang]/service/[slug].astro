@@ -1,17 +1,24 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import api from "@/lib/api";
 
 const { slug } = Astro.params;
 
-const lang = Astro.params.lang || "es";
+// 1. Extraemos la instancia de API que ya configuró el middleware
+const { api } = Astro.locals;
 
-const { data } = await api.get(`/api/client/service/${slug}`, {
-  headers: {
-    "Accept-Language": lang,
-  },
-});
+let service = null;
 
+try {
+  const { data } = await api.get(`/api/client/service/${slug}`);
+  service = data.data;
+} catch (error) {
+  console.error(`Error cargando el servicio ${slug}:`, error);
+}
+
+// 3. Si no hay servicio, puedes redirigir o mostrar un 404
+if (!service) {
+  return Astro.redirect(`/${Astro.params.lang || 'es'}/404`);
+}
 ---
 
 <Layout>
