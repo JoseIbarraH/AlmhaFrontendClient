@@ -8,8 +8,7 @@ const { api } = Astro.locals;
 
 const designFetch = async () => {
   const { data } = await api.get("api/client/design");
-  console.log("data: ", data.data);
-  return data;
+  console.log("data: ", data);
 }
 
 designFetch();
