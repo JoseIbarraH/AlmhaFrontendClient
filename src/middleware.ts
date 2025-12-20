@@ -19,17 +19,18 @@ export const onRequest = async (
 
     try {
         // 3️⃣ Llamada segura a la API
+        console.log("Fetching design settings... entre");
         const { data } = await api.get<ApiResponse<DesignSettingsResponse>>("api/client/design");
         const designData = data.data;
         locals.global = { design: designData };
 
-        const isMaintenance = designData?.maintenance?.maintenanceSetting?.enabled; 
+        const isMaintenance = designData?.maintenance?.maintenanceSetting?.enabled;
         const isMaintenancePage = url.pathname.includes("/maintenance");
 
         if (isMaintenance && !isMaintenancePage) {
             // Retornamos una respuesta 503 (Servicio no disponible) para SEO
             return context.redirect(`/${lang}/maintenance`, 307);
-        }else if(!isMaintenance && isMaintenancePage){
+        } else if (!isMaintenance && isMaintenancePage) {
             return context.redirect(`/${lang}/`, 307);
         }
 

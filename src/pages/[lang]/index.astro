@@ -17,8 +17,8 @@ const {
 <Layout>
   <>
     {
-      carousel?.carouselSetting?.enabled && (
-        <Carousel slides={carousel?.carousel} />
+      (carousel?.carouselSetting?.enabled ?? true) && (
+        <Carousel slides={carousel?.carousel ?? []} />
       )
     }
 
