@@ -4,6 +4,16 @@ import Layout from "../../layouts/Layout.astro";
 import BackgroundParallax from "@/components/ui/BackgroundParallax.astro";
 import ImageVideo from "@/components/shared/ImageVideo.astro";
 
+const { api } = Astro.locals;
+
+const designFetch = async () => {
+  const { data } = await api.get("api/client/design");
+  console.log("data: ", data.data);
+  return data;
+}
+
+designFetch();
+
 const {
   backgrounds = [],
   carousel = [],
