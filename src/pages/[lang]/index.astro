@@ -7,9 +7,8 @@ import ImageVideo from "@/components/shared/ImageVideo.astro";
 const { api } = Astro.locals;
 
 const designFetch = async () => {
-  const { data } = await api.get("api/client/design");
-  console.log("data: ", data);
-}
+
+};
 
 designFetch();
 
@@ -43,119 +42,6 @@ const {
   </div>
 
   <div class="parallax-wrapper">
-    <!-- Indicador mejorado -->
-    <!-- <nav
-      id="parallax-nav"
-      class="z-50 lg:block
-            opacity-0 invisible transition-opacity duration-500 ease-out
-            absolute lg:right-8 lg:w-fit"
-      aria-label="Navegación de secciones parallax"
-    >
-      <div class="flex flex-col gap-6 items-end">
-        
-        <a
-          href="#parallax1"
-          data-target="parallax1"
-          class="parallax-link group flex items-center gap-4 cursor-pointer"
-        >
-          <span
-            class="indicator-label text-white text-sm font-medium
-                       opacity-0 group-hover:opacity-100
-                       translate-x-3 group-hover:translate-x-0
-                       transition-all duration-300 ease-out
-                       bg-neutral-900/90 backdrop-blur-md px-4 py-2 rounded-lg
-                       shadow-lg whitespace-nowrap"
-          >
-            {backgrounds?.background1?.[0]?.title || "Sección 1"}
-          </span>
-          <div class="indicator-wrapper relative">
-            <div
-              id="dot-parallax1"
-              class="indicator-dot w-4 h-4 rounded-full bg-white/30
-                     group-hover:bg-[#DCBE9A]/60
-                     transition-all duration-300 ease-out
-                     ring-2 ring-white/20 group-hover:ring-[#DCBE9A]/40
-                     cursor-pointer"
-            >
-            </div>
-            <div
-              class="indicator-pulse absolute inset-0 rounded-full bg-[#DCBE9A] opacity-0"
-            >
-            </div>
-          </div>
-        </a>
-
-        <a
-          href="#parallax2"
-          data-target="parallax2"
-          class="parallax-link group flex items-center gap-4 cursor-pointer"
-        >
-          <span
-            class="indicator-label text-white text-sm font-medium
-                       opacity-0 group-hover:opacity-100
-                       translate-x-3 group-hover:translate-x-0
-                       transition-all duration-300 ease-out delay-75
-                       bg-neutral-900/90 backdrop-blur-md px-4 py-2 rounded-lg
-                       shadow-lg whitespace-nowrap"
-          >
-            {backgrounds?.background2?.[0]?.title || "Sección 2"}
-          </span>
-          <div class="indicator-wrapper relative">
-            <div
-              id="dot-parallax2"
-              class="indicator-dot w-4 h-4 rounded-full bg-white/30
-                     group-hover:bg-[#DCBE9A]/60
-                     transition-all duration-300 ease-out
-                     ring-2 ring-white/20 group-hover:ring-[#DCBE9A]/40
-                     cursor-pointer"
-            >
-            </div>
-            <div
-              class="indicator-pulse absolute inset-0 rounded-full bg-[#DCBE9A] opacity-0"
-            >
-            </div>
-          </div>
-        </a>
-
-        <a
-          href="#parallax3"
-          data-target="parallax3"
-          class="parallax-link group flex items-center gap-4 cursor-pointer"
-        >
-          <span
-            class="indicator-label text-white text-sm font-medium
-                       opacity-0 group-hover:opacity-100
-                       translate-x-3 group-hover:translate-x-0
-                       transition-all duration-300 ease-out delay-100
-                       bg-neutral-900/90 backdrop-blur-md px-4 py-2 rounded-lg
-                       shadow-lg whitespace-nowrap"
-          >
-            {backgrounds.background3?.[0]?.title || "Sección 3"}
-          </span>
-          <div class="indicator-wrapper relative">
-            <div
-              id="dot-parallax3"
-              class="indicator-dot w-4 h-4 rounded-full bg-white/30
-                     group-hover:bg-[#DCBE9A]/60
-                     transition-all duration-300 ease-out
-                     ring-2 ring-white/20 group-hover:ring-[#DCBE9A]/40
-                     cursor-pointer"
-            >
-            </div>
-            <div
-              class="indicator-pulse absolute inset-0 rounded-full bg-[#DCBE9A] opacity-0"
-            >
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <div
-        class="absolute right-[7px] top-0 bottom-0 w-0.5 bg-linear-to-b from-transparent via-white/20 to-transparent -z-10"
-      >
-      </div>
-    </nav> -->
-
     <BackgroundParallax
       title={backgrounds?.background1?.[0]?.title}
       subtitle={backgrounds?.background1?.[0]?.subtitle}

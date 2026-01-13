@@ -11,7 +11,6 @@ export interface DesignSettingsResponse {
   carouselNavbar: CarouselNavbar;
   carouselTool: CarouselTool;
   imageVideo: ImageVideo;
-  maintenance: Maintenance;
 }
 
 export interface Backgrounds {
@@ -43,11 +42,6 @@ export interface CarouselTool {
 export interface ImageVideo {
   imageVideo: MediaItem[];
   imageVideoSetting: Setting;
-}
-
-export interface Maintenance {
-  maintenance: MediaItem[];
-  maintenanceSetting: Setting;
 }
 
 export interface Setting {

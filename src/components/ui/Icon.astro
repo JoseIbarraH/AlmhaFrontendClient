@@ -5,40 +5,52 @@ interface Props {
   name: string;
   class?: string;
   size?: number;
+  color?: string;
 }
 
-const { name, class: className = "", size = 24 } = Astro.props;
+const { name, class: className = "", size = 24, color } = Astro.props;
 
 const iconName = name
-  .split('-')
-  .map(w => w.charAt(0).toUpperCase() + w.slice(1))
-  .join('');
+  .split("-")
+  .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+  .join("");
 
-const svg = icons[iconName as keyof typeof icons];
+let svg = icons[iconName as keyof typeof icons];
 
 if (!svg) {
   console.warn(`Icon "${name}" (${iconName}) not found`);
+} else {
+  // Modificar el SVG para aplicar width, height y color directamente
+  svg = svg
+    .replace(/width="\d+"/, `width="${size}"`)
+    .replace(/height="\d+"/, `height="${size}"`)
+    .replace(/stroke="[^"]*"/, color ? `stroke="${color}"` : 'stroke="currentColor"');
 }
 ---
 
-{svg ? (
-  <div
-    class={`icon-wrapper inline-block ${className}`}
-    style={`width: ${size}px; height: ${size}px;`}
-    set:html={svg}
-  />
-) : (
-  <div
-    class={`inline-block bg-red-500 ${className}`}
-    style={`width: ${size}px; height: ${size}px;`}
-    title={`Icon ${name} not found`}
-  />
-)}
+{
+  svg ? (
+    <span
+      class={`icon-wrapper inline-flex items-center justify-center ${className}`}
+      set:html={svg}
+    />
+  ) : (
+    <div
+      class={`inline-block bg-red-500 ${className}`}
+      style={`width: ${size}px; height: ${size}px;`}
+      title={`Icon ${name} not found`}
+    />
+  )
+}
 
 <style>
+  .icon-wrapper {
+    color: currentColor;
+  }
+
   .icon-wrapper svg {
-    width: 100%;
-    height: 100%;
     display: block;
+    stroke: currentColor;
+    fill: none;
   }
 </style>
