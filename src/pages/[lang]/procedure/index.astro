@@ -4,6 +4,8 @@ import Layout from "@/layouts/Layout.astro";
 import ImgHeader from "@/assets/images/abdominoplastia.jpg";
 import Icon from "@/components/ui/Icon.astro";
 import type { ApiResponse, Default } from "@/types/apiResponse";
+import Grid from "@/components/partials/procedure/Grid.astro";
+import Procedures from "@/components/shared/Procedures.astro";
 
 interface Data {
   id: number;
@@ -17,20 +19,44 @@ interface Data {
   created_at: string;
 }
 
-let extractedCategory = [];
+interface CategoryData {
+  title: string;
+  code: string;
+}
+
+let extractedCategory: CategoryData[] = [];
+let procedures: Data[] = [];
+let pagination: any = null;
+
+// Get query params
+const page = Astro.url.searchParams.get("page") || "1";
+const categoryFilter = Astro.url.searchParams.get("category") || "";
 
 try {
   const { api } = Astro.locals;
-  const { data } = await api.get<ApiResponse<Default<Data>>>(
-    "api/client/procedures",
-  );
-  const procedures = data.data.pagination.data;
+
+  // Build API URL with params
+  let apiUrl = `api/client/procedures?page=${page}`;
+  if (categoryFilter) {
+    apiUrl += `&filter[category_code]=${categoryFilter}`;
+  }
+
+  const { data } = await api.get<ApiResponse<Default<Data>>>(apiUrl);
+
+  pagination = data.data.pagination;
+  procedures = pagination.data;
+
   extractedCategory = procedures.map((p: Data) => {
     return {
       title: p.category,
       code: p.category_code,
     };
   });
+
+  // Remove duplicates from categories
+  extractedCategory = extractedCategory.filter(
+    (cat, index, self) => index === self.findIndex((c) => c.code === cat.code),
+  );
 } catch (error) {
   console.log("Error", error);
 }
@@ -76,21 +102,30 @@ try {
             id="categories-container"
             class="flex gap-3 overflow-x-auto pb-2 md:pb-0 w-full md:w-lg scroll-smooth no-scrollbar px-1 cursor-grab active:cursor-grabbing"
           >
-            <button
-              class="px-4 py-2 bg-[#513A31] text-[#FEEBDD] rounded-lg font-medium whitespace-nowrap shrink-0 select-none"
+            <a
+              href="?page=1"
+              class:list={[
+                "px-4 py-2 rounded-lg font-medium whitespace-nowrap shrink-0 select-none transition-all",
+                !categoryFilter
+                  ? "bg-[#513A31] text-[#FEEBDD]"
+                  : "border border-[#4a332d] text-[#4a332d] hover:bg-[#4a332d]/10",
+              ]}
             >
               Todos
-            </button>
+            </a>
             {
-              extractedCategory.map((cat: any) => (
-                <button
-                  class="px-6 py-2 rounded-xl border transition-all duration-300
-                        active-filter:bg-[#4a332d] active-filter:text-white
-                        border-[#4a332d] text-[#4a332d] hover:bg-[#4a332d]/10 shrink-0 select-none"
-                  data-category={cat.code}
+              extractedCategory.map((cat: CategoryData) => (
+                <a
+                  href={`?category=${cat.code}&page=1`}
+                  class:list={[
+                    "px-6 py-2 rounded-xl border transition-all duration-300 shrink-0 select-none",
+                    categoryFilter === cat.code
+                      ? "bg-[#513A31] text-[#FEEBDD] border-[#513A31]"
+                      : "border-[#4a332d] text-[#4a332d] hover:bg-[#4a332d]/10",
+                  ]}
                 >
                   {cat.title}
-                </button>
+                </a>
               ))
             }
           </div>
@@ -108,6 +143,14 @@ try {
       </div>
     </div>
   </section>
+
+  <div>
+    <Grid
+      procedures={procedures}
+      pagination={pagination}
+      categoryFilter={categoryFilter}
+    />
+  </div>
 </Layout>
 
 <script>

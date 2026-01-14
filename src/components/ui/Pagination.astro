@@ -1,0 +1,106 @@
+---
+import Icon from "@/components/ui/Icon.astro";
+import { Fragment } from "astro/jsx-runtime";
+
+interface Props {
+  totalPages: number;
+  currentPage: number;
+}
+
+const { totalPages, currentPage } = Astro.props;
+
+const pathname = Astro.url.pathname;
+const searchParams = Astro.url.searchParams;
+
+const getPageUrl = (page: number) => {
+  const params = new URLSearchParams(searchParams);
+  params.set("page", page.toString());
+  return `${pathname}?${params.toString()}`;
+};
+
+const shouldShowPage = (page: number, current: number, last: number) => {
+  return page === 1 || page === last || Math.abs(page - current) <= 1;
+};
+---
+
+{
+  totalPages > 1 && (
+    <div class="mt-12 flex justify-center items-center gap-2 flex-wrap">
+      {/* Previous Page */}
+      {currentPage > 1 ? (
+        <a
+          href={getPageUrl(currentPage - 1)}
+          class="w-10 h-10 flex items-center justify-center rounded-xl border border-[#D6C4B6] text-[#513A31] hover:bg-[#513A31] hover:text-[#FEEBDD] transition-all bg-white"
+        >
+          <Icon name="chevron-left" class="w-5 h-5" />
+        </a>
+      ) : (
+        <button
+          disabled
+          class="w-10 h-10 flex items-center justify-center rounded-xl border border-[#D6C4B6]/50 text-[#D6C4B6] cursor-not-allowed bg-white/50"
+        >
+          <Icon name="chevron-left" class="w-5 h-5" />
+        </button>
+      )}
+
+      {/* Page Numbers */}
+      <div class="flex gap-2">
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+          const isActive = page === currentPage;
+          const showPage = shouldShowPage(page, currentPage, totalPages);
+
+          if (!showPage && page === 2 && currentPage > 3) {
+            return (
+              <span class="w-10 h-10 flex items-center justify-center text-[#7D6A5D]">
+                ...
+              </span>
+            );
+          }
+          if (
+            !showPage &&
+            page === totalPages - 1 &&
+            currentPage < totalPages - 2
+          ) {
+            return (
+              <span class="w-10 h-10 flex items-center justify-center text-[#7D6A5D]">
+                ...
+              </span>
+            );
+          }
+          if (!showPage) return null;
+
+          return (
+            <a
+              href={getPageUrl(page)}
+              class:list={[
+                "w-10 h-10 flex items-center justify-center rounded-xl font-bold transition-all",
+                isActive
+                  ? "bg-[#513A31] text-[#FEEBDD] shadow-lg scale-105"
+                  : "bg-white border border-[#D6C4B6] text-[#513A31] hover:bg-[#FEEBDD]",
+              ]}
+            >
+              {page}
+            </a>
+          );
+        })}
+      </div>
+
+      {/* Next Page */}
+      {currentPage < totalPages ? (
+        <a
+          href={getPageUrl(currentPage + 1)}
+          class="w-10 h-10 flex items-center justify-center rounded-xl border border-[#D6C4B6] text-[#513A31] hover:bg-[#513A31] hover:text-[#FEEBDD] transition-all bg-white"
+        >
+          <Icon name="chevron-right" class="w-5 h-5" />
+        </a>
+      ) : (
+        <button
+          disabled
+          class="w-10 h-10 flex items-center justify-center rounded-xl border border-[#D6C4B6]/50 text-[#D6C4B6] cursor-not-allowed bg-white/50"
+        >
+          <Icon name="chevron-right" class="w-5 h-5" />
+        </button>
+      )}
+    </div>
+  )
+}

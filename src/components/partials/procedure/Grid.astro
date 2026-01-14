@@ -1,4 +1,82 @@
 ---
+import type { Procedure } from "@/types/procedures";
+import { getRelativeTime } from "@/lib/date";
+import { loadTranslations } from "@/lib/i18n";
+import placeholder from "@/assets/images/placeholder.png";
+import Icon from "@/components/ui/Icon.astro";
 
+import Pagination from "@/components/ui/Pagination.astro";
+
+const { procedures, pagination } = Astro.props; // categoryFilter no longer needed for pagination logic
+
+const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
 ---
 
+<section class="max-w-7xl mx-auto px-6 py-16">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {
+      procedures.map((item: Procedure, index: number) => (
+        <div
+          class:list={[
+            "group relative overflow-hidden rounded-3xl shadow-xl transition-all duration-500 hover:-translate-y-2",
+            {
+              "lg:col-span-2 lg:row-span-2 h-[600px]": index === 0,
+              "h-[290px]": index !== 0,
+            },
+          ]}
+        >
+          {/* Imagen de fondo con efecto zoom al hacer hover */}
+          <img
+            src={item.image || placeholder.src}
+            alt={item.title}
+            class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          />
+
+          {/* Overlay de degradado usando tu color corporativo #513A31 */}
+          <div class="absolute inset-0 bg-linear-to-t from-[#513A31]/90 via-[#513A31]/30 to-transparent" />
+
+          {/* Contenido posicionado al fondo */}
+          <div class="absolute bottom-0 p-6 w-full text-white">
+            <span class="inline-block text-[10px] font-bold bg-white/20 backdrop-blur-md px-3 py-1 rounded-full uppercase tracking-wider mb-2">
+              {item.category || "General"}
+            </span>
+
+            <h3
+              class:list={[
+                "font-bold leading-tight",
+                index === 0 ? "text-3xl" : "text-xl",
+              ]}
+            >
+              {item.title}
+            </h3>
+
+            {/* Subtítulo dinámico de tu API */}
+            <p class="text-sm opacity-90 mt-2 line-clamp-2">{item.subtitle}</p>
+
+            {/* Detalles (estáticos por ahora o puedes agregarlos a tu API) */}
+            <div class="flex items-center gap-4 mt-2 text-[11px] font-medium opacity-80">
+              <span class="flex items-center gap-1">
+                {getRelativeTime(item.created_at, t.helpers.date)}
+              </span>
+            </div>
+
+            {/* Botón que aparece o se destaca más en la principal */}
+            <a
+              href={`/procedimientos/${item.slug}`}
+              class="inline-block mt-2 bg-white text-[#513A31] px-6 py-2 rounded-xl text-sm font-bold hover:bg-[#f5e6d3] transition-colors"
+            >
+              Más información
+            </a>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  {/* Pagination */}
+  <Pagination
+    totalPages={pagination?.last_page || 0}
+    currentPage={pagination?.current_page || 1}
+  />
+</section>
