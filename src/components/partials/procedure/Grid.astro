@@ -3,7 +3,6 @@ import type { Procedure } from "@/types/procedures";
 import { getRelativeTime } from "@/lib/date";
 import { loadTranslations } from "@/lib/i18n";
 import placeholder from "@/assets/images/placeholder.png";
-import Icon from "@/components/ui/Icon.astro";
 
 import Pagination from "@/components/ui/Pagination.astro";
 
@@ -74,7 +73,7 @@ const t = await loadTranslations(currentLang);
     }
   </div>
 
-  
+
   {/* Pagination */}
   <Pagination
     totalPages={pagination?.last_page || 0}
