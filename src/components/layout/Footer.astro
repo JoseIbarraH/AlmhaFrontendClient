@@ -5,23 +5,46 @@ import { loadTranslations } from "@/lib/i18n";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import BackgroundParallax from "../ui/BackgroundParallax.astro";
 import img from "@/assets/images/1150360.jpg";
+import type { Settings } from "@/types/navbar";
 
 const currentLang = Astro.currentLocale || "es";
 const t = await loadTranslations(currentLang);
 
 const menuItems = [
-  { href: "/", label: t.navbar.links.home || "Inicio" },
-  { href: "/proceure", label: t.navbar.links.procedure || "Procedimientos" },
-  { href: "/about", label: t.navbar.links.about || "Nosotros" },
-  { href: "/contact", label: t.navbar.links.contact || "Contacto" },
-  { href: "/blog", label: t.navbar.links.blog || "Blog" },
+  { href: "/", label: t.navbar.links.home },
+  { href: "/procedure", label: t.navbar.links.procedure },
+  { href: "/about", label: t.navbar.links.about },
+  { href: "/contact", label: t.navbar.links.contact },
+  { href: "/blog", label: t.navbar.links.blog },
 ];
 
-const socialLinks = [
-  { name: "facebook", href: "#", label: "Facebook" },
-  { name: "instagram", href: "#", label: "Instagram" },
-  { name: "twitter", href: "#", label: "Twitter" },
-];
+interface Props {
+  settings: Settings | null;
+}
+
+const { settings = null } = Astro.props;
+
+interface SocialLinkData {
+  icon: string;
+  label: string;
+}
+
+const socialLinksMap: Record<string, SocialLinkData> = {
+  social_facebook: { icon: "facebook", label: "Facebook" },
+  social_instagram: { icon: "instagram", label: "Instagram" },
+  social_threads: { icon: "threads", label: "Threads" },
+  social_twitter: { icon: "twitter", label: "Twitter" },
+  social_linkedin: { icon: "linkedin", label: "LinkedIn" },
+};
+
+const activeSocials = settings?.social
+  ? Object.entries(settings.social)
+      .filter(([key, value]) => value && value.trim() !== "")
+      .map(([key, value]) => ({
+        url: value as string,
+        ...socialLinksMap[key],
+      }))
+  : [];
 ---
 
 <footer class="bg-[#513A31] patron text-[#FFF9F6]">
@@ -38,16 +61,18 @@ const socialLinks = [
 
         <div class="flex gap-4">
           {
-            socialLinks.map((social) => (
+            activeSocials.map((social) => (
               <a
-                href={social.href}
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label={social.label}
                 class="w-10 h-10 flex justify-center items-center rounded-full
                      bg-[#7D6A5D] hover:bg-[#FEEBDD]
                      text-[#FFF9F6] hover:text-[#513A31]
                      transition-all duration-300 hover:scale-110"
               >
-                <Icon name={social.name} class="w-5 h-5" />
+                <Icon name={social.icon} class="w-5 h-5" />
               </a>
             ))
           }
@@ -84,28 +109,27 @@ const socialLinks = [
           <div class="flex items-start gap-3">
             <Icon name="map-pin" class="w-5 h-5 text-[#FEEBDD] shrink-0 mt-1" />
             <p class="text-sm">
-              Cartagena, Bolívar<br />
-              Colombia
+              {settings?.contact.contact_location || "Ubicación pendiente"}
             </p>
           </div>
 
           <div class="flex items-center gap-3">
             <Icon name="phone" class="w-5 h-5 text-[#FEEBDD] shrink-0" />
             <a
-              href="tel:+57"
+              href={`tel:${settings?.contact.contact_phone}`}
               class="text-sm hover:text-[#FEEBDD] transition-colors"
             >
-              +57 (XXX) XXX-XXXX
+              {settings?.contact.contact_phone || "Teléfono pendiente"}
             </a>
           </div>
 
           <div class="flex items-center gap-3">
             <Icon name="mail" class="w-5 h-5 text-[#FEEBDD] shrink-0" />
             <a
-              href="mailto:info@almha.com"
+              href={`mailto:${settings?.contact.contact_email}`}
               class="text-sm hover:text-[#FEEBDD] transition-colors"
             >
-              info@almha.com
+              {settings?.contact.contact_email || "Email pendiente"}
             </a>
           </div>
         </div>

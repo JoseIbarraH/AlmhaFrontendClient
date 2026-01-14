@@ -7,7 +7,6 @@ export interface ApiResponse<T> {
 export interface Default<T> {
   filters: Filters
   pagination: PaginatedResponse<T>
-  stats: Stats
 }
 
 export interface PaginatedResponse<T = any> {
@@ -30,13 +29,6 @@ export interface PaginationLink {
   url: string | null
   label: string
   active: boolean
-}
-
-export interface Stats {
-  total: number
-  totalActivated: number
-  totalDeactivated: number
-  lastCreated: number
 }
 
 export interface Filters {

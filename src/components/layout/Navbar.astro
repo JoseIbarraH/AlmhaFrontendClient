@@ -5,7 +5,7 @@ import ContacButton from "../ui/ContacButton.astro";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import ContactData from "../ui/ContactData.astro";
 import CarouselComponent from "../shared/Carousel.astro";
-import type { Carousel, Procedure } from "@/types/navbar";
+import type { Carousel, Procedure, Settings } from "@/types/navbar";
 import { loadTranslations } from "@/lib/i18n";
 import Logo from "../ui/Logo.astro";
 import Icon from "../ui/Icon.astro";
@@ -15,41 +15,36 @@ const t = await loadTranslations(currentLang);
 
 const menuItems = [
   { href: "/", label: t.navbar.links.home, drop: false },
-  { href: "/service", label: t.navbar.links.service, drop: true },
+  { href: "/procedure", label: t.navbar.links.procedure, drop: true },
   { href: "/about", label: t.navbar.links.about, drop: false },
   { href: "/contact", label: t.navbar.links.contact, drop: false },
   { href: "/blog", label: t.navbar.links.blog, drop: false },
 ];
 
-const { api } = Astro.locals;
-let images: Carousel[] = [];
-let topProcedure: Procedure[] = [];
-let procedures: Record<string, Procedure[]> = {};
-
-try {
-  const { data } = await api.get("api/client/navbar-data");
-  const response = data.data;
-  images = response.carousel ?? [];
-  topProcedure = response.topProcedure ?? [];
-  procedures = response.procedures ?? {};
-  console.log(procedures);
-} catch (error) {
-  console.error("Error fetching navbar data:", error);
+interface Props {
+  images: Carousel[];
+  topProcedure: Procedure[];
+  procedures: Record<string, Procedure[]>;
+  settings: Settings | null;
 }
+
+const {
+  images = [],
+  topProcedure = [],
+  procedures = {},
+  settings = null,
+} = Astro.props;
 ---
 
 <div class="relative">
-  <!-- Navbar Principal -->
   <nav
     id="main-navbar"
     class="w-full fixed top-0 z-50 transition-transform duration-300 ease-in-out"
   >
-    <!-- Top Header (Logo/Hamburger) -->
-    <div id="navbar-header" class="w-full patron relative bg-[#513A31] z-50">
+    <div id="navbar-header" class="w-full patron relative bg-[#513A31] z-50 border-b border-[#7D6A5D]">
       <div
         class="container mx-auto relative flex items-center justify-between py-4 px-6 lg:px-8"
       >
-        <!-- Left: Mobile hamburger -->
         <button
           id="hamburger-btn"
           class="hamburger-btn flex items-center transition-colors rounded-lg px-2 py-1 -ml-2 z-50 hover:bg-[#FEEBDD]/10"
@@ -66,7 +61,6 @@ try {
           >
         </button>
 
-        <!-- Center: LOGO SIEMPRE CENTRADO -->
         <div
           class="absolute left-1/2 -translate-x-1/2 max-w-[200px] md:max-w-[250px] z-40"
         >
@@ -77,7 +71,6 @@ try {
           </div>
         </div>
 
-        <!-- Right: Desktop items -->
         <div class="md:flex items-center gap-6 ml-auto z-40">
           <LanguageSwitcher />
           <div class="hidden md:flex items-center gap-6 ml-auto z-40">
@@ -85,101 +78,140 @@ try {
           </div>
         </div>
       </div>
-      <div class="h-px bg-[#7D6A5D]"></div>
     </div>
 
-    <!-- Collapsible Procedures Bar -->
     <div
       id="navbar-procedures"
-      class="bg-[#513A31]/95 backdrop-blur-md transition-all duration-500 ease-in-out opacity-100 origin-top relative z-40"
+      class="bg-[#513A31]/95 backdrop-blur-md transition-all duration-500 ease-in-out opacity-100 origin-top relative z-10"
     >
-      <div class="container mx-auto px-4 md:px-6 lg:px-8">
+      <div class="container mx-auto px-4 md:px-6 lg:px-8 relative group/scroll">
+        <button
+          id="scroll-left"
+          class="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 items-center justify-center bg-[#513A31]/90 backdrop-blur-sm text-[#FEEBDD] rounded-full border border-[#FEEBDD]/30 opacity-0 transition-opacity disabled:opacity-0 shadow-lg hover:bg-[#FEEBDD]/20"
+          aria-label="Scroll left"
+        >
+          <Icon name="chevron-down" class="w-4 h-4 rotate-90" />
+        </button>
+
+        <button
+          id="scroll-right"
+          class="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 items-center justify-center bg-[#513A31]/90 backdrop-blur-sm text-[#FEEBDD] rounded-full border border-[#FEEBDD]/30 opacity-0 transition-opacity disabled:opacity-0 shadow-lg hover:bg-[#FEEBDD]/20"
+          aria-label="Scroll right"
+        >
+          <Icon name="chevron-down" class="w-4 h-4 -rotate-90" />
+        </button>
+
         <div
-          class="flex justify-start md:justify-center gap-4 md:gap-8 lg:gap-12 text-sm relative overflow-x-auto md:overflow-visible pb-2 md:pb-0 scrollbar-hide snap-x snap-mandatory"
+          id="categories-scroll"
+          class="flex justify-start md:justify-center gap-4 md:gap-1 text-sm relative overflow-visible overflow-x-auto md:overflow-x-hidden overflow-y-visible snap-x snap-mandatory scroll-smooth pb-2 md:pb-0 scrollbar-hide"
         >
           {
-            Object.entries(procedures).map(([category, items]) => (
-              <div class="relative group shrink-0 snap-center procedure-category">
-                <button
-                  class="procedure-btn flex items-center gap-1 text-[#FEEBDD] uppercase tracking-widest text-[10px] md:text-xs py-3 md:py-2 px-2 md:px-0 hover:text-white transition-colors whitespace-nowrap"
-                  data-category-btn
-                >
-                  {category}
-                  <Icon
-                    name="chevron-down"
-                    class="w-3 h-3 transition-transform duration-300 pointer-events-none"
-                  />
-                </button>
-
-                {/* Dropdown para móvil - Aparece debajo */}
-                <div class="procedure-dropdown md:hidden fixed left-0 right-0 top-full mt-0 bg-[#513A31]/98 backdrop-blur-md border-t border-[#FEEBDD]/20 p-2 opacity-0 invisible transition-all duration-300 shadow-xl flex flex-col gap-2 z-50 max-h-[70vh] overflow-y-auto">
-                  {items.map((item, index) => (
-                    <a
-                      href={getRelativeLocaleUrl(
-                        currentLang,
-                        `procedure/${item.slug}`,
-                      )}
-                      class="menu-link-wrapper dropdown-item group/item flex items-center gap-3 py-3 px-3 rounded-lg
-                    hover:bg-[#FEEBDD]/10 active:bg-[#FEEBDD]/20 transition-all duration-300
-                    opacity-0"
-                      style={`transition-delay: ${index * 50}ms`}
+            Object.entries(procedures).map(
+              ([category, items], index, array) => (
+                <>
+                  <div class="relative shrink-0 snap-center procedure-category">
+                    <button
+                      class="procedure-btn flex items-center gap-1 text-[#FEEBDD] uppercase tracking-widest text-[10px] md:text-xs py-3 md:py-2 px-2 md:px-0 hover:text-white transition-colors whitespace-nowrap"
+                      data-category-btn
                     >
-                      <div
-                        class="shrink-0 w-8 h-8 flex items-center justify-center
-                      bg-[#FEEBDD]/20 group-hover/item:bg-[#FEEBDD]/30
-                      rounded-md transition-all duration-300"
-                      >
-                        <Icon
-                          name="arrow-right"
-                          color="#FEEBDD"
-                          class="w-3 h-3 text-[#FEEBDD] transition-transform duration-300"
-                        />
-                      </div>
+                      {category}
+                      <Icon
+                        name="chevron-down"
+                        class="chevron-icon w-3 h-3 transition-transform duration-300 pointer-events-none"
+                      />
+                    </button>
 
-                      <span class="text-[#FFF9F6] text-sm font-bold group-hover/item:text-[#FEEBDD] transition-colors duration-300 flex-1">
-                        {item.title}
-                      </span>
-
-                      <div class="w-0 h-0.5 bg-[#FEEBDD] group-hover/item:w-4 transition-all duration-500 rounded-full" />
-                    </a>
-                  ))}
-                </div>
-
-                {/* Dropdown para desktop - Aparece centrado */}
-                <div class="procedure-dropdown hidden md:block absolute left-1/2 -translate-x-1/2 w-72 bg-[#513A31]/95 backdrop-blur-md border border-[#FEEBDD]/20 rounded-xl p-2 opacity-0 invisible transition-all duration-300 transform translate-y-2 shadow-xl z-50">
-                  {items.map((item, index) => (
-                    <a
-                      href={getRelativeLocaleUrl(
-                        currentLang,
-                        `procedure/${item.slug}`,
-                      )}
-                      class="menu-link-wrapper dropdown-item group/item flex items-center gap-3 py-2 px-3 rounded-lg
-                          hover:bg-[#FEEBDD]/10 transition-all duration-300 opacity-0 translate-y-0 md:translate-y-0"
-                      style={`transition-delay: ${index * 50}ms`}
+                    {/* Dropdown para móvil */}
+                    <div
+                      class="procedure-dropdown md:hidden fixed left-0 right-0 bg-[#513A31]/98 backdrop-blur-md border-t border-[#FEEBDD]/20 p-2 opacity-0 invisible transition-all duration-300 shadow-xl z-[60px] overflow-y-auto"
+                      data-mobile-dropdown
                     >
-                      <div
-                        class="shrink-0 w-8 h-8 flex items-center justify-center
-                      bg-[#FEEBDD]/20 group-hover/item:bg-[#FEEBDD]/30
-                      rounded-md transition-all duration-300
-                      group-hover/item:translate-x-1"
-                      >
-                        <Icon
-                          name="arrow-right"
-                          color="#FEEBDD"
-                          class="w-3 h-3 text-[#FEEBDD] transition-transform duration-300 group-hover/item:scale-110"
-                        />
+                      <div class="flex flex-col gap-2">
+                        {items.map((item, index) => (
+                          <a
+                            href={getRelativeLocaleUrl(
+                              currentLang,
+                              `procedure/${item.slug}`,
+                            )}
+                            class="dropdown-item group/item flex items-center gap-2 py-3 px-3 rounded-lg hover:bg-[#FEEBDD]/10 active:bg-[#FEEBDD]/20 transition-all duration-300 opacity-0"
+                            style={`transition-delay: ${index * 30}ms`}
+                          >
+                            <div class="shrink-0 w-4 h-4 flex flex-col items-center justify-center bg-[#FEEBDD]/20 group-hover/item:bg-[#FEEBDD]/30 rounded-md transition-all duration-300">
+                              <Icon
+                                name="arrow-right"
+                                color="#FEEBDD"
+                                class="w-3 h-3"
+                              />
+                            </div>
+                            <span class="text-[#FFF9F6] text-sm font-bold group-hover/item:text-[#FEEBDD] transition-colors flex-1">
+                              {item.title}
+                            </span>
+                            <div class="w-0 h-0.5 bg-[#FEEBDD] group-hover/item:w-4 transition-all duration-500 rounded-full" />
+                          </a>
+                        ))}
                       </div>
+                    </div>
 
-                      <span class="text-[#FFF9F6] text-sm font-bold group-hover/item:text-[#FEEBDD] transition-colors duration-300 group-hover/item:translate-x-1">
-                        {item.title}
-                      </span>
+                    {/* Dropdown para desktop */}
+                    <div
+                      class="procedure-dropdown hidden md:block fixed bg-[#513A31]/95 backdrop-blur-md border border-[#FEEBDD]/20 rounded-xl opacity-0 invisible transition-all duration-300 transform  shadow-2xl z-[60px]"
+                      data-desktop-dropdown
+                    >
+                      <div class="relative">
+                        {/* Botones de scroll interno */}
+                        <button
+                          class="dropdown-scroll-left absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 items-center justify-center bg-[#513A31] hover:bg-[#FEEBDD]/20 text-[#FEEBDD] rounded-full border-2 border-[#FEEBDD]/30 transition-all shadow-lg opacity-0 invisible hidden"
+                          type="button"
+                        >
+                          <Icon name="chevron-down" class="w-5 h-5 rotate-90" />
+                        </button>
 
-                      <div class="ml-auto w-0 h-0.5 bg-[#FEEBDD] group-hover/item:w-4 transition-all duration-500 rounded-full" />
-                    </a>
-                  ))}
-                </div>
-              </div>
-            ))
+                        <button
+                          class="dropdown-scroll-right absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 items-center justify-center bg-[#513A31] hover:bg-[#FEEBDD]/20 text-[#FEEBDD] rounded-full border-2 border-[#FEEBDD]/30 transition-all shadow-lg opacity-0 invisible hidden"
+                          type="button"
+                        >
+                          <Icon
+                            name="chevron-down"
+                            class="w-5 h-5 -rotate-90"
+                          />
+                        </button>
+
+                        {/* Contenedor con scroll */}
+                        <div
+                          class="dropdown-items-scroll flex flex-col gap-2 overflow-x-auto scrollbar-thin scrollbar-thumb-[#FEEBDD]/30 scrollbar-track-transparent hover:scrollbar-thumb-[#FEEBDD]/50 snap-x snap-mandatory scroll-smooth px-2 py-2 cursor-grab active:cursor-grabbing"
+                          data-scroll-container
+                        >
+                          {items.map((item, index) => (
+                            <a
+                              href={getRelativeLocaleUrl(
+                                currentLang,
+                                `procedure/${item.slug}`,
+                              )}
+                              class="dropdown-item shrink-0 w-64 group/item flex items-center gap-3 p-2 rounded-lg hover:bg-[#FEEBDD]/10 transition-all duration-300 snap-start bg-[#513A31]/40 border border-[#FEEBDD]/10 hover:border-[#FEEBDD]/30 opacity-0"
+                              style={`transition-delay: ${index * 30}ms`}
+                            >
+                              <div class="shrink-0 w-4 h-4 flex items-center justify-center bg-[#FEEBDD]/20 group-hover/item:bg-[#FEEBDD]/30 rounded-md transition-all duration-300 group-hover/item:translate-x-1">
+                                <Icon
+                                  name="arrow-right"
+                                  color="#FEEBDD"
+                                  class="w-4 h-4 transition-transform duration-300 group-hover/item:scale-110"
+                                />
+                              </div>
+                              <span class="text-[#FFF9F6] text-sm font-bold group-hover/item:text-[#FEEBDD] transition-colors duration-300 whitespace-normal leading-tight flex-1">
+                                {item.title}
+                              </span>
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {index < array.length - 1 && (
+                    <div class="h-8 w-[2px] bg-linear-to-b from-transparent via-[#FEEBDD]/40 to-transparent mx-8 hidden md:block self-center" />
+                  )}
+                </>
+              ),
+            )
           }
         </div>
       </div>
@@ -189,13 +221,11 @@ try {
   <!-- Menú Fullscreen -->
   <div
     id="fullscreen-menu"
-    class="fixed left-0 right-0 bg-linear-to-br from-[#513A31]/98 to-[#7D6A5D]/98 backdrop-blur-md z-30
-           opacity-0 invisible transition-all duration-500 ease-out overflow-hidden"
+    class="fixed left-0 right-0 bg-linear-to-br from-[#513A31]/98 to-[#7D6A5D]/98 backdrop-blur-md z-30 opacity-0 invisible transition-all duration-500 ease-out overflow-hidden"
     style="top: var(--header-height, 80px); bottom: 0;"
   >
-    <!-- Grid responsivo -->
     <div class="grid grid-cols-1 md:grid-cols-4 h-full w-full">
-      <!-- Columna 1: Carousel - OCULTA EN MÓVIL -->
+      <!-- Columna 1: Carousel -->
       <div class="h-full w-full overflow-hidden hidden md:block relative">
         <div
           class="absolute inset-0 bg-linear-to-r from-transparent to-[#513A31]/30 z-10"
@@ -204,7 +234,7 @@ try {
         <CarouselComponent buttonDown={true} slides={images} />
       </div>
 
-      <!-- Columna 2: Links del menú - VISIBLE EN MÓVIL -->
+      <!-- Columna 2: Links del menú -->
       <div
         class="h-full flex flex-col items-start justify-center gap-4 md:gap-6 px-6 md:px-10 relative mt-10 md:mt-0"
       >
@@ -223,32 +253,19 @@ try {
           menuItems.map((item, index) => (
             <a
               href={getRelativeLocaleUrl(currentLang, item.href)}
-              class="menu-link-wrapper group flex items-center gap-3 py-2 px-4 -mx-4 rounded-lg
-                    hover:bg-[#FEEBDD]/10 transition-all duration-300
-                    opacity-0 translate-y-8"
+              class="menu-link-wrapper group flex items-center gap-3 py-2 px-4 -mx-4 rounded-lg hover:bg-[#FEEBDD]/10 transition-all duration-300 opacity-0 translate-y-8"
               style={`transition-delay: ${index * 100}ms`}
             >
-              <div
-                class="shrink-0 w-6 h-6 flex items-center justify-center
-                          bg-[#FEEBDD]/20 group-hover:bg-[#FEEBDD]/30
-                          rounded-md transition-all duration-300
-                          group-hover:translate-x-1"
-              >
+              <div class="shrink-0 w-6 h-6 flex items-center justify-center bg-[#FEEBDD]/20 group-hover:bg-[#FEEBDD]/30 rounded-md transition-all duration-300 group-hover:translate-x-1">
                 <Icon
                   name="arrow-right"
                   color="#FEEBDD"
                   class="w-4 h-4 text-[#FEEBDD] transition-transform duration-300 group-hover:scale-110"
                 />
               </div>
-
-              <span
-                tabindex="0"
-                role="button"
-                class="text-[#FFF9F6] text-xl md:text-2xl font-bold group-hover:text-[#FEEBDD] transition-colors duration-300 group-hover:translate-x-1"
-              >
+              <span class="text-[#FFF9F6] text-xl md:text-2xl font-bold group-hover:text-[#FEEBDD] transition-colors duration-300 group-hover:translate-x-1">
                 {item.label}
               </span>
-
               <div class="ml-auto w-0 h-0.5 bg-[#FEEBDD] group-hover:w-8 transition-all duration-500 rounded-full" />
             </a>
           ))
@@ -258,23 +275,21 @@ try {
           <ContacButton />
         </div>
 
-        <!-- Separador derecho -->
         <div
           class="absolute right-0 top-0 bottom-0 w-px bg-linear-to-b from-transparent via-[#FEEBDD]/30 to-transparent"
         >
         </div>
       </div>
 
-      <!-- Columna 3: Procedimientos - OCULTA EN MÓVIL -->
+      <!-- Columna 3: Procedimientos -->
       <div
         class="h-full flex-col items-center justify-start px-4 py-6 relative overflow-hidden hidden md:flex bg-[#513A31]/20"
       >
-        <!-- Contenedor con scroll interno -->
         <div
           class="w-full h-full overflow-y-auto scrollbar-custom flex flex-col gap-4 pr-2"
         >
           {
-            topProcedure.map((item, __index) => (
+            topProcedure.map((item) => (
               <Procedures
                 image={item.image}
                 title={item.title}
@@ -283,15 +298,13 @@ try {
             ))
           }
         </div>
-
-        <!-- Separador vertical -->
         <div
           class="absolute right-0 top-0 bottom-0 w-px bg-linear-to-b from-transparent via-[#FEEBDD]/30 to-transparent"
         >
         </div>
       </div>
 
-      <!-- Columna 4: Contacto - VISIBLE EN MÓVIL -->
+      <!-- Columna 4: Contacto -->
       <div class="h-full relative overflow-hidden">
         <div
           class="h-full flex flex-col items-start justify-center gap-4 md:gap-6 px-6 md:px-10 relative"
@@ -308,29 +321,26 @@ try {
               >
                 {t.navbar.contact.subtitle}
               </h2>
-
               <div class="space-y-4 md:space-y-6">
                 <ContactData
                   icon="phone"
                   title={t.navbar.contact.phone}
-                  value="+57 3131231233"
+                  value={settings?.contact.contact_phone}
                 />
                 <ContactData
                   icon="mail"
                   title={t.navbar.contact.email}
-                  value="info@esteticaelite.com"
+                  value={settings?.contact.contact_email}
                 />
                 <ContactData
                   icon="map-pin"
                   title={t.navbar.contact.location}
-                  value="Cartagena"
+                  value={settings?.contact.contact_location}
                 />
               </div>
             </div>
           </div>
         </div>
-
-        <!-- Decoración -->
         <div
           class="absolute inset-0 pointer-events-none opacity-50 md:opacity-100"
         >
@@ -356,10 +366,8 @@ try {
     const hamburgerBtn = document.getElementById("hamburger-btn");
     const hamburger = hamburgerBtn?.querySelector(".hamburger");
     const fullscreenMenu = document.getElementById("fullscreen-menu");
-    const menuLinks = fullscreenMenu?.querySelectorAll(".menu-link");
     const navbarProcedure = document.getElementById("navbar-procedures");
 
-    // Calcular altura del header principal (parte superior fija)
     function updateHeaderHeight() {
       if (navbarHeader && fullscreenMenu) {
         const headerHeight = navbarHeader.offsetHeight;
@@ -370,53 +378,30 @@ try {
       }
     }
 
-    // Inicializar altura
     updateHeaderHeight();
-
     let isOpen = false;
 
     function toggleMenu() {
       isOpen = !isOpen;
-
-      // Toggle clases
       hamburger?.classList.toggle("is-active");
       fullscreenMenu?.classList.toggle("open");
       document.body.classList.toggle("menu-open");
-
-      // Animar navbar procedures (slide up/fade out)
       navbarProcedure?.classList.toggle("collapsed");
-
-      // Actualizar aria
       hamburgerBtn?.setAttribute("aria-expanded", String(isOpen));
     }
 
-    // Click en el botón hamburger
-    if (hamburgerBtn) {
-      hamburgerBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        toggleMenu();
-      });
-    }
-
-    // Cerrar al hacer click en un link
-    menuLinks?.forEach((link) => {
-      link.addEventListener("click", () => {
-        if (isOpen) toggleMenu();
-      });
+    hamburgerBtn?.addEventListener("click", (e) => {
+      e.preventDefault();
+      toggleMenu();
     });
 
-    // Cerrar con ESC
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && isOpen) {
-        toggleMenu();
-      }
+      if (e.key === "Escape" && isOpen) toggleMenu();
     });
 
-    // Recalcular altura al redimensionar
-    window.addEventListener("resize", () => {
-      updateHeaderHeight();
-    });
+    window.addEventListener("resize", updateHeaderHeight);
 
+    // Navbar hide on scroll
     let lastScrollTop = 0;
     const scrollThreshold = 10;
     let ticking = false;
@@ -424,24 +409,19 @@ try {
     function updateNavbarVisibility() {
       const scrollTop =
         window.pageYOffset || document.documentElement.scrollTop;
-
       if (isOpen) {
         ticking = false;
         return;
       }
-
       const scrollDifference = Math.abs(scrollTop - lastScrollTop);
-
       if (scrollDifference >= scrollThreshold) {
         if (scrollTop > lastScrollTop && scrollTop > 80) {
           navbar?.classList.add("-translate-y-full");
         } else if (scrollTop < lastScrollTop) {
           navbar?.classList.remove("-translate-y-full");
         }
-
         lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
       }
-
       ticking = false;
     }
 
@@ -456,41 +436,232 @@ try {
       { passive: true },
     );
 
-    // Procedure Dropdowns - Click to Toggle Logic
-    const procedureBtns = document.querySelectorAll(".procedure-btn");
+    // === DROPDOWNS MEJORADOS ===
+    const categories = document.querySelectorAll(".procedure-category");
 
-    // Función para cerrar todos
-    function closeAllDropdowns() {
-      document.querySelectorAll(".procedure-category.active").forEach((cat) => {
-        cat.classList.remove("active");
-      });
-    }
+    categories.forEach((category) => {
+      const btn = category.querySelector(".procedure-btn") as HTMLElement;
+      const mobileDropdown = category.querySelector(
+        "[data-mobile-dropdown]",
+      ) as HTMLElement;
+      const desktopDropdown = category.querySelector(
+        "[data-desktop-dropdown]",
+      ) as HTMLElement;
+      const chevron = btn.querySelector(".chevron-icon");
 
-    procedureBtns.forEach((btn) => {
+      // Función para cerrar todos los dropdowns
+      function closeAllDropdowns() {
+        document.querySelectorAll(".procedure-category").forEach((cat) => {
+          cat.querySelectorAll(".procedure-dropdown").forEach((dd) => {
+            dd.classList.add("opacity-0", "invisible");
+            dd.classList.remove("visible");
+          });
+          cat
+            .querySelectorAll(".chevron-icon")
+            .forEach((ch) => ch.classList.remove("rotate-180"));
+          cat.querySelectorAll(".dropdown-item").forEach((item) => {
+            item.classList.add("opacity-0", "translate-y-2");
+          });
+        });
+      }
+
+      // Click para toggle (Móvil y Desktop)
       btn.addEventListener("click", (e) => {
-        e.stopPropagation(); // Evitar cerrar al hacer click en el propio botón
-        const parent = btn.closest(".procedure-category");
-        const isActive = parent?.classList.contains("active");
+        e.stopPropagation();
 
-        // Cerrar todos antes de abrir el nuevo (comportamiento acordeón)
+        const isDesktop = window.innerWidth >= 768;
+        const dropdown = isDesktop ? desktopDropdown : mobileDropdown;
+        const isOpen = dropdown.classList.contains("visible");
+
         closeAllDropdowns();
 
-        if (!isActive && parent) {
-          parent.classList.add("active");
+        if (!isOpen) {
+          if (isDesktop) {
+            const btnRect = btn.getBoundingClientRect();
+            const navbarRect = navbarProcedure?.getBoundingClientRect();
+            const dropdownWidth = desktopDropdown.offsetWidth;
+            const viewportWidth = window.innerWidth;
+            const margin = 20;
+
+            let left = btnRect.left + btnRect.width / 2 - dropdownWidth / 2;
+
+            if (left < margin) left = margin;
+            if (left + dropdownWidth > viewportWidth - margin) {
+              left = viewportWidth - dropdownWidth - margin;
+            }
+
+            desktopDropdown.style.left = `${left}px`;
+            desktopDropdown.style.top = `${btnRect.bottom - 90}px`;
+
+            // Remove hover-specific hiding classes just in case
+            desktopDropdown.classList.remove("translate-y-2");
+          } else {
+            const navbarRect = navbarProcedure?.getBoundingClientRect();
+            if (navbarRect) {
+              mobileDropdown.style.top = `${navbarRect.bottom - 100}px`;
+            }
+          }
+
+          dropdown.classList.remove("opacity-0", "invisible");
+          dropdown.classList.add("visible");
+          chevron?.classList.add("rotate-180");
+
+          dropdown.querySelectorAll(".dropdown-item").forEach((item, idx) => {
+            setTimeout(() => {
+              item.classList.remove("opacity-0", "translate-y-2");
+            }, idx * 30);
+          });
         }
       });
+
+      // Inicializar scroll buttons una sola vez
+      setupScrollButtons(desktopDropdown);
     });
 
     // Cerrar al hacer click fuera
     document.addEventListener("click", (e) => {
       const target = e.target as HTMLElement;
       if (!target.closest(".procedure-category")) {
-        closeAllDropdowns();
+        document.querySelectorAll(".procedure-category").forEach((cat) => {
+          cat.querySelectorAll(".procedure-dropdown").forEach((dd) => {
+            dd.classList.add("opacity-0", "invisible");
+            dd.classList.remove("visible");
+          });
+          cat
+            .querySelectorAll(".chevron-icon")
+            .forEach((ch) => ch.classList.remove("rotate-180"));
+        });
       }
     });
 
-    // Dropdown Logic (for menu items)
-    const dropdownBtns = document.querySelectorAll(".dropdown-btn");
+    // Setup scroll buttons para dropdowns
+    function setupScrollButtons(dropdown: HTMLElement) {
+      const container = dropdown.querySelector(
+        "[data-scroll-container]",
+      ) as HTMLElement;
+      const leftBtn = dropdown.querySelector(
+        ".dropdown-scroll-left",
+      ) as HTMLButtonElement;
+      const rightBtn = dropdown.querySelector(
+        ".dropdown-scroll-right",
+      ) as HTMLButtonElement;
+
+      if (!container || !leftBtn || !rightBtn) return;
+
+      function updateButtons() {
+        const { scrollLeft, scrollWidth, clientWidth } = container;
+        const hasOverflow = scrollWidth > clientWidth;
+
+        if (!hasOverflow) {
+          leftBtn.classList.add("opacity-0", "invisible", "hidden");
+          rightBtn.classList.add("opacity-0", "invisible", "hidden");
+          return;
+        }
+
+        leftBtn.classList.remove("hidden");
+        rightBtn.classList.remove("hidden");
+        leftBtn.classList.add("flex");
+        rightBtn.classList.add("flex");
+
+        if (scrollLeft > 10) {
+          leftBtn.classList.remove("opacity-0", "invisible");
+        } else {
+          leftBtn.classList.add("opacity-0", "invisible");
+        }
+
+        if (scrollLeft < scrollWidth - clientWidth - 10) {
+          rightBtn.classList.remove("opacity-0", "invisible");
+        } else {
+          rightBtn.classList.add("opacity-0", "invisible");
+        }
+      }
+
+      leftBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        container.scrollBy({ left: -250, behavior: "smooth" });
+      });
+
+      rightBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        container.scrollBy({ left: 250, behavior: "smooth" });
+      });
+
+      container.addEventListener("scroll", updateButtons);
+
+      // Drag to scroll
+      let isDown = false;
+      let startX: number;
+      let scrollLeftStart: number;
+
+      container.addEventListener("mousedown", (e) => {
+        isDown = true;
+        startX = e.pageX - container.offsetLeft;
+        scrollLeftStart = container.scrollLeft;
+        container.style.cursor = "grabbing";
+      });
+
+      container.addEventListener("mouseleave", () => {
+        isDown = false;
+        container.style.cursor = "grab";
+      });
+
+      container.addEventListener("mouseup", () => {
+        isDown = false;
+        container.style.cursor = "grab";
+      });
+
+      container.addEventListener("mousemove", (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - container.offsetLeft;
+        const walk = (x - startX) * 2;
+        container.scrollLeft = scrollLeftStart - walk;
+      });
+
+      updateButtons();
+    }
+
+    // Horizontal scroll de categorías
+    const scrollContainer = document.getElementById("categories-scroll");
+    const leftBtn = document.getElementById("scroll-left");
+    const rightBtn = document.getElementById("scroll-right");
+
+    if (scrollContainer && leftBtn && rightBtn) {
+      function checkScroll() {
+        const container = scrollContainer as HTMLElement;
+        const lBtn = leftBtn as HTMLElement;
+        const rBtn = rightBtn as HTMLElement;
+        const { scrollLeft, scrollWidth, clientWidth } = container;
+
+        if (scrollWidth <= clientWidth) {
+          lBtn.style.opacity = "0";
+          rBtn.style.opacity = "0";
+          return;
+        }
+
+        lBtn.style.opacity = scrollLeft > 10 ? "1" : "0";
+        rBtn.style.opacity =
+          scrollLeft < scrollWidth - clientWidth - 10 ? "1" : "0";
+      }
+
+      leftBtn.addEventListener("click", () => {
+        (scrollContainer as HTMLElement).scrollBy({
+          left: -200,
+          behavior: "smooth",
+        });
+      });
+
+      rightBtn.addEventListener("click", () => {
+        (scrollContainer as HTMLElement).scrollBy({
+          left: 200,
+          behavior: "smooth",
+        });
+      });
+
+      scrollContainer.addEventListener("scroll", checkScroll);
+      window.addEventListener("resize", checkScroll);
+      checkScroll();
+    }
   }
 
   if (document.readyState === "loading") {
@@ -503,7 +674,6 @@ try {
 </script>
 
 <style is:global>
-  /* Estilos del hamburger con nueva paleta */
   .hamburger-inner,
   .hamburger-inner::before,
   .hamburger-inner::after {
@@ -516,7 +686,6 @@ try {
     background-color: #fff9f6 !important;
   }
 
-  /* Cuando el menú está abierto */
   #fullscreen-menu.open {
     opacity: 1;
     visibility: visible;
@@ -531,12 +700,10 @@ try {
       transform 0.6s ease-out;
   }
 
-  /* Prevenir scroll cuando el menú está abierto */
   body.menu-open {
     overflow: hidden;
   }
 
-  /* Responsive: En móvil mostrar solo 1 columna */
   @media (max-width: 768px) {
     #fullscreen-menu > div {
       grid-template-columns: 1fr;

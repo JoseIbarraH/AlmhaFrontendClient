@@ -8,6 +8,25 @@ import { loadTranslations } from "../lib/i18n";
 const lang = Astro.params.lang || "es";
 const t = await loadTranslations(lang);
 
+import type { Carousel, Procedure, Settings } from "@/types/navbar";
+
+const { api } = Astro.locals;
+let images: Carousel[] = [];
+let topProcedure: Procedure[] = [];
+let procedures: Record<string, Procedure[]> = {};
+let settings: Settings | null = null;
+
+try {
+  const { data } = await api.get("api/client/navbar-data");
+  const response = data.data;
+  images = response.carousel ?? [];
+  topProcedure = response.topProcedure ?? [];
+  procedures = response.procedures ?? {};
+  settings = response.settings ?? null;
+} catch (error) {
+  console.error("Error fetching navbar data:", error);
+}
+
 const {
   title = "AlmhaPlasticSurgery",
   description = "Descripción por defecto",
@@ -16,8 +35,6 @@ const {
 } = Astro.props;
 
 const GA_MEASUREMENT_ID = 'G-5G7KLND29N';
-
-const { carouselNavbar = [], topServices = [] } = Astro.locals?.global?.design || {};
 ---
 
 <!doctype html>
@@ -59,10 +76,10 @@ const { carouselNavbar = [], topServices = [] } = Astro.locals?.global?.design |
     )}
   </head>
   <body>
-    <Navbar images={carouselNavbar?.carouselNavbar} topServices={topServices}/>
+    <Navbar images={images} topProcedure={topProcedure} procedures={procedures} settings={settings} />
     <div class="h-25 bg-[#513A31]"></div>
     <slot />
-    <Footer />
+    <Footer settings={settings} />
   </body>
 </html>
 
