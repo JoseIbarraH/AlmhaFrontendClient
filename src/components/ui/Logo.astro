@@ -1,12 +1,14 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
 import logoImage from "@/assets/images/Imagotipo_horizontal_beige.png";
+import logo from "@/assets/images/logo.png";
 
 interface Props {
   class?: string;
   size?: "sm" | "md" | "lg" | "xl" | "xl2" | string;
   text?: boolean;
   textSize?: "sm" | "md" | "lg" | "xl" | "xl2" | string;
+  phone?: boolean;
 }
 
 const currentLang = Astro.currentLocale || "es";
@@ -15,6 +17,7 @@ const {
   size = "md",
   text = false,
   textSize = "md",
+  phone = false,
 } = Astro.props;
 
 const sizeClasses = {
@@ -25,10 +28,8 @@ const sizeClasses = {
   xl2: "h-64 w-auto",
 };
 
-
 const computedSize =
   sizeClasses[size as keyof typeof sizeClasses] || size || "h-10 w-auto";
-
 ---
 
 <div class="shrink-0 flex flex-col w-full">
@@ -37,11 +38,22 @@ const computedSize =
     class={`inline-flex items-center transition-opacity hover:opacity-80 ${className}`}
     aria-label="Ir al inicio"
   >
-    <img
-      src={logoImage.src}
-      alt="Logo"
-      class={computedSize + " object-contain w-full"}
-      loading="eager"
-    />
+    {
+      phone ? (
+        <img
+          src={logo.src}
+          alt="Logo"
+          class={computedSize + " object-contain w-full"}
+          loading="eager"
+        />
+      ) : (
+        <img
+          src={logoImage.src}
+          alt="Logo"
+          class={computedSize + " object-contain w-full"}
+          loading="eager"
+        />
+      )
+    }
   </a>
 </div>

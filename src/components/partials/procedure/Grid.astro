@@ -20,7 +20,8 @@ const t = await loadTranslations(currentLang);
           class:list={[
             "group relative overflow-hidden rounded-3xl shadow-xl transition-all duration-500 hover:-translate-y-2",
             {
-              "lg:col-span-2 lg:row-span-2 h-[600px]": index === 0,
+              "lg:col-span-2 lg:row-span-2 col-span-1 row-span-1 lg:h-[600px] h-[290px]":
+                index === 0,
               "h-[290px]": index !== 0,
             },
           ]}

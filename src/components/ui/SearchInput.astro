@@ -1,0 +1,75 @@
+---
+import Icon from "@/components/ui/Icon.astro";
+
+interface Props {
+  placeholder?: string;
+  queryParam?: string;
+  class?: string;
+}
+
+const {
+  placeholder = "Buscar...",
+  queryParam = "search",
+  class: className = "",
+} = Astro.props;
+
+const initialValue = Astro.url.searchParams.get(queryParam) || "";
+---
+
+<div class={`relative w-full ${className}`}>
+  <input
+    type="search"
+    name={queryParam}
+    value={initialValue}
+    placeholder={placeholder}
+    class="w-full px-5 py-3 pl-12 bg-white border-2 border-[#D6C4B6] rounded-xl text-[#513A31] placeholder-[#7D6A5D] focus:outline-none focus:border-[#FEEBDD] transition-all"
+    data-search-input
+    data-query-param={queryParam}
+  />
+  <Icon
+    name="Search"
+    class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#7D6A5D]"
+  />
+</div>
+
+<script>
+  function initSearch() {
+    const inputs = document.querySelectorAll(
+      "input[data-search-input]",
+    ) as NodeListOf<HTMLInputElement>;
+
+    inputs.forEach((input) => {
+      // Avoid attaching multiple listeners
+      if (input.dataset.initialized === "true") return;
+      input.dataset.initialized = "true";
+
+      const queryParam = input.dataset.queryParam || "search";
+      let timeout: ReturnType<typeof setTimeout>;
+
+      input.addEventListener("input", (e) => {
+        const target = e.target as HTMLInputElement;
+        clearTimeout(timeout);
+
+        timeout = setTimeout(() => {
+          const url = new URL(window.location.href);
+          const term = target.value.trim();
+
+          if (term) {
+            url.searchParams.set(queryParam, term);
+          } else {
+            url.searchParams.delete(queryParam);
+          }
+
+          // Reset page when searching
+          url.searchParams.set("page", "1");
+
+          window.location.href = url.toString();
+        }, 500);
+      });
+    });
+  }
+
+  // Initialize on load and page swaps
+  initSearch();
+  document.addEventListener("astro:page-load", initSearch);
+</script>

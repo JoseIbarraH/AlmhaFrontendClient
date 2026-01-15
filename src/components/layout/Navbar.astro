@@ -41,7 +41,10 @@ const {
     id="main-navbar"
     class="w-full fixed top-0 z-50 transition-transform duration-300 ease-in-out"
   >
-    <div id="navbar-header" class="w-full patron relative bg-[#513A31] z-50 border-b border-[#7D6A5D]">
+    <div
+      id="navbar-header"
+      class="w-full patron relative bg-[#513A31] z-50 border-b border-[#7D6A5D]"
+    >
       <div
         class="container mx-auto relative flex items-center justify-between py-4 px-6 lg:px-8"
       >
@@ -64,10 +67,19 @@ const {
         <div
           class="absolute left-1/2 -translate-x-1/2 max-w-[200px] md:max-w-[250px] z-40"
         >
-          <div class="overflow-hidden">
-            <Logo
-              class="text-[#FEEBDD] hover:text-[#FFF9F6] transition-colors w-full h-auto max-h-10 object-contain"
-            />
+          <div class="overflow-hidden w-full">
+            <div class="block lg:hidden w-full">
+              <Logo
+                phone={true}
+                class="text-[#FEEBDD] hover:text-[#FFF9F6] transition-colors w-full h-auto max-h-10 object-contain"
+              />
+            </div>
+            <div class="hidden lg:block w-full">
+              <Logo
+                phone={false}
+                class="text-[#FEEBDD] hover:text-[#FFF9F6] transition-colors w-full h-auto max-h-10 object-contain"
+              />
+            </div>
           </div>
         </div>
 
