@@ -3,7 +3,7 @@ import type { Carousel, Procedure, Settings } from "@/types/navbar";
 import Procedures from "@/components/shared/Procedures.astro";
 import LanguageSwitcher from "../ui/LanguageSwitcher.astro";
 import CarouselComponent from "../shared/Carousel.astro";
-import ContacButton from "../ui/ContacButton.astro";
+import ContacButton from "../ui/ContactButton.astro";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import ContactData from "../ui/ContactData.astro";
 import { loadTranslations } from "@/lib/i18n";
@@ -26,6 +26,7 @@ interface Props {
   topProcedure: Procedure[];
   procedures: Record<string, Procedure[]>;
   settings: Settings | null;
+  procedureContext?: string;
 }
 
 const {
@@ -33,6 +34,7 @@ const {
   topProcedure = [],
   procedures = {},
   settings = null,
+  procedureContext = "",
 } = Astro.props;
 ---
 
@@ -86,7 +88,10 @@ const {
         <div class="md:flex items-center gap-6 ml-auto z-40">
           <LanguageSwitcher />
           <div class="hidden md:flex items-center gap-6 ml-auto z-40">
-            <ContacButton />
+            <ContacButton
+              whatsapp={settings?.contact?.whatsapp}
+              procedureContext={procedureContext}
+            />
           </div>
         </div>
       </div>
@@ -284,7 +289,10 @@ const {
         }
 
         <div class="flex justify-center items-center w-full md:hidden mt-20">
-          <ContacButton />
+          <ContacButton
+            whatsapp={settings?.contact?.whatsapp}
+            procedureContext={procedureContext}
+          />
         </div>
 
         <div

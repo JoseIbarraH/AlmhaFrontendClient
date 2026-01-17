@@ -27,11 +27,20 @@ try {
   console.error("Error fetching navbar data:", error);
 }
 
+interface Props {
+  title?: string;
+  description?: string;
+  keywords?: string;
+  image?: string;
+  procedureContext?: string;
+}
+
 const {
   title = "AlmhaPlasticSurgery",
   description = "Descripción por defecto",
   keywords = "",
   image = defaultImage.src,
+  procedureContext = "",
 } = Astro.props;
 
 const GA_MEASUREMENT_ID = 'G-5G7KLND29N';
@@ -76,7 +85,7 @@ const GA_MEASUREMENT_ID = 'G-5G7KLND29N';
     )}
   </head>
   <body>
-    <Navbar images={images} topProcedure={topProcedure} procedures={procedures} settings={settings} />
+    <Navbar images={images} topProcedure={topProcedure} procedures={procedures} settings={settings} procedureContext={procedureContext} />
     <div class="h-25 bg-[#513A31]"></div>
     <slot />
     <Footer settings={settings} />

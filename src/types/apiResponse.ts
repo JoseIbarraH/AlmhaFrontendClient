@@ -7,6 +7,12 @@ export interface ApiResponse<T> {
 export interface Default<T> {
   filters: Filters
   pagination: PaginatedResponse<T>
+  categories: Category[]
+}
+
+export interface Category {
+  code: string
+  title: string
 }
 
 export interface PaginatedResponse<T = any> {

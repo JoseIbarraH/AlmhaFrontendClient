@@ -38,4 +38,12 @@ export interface Contact {
   contact_phone: string;
   contact_email: string;
   contact_location: string;
+  whatsapp?: WhatsAppSettings;
+}
+
+export interface WhatsAppSettings {
+  phone: string;
+  default_message: string;
+  is_active: boolean;
+  open_in_new_tab: boolean;
 }

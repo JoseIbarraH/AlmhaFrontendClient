@@ -35,7 +35,7 @@ const techniqueSection = procedure.section.find((s) => s.type === "technique");
 const recoverySection = procedure.section.find((s) => s.type === "recovery");
 ---
 
-<Layout title={`${procedure.title} | Almha`}>
+<Layout title={`${procedure.title} | Almha`} procedureContext={procedure.title}>
   <Header
     image={procedure.image}
     title={procedure.title}
@@ -55,7 +55,7 @@ const recoverySection = procedure.section.find((s) => s.type === "recovery");
 
   {
     procedure.phase && procedure.phase.length > 0 && (
-      <RecoveryPhase phases={procedure.phase}/>
+      <RecoveryPhase phases={procedure.phase} />
     )
   }
 
@@ -75,7 +75,6 @@ const recoverySection = procedure.section.find((s) => s.type === "recovery");
       <Gallery images={procedure.gallery} />
     )
   }
-  
-  {procedure.faq && procedure.faq.length > 0 && <Faq items={procedure.faq} />}
 
+  {procedure.faq && procedure.faq.length > 0 && <Faq items={procedure.faq} />}
 </Layout>

@@ -1,5 +1,5 @@
 ---
-import Header from "@/components/partials/procedure/Header.astro";
+import HeaderList from "@/components/partials/procedure/HeaderList.astro";
 import Layout from "@/layouts/Layout.astro";
 import ImgHeader from "@/assets/images/abdominoplastia.jpg";
 import Icon from "@/components/ui/Icon.astro";
@@ -51,18 +51,7 @@ try {
 
   pagination = data.data.pagination;
   procedures = pagination.data;
-
-  extractedCategory = procedures.map((p: Data) => {
-    return {
-      title: p.category,
-      code: p.category_code,
-    };
-  });
-
-  // Remove duplicates from categories
-  extractedCategory = extractedCategory.filter(
-    (cat, index, self) => index === self.findIndex((c) => c.code === cat.code),
-  );
+  extractedCategory = data.data.categories || [];
 } catch (error) {
   console.log("Error", error);
 }
@@ -70,7 +59,7 @@ try {
 
 <Layout>
   <section class="relative h-[70vh] overflow-hidden">
-    <Header image={ImgHeader.src} />
+    <HeaderList image={ImgHeader.src} />
   </section>
 
   <section
@@ -146,12 +135,13 @@ try {
       pagination={pagination}
       categoryFilter={categoryFilter}
     />
+
+    <div></div>
   </div>
 
   <div>
     <CtaStep />
   </div>
-
 </Layout>
 
 <script>
