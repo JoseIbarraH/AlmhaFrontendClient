@@ -18,7 +18,7 @@ const {
   slug = "",
 } = Astro.props;
 
-const url = slug ? getRelativeLocaleUrl(currentLang, `/service/${slug}`) : undefined;
+const url = slug ? getRelativeLocaleUrl(currentLang, `/procedure/${slug}`) : undefined;
 
 // Clases compartidas
 const sharedClasses = "group relative w-full overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer block";

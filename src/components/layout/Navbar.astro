@@ -1,11 +1,11 @@
 ---
+import type { Carousel, Procedure, Settings } from "@/types/navbar";
 import Procedures from "@/components/shared/Procedures.astro";
 import LanguageSwitcher from "../ui/LanguageSwitcher.astro";
+import CarouselComponent from "../shared/Carousel.astro";
 import ContacButton from "../ui/ContacButton.astro";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import ContactData from "../ui/ContactData.astro";
-import CarouselComponent from "../shared/Carousel.astro";
-import type { Carousel, Procedure, Settings } from "@/types/navbar";
 import { loadTranslations } from "@/lib/i18n";
 import Logo from "../ui/Logo.astro";
 import Icon from "../ui/Icon.astro";

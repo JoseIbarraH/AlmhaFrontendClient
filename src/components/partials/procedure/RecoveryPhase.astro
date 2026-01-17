@@ -1,0 +1,79 @@
+---
+import type { ProcedureSection, RecoveryPhase } from "@/types/procedures";
+
+interface Props {
+  phases: RecoveryPhase[];
+}
+
+const { phases } = Astro.props;
+---
+
+<section class="bg-[#D6C4B6] py-16 md:py-24">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-4xl md:text-5xl font-light mb-16 text-center text-[#513A31]">
+      Tiempo de Recuperación
+    </h2>
+
+    <div class="space-y-8">
+      {
+        phases
+          .sort((a, b) => a.order - b.order)
+          .map((phase) => (
+            <div class="flex gap-6 items-start">
+              <div class="shrink-0 w-32 text-right">
+                <span class="text-2xl font-light text-[#513A31]">{phase.period}</span>
+              </div>
+              <div class="shrink-0 w-4 h-4 bg-[#513A31] rounded-full mt-2" />
+              <div class="flex-1 bg-[#FFF9F6] rounded-lg p-6 shadow-lg">
+                <h3 class="text-xl font-medium mb-2 text-[#513A31]">
+                  {phase.title}
+                </h3>
+                <p class="text-[#7D6A5D] leading-relaxed">
+                  {phase.description}
+                </p>
+              </div>
+            </div>
+          ))
+      }
+    </div>
+  </div>
+</section>
+
+<!-- <section class="py-24 bg-[#513A31] text-[#FFF9F6] relative overflow-hidden">
+  <div
+    class="absolute top-0 left-0 w-64 h-64 bg-[#FEEBDD]/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"
+  >
+  </div>
+  <div
+    class="absolute bottom-0 right-0 w-96 h-96 bg-[#FEEBDD]/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"
+  >
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6 relative z-10">
+    <div class="space-y-8">
+      {
+        phases
+          .sort((a, b) => a.order - b.order)
+          .map((phase) => (
+            <div class="bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-white/10 hover:bg-white/10 transition-colors duration-300">
+              <div class="flex flex-col md:flex-row gap-6 md:items-center">
+                <div class="min-w-[120px]">
+                  <span class="inline-block px-4 py-2 bg-[#FEEBDD] text-[#513A31] rounded-lg font-bold text-sm">
+                    {phase.period}
+                  </span>
+                </div>
+                <div class="flex-1">
+                  <h3 class="text-xl font-bold mb-2 text-white">
+                    {phase.title}
+                  </h3>
+                  <p class="text-[#FEEBDD]/80 leading-relaxed">
+                    {phase.description}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))
+      }
+    </div>
+  </div>
+</section> -->

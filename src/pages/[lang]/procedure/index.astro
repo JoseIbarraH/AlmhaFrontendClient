@@ -5,7 +5,6 @@ import ImgHeader from "@/assets/images/abdominoplastia.jpg";
 import Icon from "@/components/ui/Icon.astro";
 import type { ApiResponse, Default } from "@/types/apiResponse";
 import Grid from "@/components/partials/procedure/Grid.astro";
-import Procedures from "@/components/shared/Procedures.astro";
 import SearchInput from "@/components/ui/SearchInput.astro";
 import CtaStep from "@/components/shared/CtaStep.astro";
 
@@ -38,7 +37,7 @@ try {
   const { api } = Astro.locals;
 
   // Build API URL with params
-  let apiUrl = `api/client/procedures?page=${page}`;
+  let apiUrl = `api/client/procedure?page=${page}`;
   if (categoryFilter) {
     apiUrl += `&filter[category_code]=${categoryFilter}`;
   }

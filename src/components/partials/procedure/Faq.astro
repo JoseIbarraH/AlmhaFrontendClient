@@ -1,0 +1,36 @@
+---
+import Icon from "@/components/ui/Icon.astro";
+import type { Faq } from "@/types/procedures";
+
+interface Props {
+  items: Faq[];
+}
+
+const { items } = Astro.props;
+---
+
+<section class="max-w-4xl mx-auto px-4 py-16 md:py-24">
+  <h2 class="text-4xl md:text-5xl font-light mb-16 text-center text-[#513A31]">
+    Preguntas Frecuentes
+  </h2>
+
+  <div class="space-y-4">
+    {
+      items
+        .sort((a, b) => a.order - b.order)
+        .map((item) => (
+          <details class="bg-[#FEEBDD] rounded-lg shadow-lg group">
+            <summary class="px-8 py-6 cursor-pointer list-none flex justify-between items-center text-[#513A31] font-medium text-lg">
+              <span>{item.question}</span>
+              <span class="transition group-open:rotate-180 text-2xl">
+                <Icon name="chevron-down"/>
+              </span>
+            </summary>
+            <div class="px-8 pb-6 text-[#7D6A5D] leading-relaxed">
+              {item.answer}
+            </div>
+          </details>
+        ))
+    }
+  </div>
+</section>

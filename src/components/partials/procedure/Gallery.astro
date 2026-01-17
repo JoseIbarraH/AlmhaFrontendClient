@@ -1,0 +1,34 @@
+---
+import type { GalleryItem } from "@/types/procedures";
+
+interface Props {
+  images: GalleryItem[];
+}
+
+const { images } = Astro.props;
+---
+
+<section class="bg-[#513A31] py-16 md:py-24">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-4xl md:text-5xl font-light mb-4 text-center text-[#FFF9F6]">
+      Galería de Resultados
+    </h2>
+    <p class="text-center text-[#FEEBDD] mb-16 text-lg">
+      Casos reales de nuestros pacientes
+    </p>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+      {
+        images.map((item) => (
+          <div class="aspect-square rounded-lg overflow-hidden shadow-xl">
+            <img
+              src={item.path}
+              alt="Resultado paciente"
+              class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+            />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -7,9 +7,61 @@ export interface Procedure {
   status: string;
   slug: string;
   image: string;
+  views: number;
   title: string;
   subtitle: string;
   category: string;
   category_code: string;
   created_at: string;
+  section: ProcedureSection[];
+  preStep: PreparationStep[];
+  phase: RecoveryPhase[];
+  do: Recommendation[];
+  dont: Recommendation[];
+  faq: Faq[];
+  gallery: GalleryItem[];
+}
+
+export interface ProcedureSection {
+  id: number;
+  type: 'what_is' | 'technique' | 'recovery';
+  image: string | null;
+  title: string;
+  contentOne: string;
+  contentTwo: string;
+}
+
+export interface PreparationStep {
+  id: number;
+  title: string;
+  description: string;
+  order: number;
+}
+
+export interface RecoveryPhase {
+  id: number;
+  period: string;
+  title: string;
+  description: string;
+  order: number;
+}
+
+export interface Recommendation {
+  id: number;
+  type: 'do' | 'dont';
+  order: number;
+  content: string;
+}
+
+export interface Faq {
+  id: number;
+  question: string;
+  answer: string;
+  order: number;
+}
+
+export interface GalleryItem {
+  id: number;
+  path: string;
+  order: number | null;
 }
