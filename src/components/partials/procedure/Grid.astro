@@ -1,5 +1,5 @@
 ---
-import type { Procedure } from "@/types/procedures";
+import type { Procedure } from "@/types/procedure";
 import { getRelativeTime } from "@/lib/date";
 import { loadTranslations } from "@/lib/i18n";
 import placeholder from "@/assets/images/procedure-default.png";
@@ -7,7 +7,7 @@ import placeholder from "@/assets/images/procedure-default.png";
 import Pagination from "@/components/ui/Pagination.astro";
 import { getRelativeLocaleUrl } from "astro:i18n";
 
-const { procedures, pagination } = Astro.props; // categoryFilter no longer needed for pagination logic
+const { procedures, pagination } = Astro.props;
 
 const currentLang = Astro.currentLocale || "es";
 const t = await loadTranslations(currentLang);

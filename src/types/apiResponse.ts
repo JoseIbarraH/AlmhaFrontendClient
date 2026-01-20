@@ -13,6 +13,7 @@ export interface Default<T> {
 export interface Category {
   code: string
   title: string
+  count: number
 }
 
 export interface PaginatedResponse<T = any> {

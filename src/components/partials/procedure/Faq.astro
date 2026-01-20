@@ -1,6 +1,6 @@
 ---
 import Icon from "@/components/ui/Icon.astro";
-import type { Faq } from "@/types/procedures";
+import type { Faq } from "@/types/procedure";
 
 interface Props {
   items: Faq[];
@@ -23,7 +23,7 @@ const { items } = Astro.props;
             <summary class="px-8 py-6 cursor-pointer list-none flex justify-between items-center text-[#513A31] font-medium text-lg">
               <span>{item.question}</span>
               <span class="transition group-open:rotate-180 text-2xl">
-                <Icon name="chevron-down"/>
+                <Icon name="chevron-down" />
               </span>
             </summary>
             <div class="px-8 pb-6 text-[#7D6A5D] leading-relaxed">

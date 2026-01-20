@@ -1,0 +1,61 @@
+---
+import Icon from "@/components/ui/Icon.astro";
+import type { CategoryData } from "@/types/blog";
+
+interface Props {
+  categories: CategoryData[];
+  activeCategory: string;
+  t: any;
+}
+
+const { categories, activeCategory, t } = Astro.props;
+---
+
+<div
+  class="bg-white rounded-2xl p-6 shadow-lg shadow-[#513A31]/5 border border-[#D6C4B6]/20"
+>
+  <h3 class="text-xl font-bold text-[#513A31] mb-4 flex items-center gap-2">
+    <Icon name="folder" class="w-5 h-5 text-[#FEEBDD]" />
+    {t.blog.list.category.title}
+  </h3>
+  <ul class="space-y-2 max-h-[280px] overflow-y-auto pr-2">
+    <li>
+      <a
+        href="?page=1"
+        class:list={[
+          "flex items-center justify-between px-4 py-3 rounded-lg transition-all duration-200 group",
+          !activeCategory
+            ? "bg-[#513A31] text-[#FEEBDD]"
+            : "border border-[#4a332d] text-[#4a332d] hover:bg-[#4a332d]/10",
+        ]}
+      >
+        {t.blog.list.category.all}
+      </a>
+    </li>
+    {
+      categories.map((cat) => (
+        <li>
+          <a
+            href={`?category=${cat.code}&page=1`}
+            class={`flex items-center justify-between px-4 py-2 rounded-lg transition-all duration-200 group ${
+              activeCategory
+                ? "bg-[#513A31] text-[#FEEBDD]"
+                : "border border-[#4a332d] text-[#4a332d] hover:bg-[#4a332d]/10"
+            }`}
+          >
+            <span class="font-medium">{cat.title}</span>
+            <span
+              class={`text-sm px-2 py-1 rounded-full ${
+                activeCategory === cat.code
+                  ? "bg-[#513A31] text-[#FEEBDD] border-[#513A31]"
+                  : "border-[#4a332d] text-[#4a332d] hover:bg-[#4a332d]/10"
+              }`}
+            >
+              {cat.count}
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</div>

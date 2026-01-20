@@ -1,0 +1,240 @@
+---
+import Icon from "@/components/ui/Icon.astro";
+import type { CategoryData } from "@/types/procedure";
+
+interface Props {
+  categories: CategoryData[];
+  activeCategory: string;
+  t: any;
+}
+
+const { categories, activeCategory, t } = Astro.props;
+---
+
+<div class="relative w-full md:w-auto flex items-center">
+  <!-- Botón Izquierda -->
+  <button
+    id="category-scroll-left"
+    type="button"
+    class="hidden md:flex absolute -left-5 z-30 p-2 bg-white border border-[#D6C4B6] rounded-full shadow-lg text-[#513A31] hover:bg-[#FEEBDD] transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+    aria-label="Scroll left"
+  >
+    <Icon name="chevron-left" size={20} />
+  </button>
+
+  <!-- Contenedor Scroll -->
+  <div
+    id="categories-container"
+    class="flex gap-3 overflow-x-auto pb-2 md:pb-0 w-full md:w-lg scroll-smooth no-scrollbar px-1 cursor-grab active:cursor-grabbing"
+  >
+    <a
+      href="?page=1"
+      class:list={[
+        "px-4 py-2 rounded-lg font-medium whitespace-nowrap shrink-0 select-none transition-all",
+        !activeCategory
+          ? "bg-[#513A31] text-[#FEEBDD]"
+          : "border border-[#4a332d] text-[#4a332d] hover:bg-[#4a332d]/10",
+      ]}
+    >
+      {t.procedure.search.filter_all}
+    </a>
+    {
+      categories.map((cat) => (
+        <a
+          href={`?category=${cat.code}&page=1`}
+          class:list={[
+            "px-6 py-2 rounded-xl border transition-all duration-300 shrink-0 select-none",
+            activeCategory === cat.code
+              ? "bg-[#513A31] text-[#FEEBDD] border-[#513A31]"
+              : "border-[#4a332d] text-[#4a332d] hover:bg-[#4a332d]/10",
+          ]}
+        >
+          {cat.title}
+        </a>
+      ))
+    }
+  </div>
+
+  <!-- Botón Derecha -->
+  <button
+    id="category-scroll-right"
+    type="button"
+    class="hidden md:flex absolute -right-5 z-30 p-2 bg-white border border-[#D6C4B6] rounded-full shadow-lg text-[#513A31] hover:bg-[#FEEBDD] transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+    aria-label="Scroll right"
+  >
+    <Icon name="chevron-right" size={20} />
+  </button>
+</div>
+
+<script>
+  function initScroll() {
+    const container = document.getElementById("categories-container");
+    const leftBtn = document.getElementById(
+      "category-scroll-left",
+    ) as HTMLButtonElement | null;
+    const rightBtn = document.getElementById(
+      "category-scroll-right",
+    ) as HTMLButtonElement | null;
+
+    if (!container || !leftBtn || !rightBtn) {
+      // console.warn("Scroll elements not found"); // Silence warning if optional
+      return;
+    }
+
+    // Scroll con botones
+    const scrollAmount = 200;
+
+    const scrollLeftHandler = (e: Event) => {
+      e.preventDefault();
+      e.stopPropagation();
+      container.scrollLeft -= scrollAmount;
+    };
+
+    const scrollRightHandler = (e: Event) => {
+      e.preventDefault();
+      e.stopPropagation();
+      container.scrollLeft += scrollAmount;
+    };
+
+    // Usar addEventListener para mayor seguridad
+    // Clonar para eliminar listeners viejos en navegaciones SPA si fuera necesario,
+    // aunque en Astro view transitions a veces es mejor cleanup explícito.
+    // Mantendremos la lógica original del usuario de replaceWith.
+    leftBtn.replaceWith(leftBtn.cloneNode(true));
+    rightBtn.replaceWith(rightBtn.cloneNode(true));
+
+    // Re-obtener referencias frescas después del replaceWith
+    const newLeftBtn = document.getElementById(
+      "category-scroll-left",
+    ) as HTMLButtonElement;
+    const newRightBtn = document.getElementById(
+      "category-scroll-right",
+    ) as HTMLButtonElement;
+
+    newLeftBtn.addEventListener("click", scrollLeftHandler);
+    newRightBtn.addEventListener("click", scrollRightHandler);
+
+    // Drag to scroll con mouse
+    let isDown = false;
+    let startX: number;
+    let scrollLeft: number;
+
+    const onMouseDown = (e: MouseEvent) => {
+      isDown = true;
+      container.classList.add("active");
+      startX = e.pageX - container.offsetLeft;
+      scrollLeft = container.scrollLeft;
+      container.style.scrollBehavior = "auto";
+    };
+
+    const onMouseLeave = () => {
+      isDown = false;
+      container.classList.remove("active");
+      container.style.scrollBehavior = "smooth";
+    };
+
+    const onMouseUp = () => {
+      isDown = false;
+      container.classList.remove("active");
+      container.style.scrollBehavior = "smooth";
+    };
+
+    const onMouseMove = (e: MouseEvent) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - container.offsetLeft;
+      const walk = (x - startX) * 2;
+      container.scrollLeft = scrollLeft - walk;
+    };
+
+    container.onmousedown = onMouseDown;
+    container.onmouseleave = onMouseLeave;
+    container.onmouseup = onMouseUp;
+    container.onmousemove = onMouseMove;
+
+    // Window mouseup extra para soltar fuera
+    window.addEventListener("mouseup", () => {
+      isDown = false;
+      if (container) {
+        container.classList.remove("active");
+        container.style.scrollBehavior = "smooth";
+      }
+    });
+
+    // Control de visibilidad de botones mejorado
+    const updateButtons = () => {
+      if (!container || !newLeftBtn || !newRightBtn) return;
+
+      const { scrollLeft, scrollWidth, clientWidth } = container;
+
+      // Si el contenido cabe completamente, ocultar ambos botones
+      if (scrollWidth <= clientWidth + 2) {
+        newLeftBtn.style.display = "none";
+        newRightBtn.style.display = "none";
+        return;
+      }
+
+      // Mostrar botones solo en desktop
+      newLeftBtn.style.display = "flex";
+      newRightBtn.style.display = "flex";
+
+      // Deshabilitar botón izquierdo si está al inicio
+      if (scrollLeft <= 5) {
+        newLeftBtn.disabled = true;
+        newLeftBtn.style.opacity = "0";
+        newLeftBtn.style.pointerEvents = "none";
+      } else {
+        newLeftBtn.disabled = false;
+        newLeftBtn.style.opacity = "1";
+        newLeftBtn.style.pointerEvents = "auto";
+      }
+
+      // Deshabilitar botón derecho si está al final
+      const isAtEnd = scrollLeft + clientWidth >= scrollWidth - 5;
+      if (isAtEnd) {
+        newRightBtn.disabled = true;
+        newRightBtn.style.opacity = "0";
+        newRightBtn.style.pointerEvents = "none";
+      } else {
+        newRightBtn.disabled = false;
+        newRightBtn.style.opacity = "1";
+        newRightBtn.style.pointerEvents = "auto";
+      }
+    };
+
+    // Listeners para actualizar botones
+    container.addEventListener("scroll", updateButtons);
+    window.addEventListener("resize", updateButtons);
+
+    // Actualizar inmediatamente
+    setTimeout(updateButtons, 50);
+    setTimeout(updateButtons, 500);
+  }
+
+  // Ejecutar en carga inicial y navegaciones de Astro
+  initScroll();
+  document.addEventListener("astro:page-load", initScroll);
+</script>
+
+<style>
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Transición suave para los botones */
+  #category-scroll-left,
+  #category-scroll-right {
+    transition:
+      opacity 0.3s ease,
+      transform 0.2s ease;
+  }
+
+  #category-scroll-left:hover:not(:disabled),
+  #category-scroll-right:hover:not(:disabled) {
+    transform: scale(1.1);
+  }
+</style>

@@ -1,0 +1,11 @@
+{
+    "header": {
+        "tag": "Medical Procedures",
+        "title": "Our Procedures",
+        "subtitle": "Discover our specialized treatments designed to enhance your natural beauty"
+    },
+    "search": {
+        "placeholder": "Search procedure...",
+        "filter_all": "All"
+    }
+}

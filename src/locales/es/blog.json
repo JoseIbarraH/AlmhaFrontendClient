@@ -1,0 +1,26 @@
+{
+    "header": {
+        "tag": "Blog",
+        "title": "Nuestro Blog",
+        "subtitle": "Explora información experta sobre procedimientos estéticos, cuidados postoperatorios y experiencias reales de pacientes."
+    },
+    "list": {
+        "title": "Todos los Procedimientos",
+        "filter": {
+            "most_recent": "Más recientes",
+            "most_read": "Más leidos",
+            "oldest": "Más antiguos"
+        },
+        "card": {
+            "read_time": "5 min lectura",
+            "read_more": "Leer más"
+        },
+        "category": {
+            "title": "Categorías",
+            "all": "Todos"
+        }
+    },
+    "search":{
+        "filter_all": "Todos"
+    }
+}

@@ -1,5 +1,5 @@
 ---
-import type { ProcedureSection, RecoveryPhase } from "@/types/procedures";
+import type { ProcedureSection, RecoveryPhase } from "@/types/procedure";
 
 interface Props {
   phases: RecoveryPhase[];
@@ -10,7 +10,9 @@ const { phases } = Astro.props;
 
 <section class="bg-[#D6C4B6] py-16 md:py-24">
   <div class="max-w-6xl mx-auto px-4">
-    <h2 class="text-4xl md:text-5xl font-light mb-16 text-center text-[#513A31]">
+    <h2
+      class="text-4xl md:text-5xl font-light mb-16 text-center text-[#513A31]"
+    >
       Tiempo de Recuperación
     </h2>
 
@@ -21,7 +23,9 @@ const { phases } = Astro.props;
           .map((phase) => (
             <div class="flex gap-6 items-start">
               <div class="shrink-0 w-32 text-right">
-                <span class="text-2xl font-light text-[#513A31]">{phase.period}</span>
+                <span class="text-2xl font-light text-[#513A31]">
+                  {phase.period}
+                </span>
               </div>
               <div class="shrink-0 w-4 h-4 bg-[#513A31] rounded-full mt-2" />
               <div class="flex-1 bg-[#FFF9F6] rounded-lg p-6 shadow-lg">

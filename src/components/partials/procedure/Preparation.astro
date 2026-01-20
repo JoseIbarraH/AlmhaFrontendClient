@@ -1,5 +1,5 @@
 ---
-import type { PreparationStep } from "@/types/procedures";
+import type { PreparationStep } from "@/types/procedure";
 
 interface Props {
   steps: PreparationStep[];
@@ -10,20 +10,27 @@ const { steps } = Astro.props;
 
 <section class="bg-[#FEEBDD] py-16 md:py-24">
   <div class="max-w-6xl mx-auto px-4">
-    <h2 class="text-4xl md:text-5xl font-light mb-12 text-center text-[#513A31]">
+    <h2
+      class="text-4xl md:text-5xl font-light mb-12 text-center text-[#513A31]"
+    >
       Preparación Prequirúrgica
     </h2>
     <div class="grid md:grid-cols-3 gap-8">
-      {steps.sort((a, b) => a.order - b.order).map((step, index) => (
-        <div class="bg-[#FFF9F6] rounded-lg p-8 shadow-lg">
-          <div class="w-16 h-16 bg-[#513A31] rounded-full flex items-center justify-center mb-6">
-            <span class="text-3xl text-[#FFF9F6]">{index + 1}</span>
-          </div>
-          <h3 class="text-xl font-medium mb-4 text-[#513A31]">{step.title}</h3>
-          <p class="text-[#7D6A5D] leading-relaxed">{step.description}</p>
-        </div>
-      ))}
+      {
+        steps
+          .sort((a, b) => a.order - b.order)
+          .map((step, index) => (
+            <div class="bg-[#FFF9F6] rounded-lg p-8 shadow-lg">
+              <div class="w-16 h-16 bg-[#513A31] rounded-full flex items-center justify-center mb-6">
+                <span class="text-3xl text-[#FFF9F6]">{index + 1}</span>
+              </div>
+              <h3 class="text-xl font-medium mb-4 text-[#513A31]">
+                {step.title}
+              </h3>
+              <p class="text-[#7D6A5D] leading-relaxed">{step.description}</p>
+            </div>
+          ))
+      }
     </div>
   </div>
 </section>
-

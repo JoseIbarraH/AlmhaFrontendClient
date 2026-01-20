@@ -65,3 +65,20 @@ export interface GalleryItem {
   path: string;
   order: number | null;
 }
+
+export interface Data {
+  id: number;
+  status: string;
+  slug: string;
+  image: string;
+  title: string;
+  subtitle: string;
+  category: string;
+  category_code: string;
+  created_at: string;
+}
+
+export interface CategoryData {
+  title: string;
+  code: string;
+}

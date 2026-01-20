@@ -57,3 +57,22 @@ export function getRelativeTime(dateString: string, t: any): string {
   const unit = years > 1 ? t.years : t.year;
   return `${prefix}${years} ${unit}${suffix}`;
 }
+
+/**
+ * Formatea una fecha string (YYYY-MM-DD HH:mm:ss) a un formato largo legible (ej. "19 de septiembre de 2025").
+ * @param dateString - La fecha en formato string (YYYY-MM-DD HH:mm:ss).
+ * @param lang - El código de idioma para el formato (ej. 'es', 'en', 'fr'). Por defecto 'es'.
+ * @returns La fecha formateada como string.
+ */
+export function formatDate(dateString: string, lang: string = 'es'): string {
+  // Aseguramos formato ISO para compatibilidad cross-browser y sistemas
+  const date = new Date(dateString.replace(' ', 'T'));
+
+  const options: Intl.DateTimeFormatOptions = {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  };
+
+  return new Intl.DateTimeFormat(lang, options).format(date);
+}

@@ -1,0 +1,28 @@
+---
+import { loadTranslations } from "@/lib/i18n";
+import Card from "./Card.astro";
+import type { Data } from "@/types/blog";
+
+const { blogs, pagination } = Astro.props;
+
+const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
+---
+
+<section>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+    {
+      blogs.map((item: Data, index: number) => (
+        <Card
+          image={item.image}
+          category={item.category}
+          writer={item.writer}
+          date={item.created_at}
+          title={item.title}
+          excerpts={item.excerpts}
+          slug={item.slug}
+        />
+      ))
+    }
+  </div>
+</section>

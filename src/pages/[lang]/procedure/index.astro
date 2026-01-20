@@ -3,55 +3,40 @@ import HeaderList from "@/components/partials/procedure/HeaderList.astro";
 import Layout from "@/layouts/Layout.astro";
 import ImgHeader from "@/assets/images/abdominoplastia.jpg";
 import Icon from "@/components/ui/Icon.astro";
-import type { ApiResponse, Default } from "@/types/apiResponse";
 import Grid from "@/components/partials/procedure/Grid.astro";
+import CategoryList from "@/components/partials/procedure/CategoryList.astro";
 import SearchInput from "@/components/ui/SearchInput.astro";
 import CtaStep from "@/components/shared/CtaStep.astro";
+import { fetchListData } from "@/lib/dataService";
+import type { Data, CategoryData } from "@/types/procedure";
+import { loadTranslations } from "@/lib/i18n";
 
-interface Data {
-  id: number;
-  status: string;
-  slug: string;
-  image: string;
-  title: string;
-  subtitle: string;
-  category: string;
-  category_code: string;
-  created_at: string;
-}
-
-interface CategoryData {
-  title: string;
-  code: string;
-}
+const lang = Astro.currentLocale || "es";
+const t = await loadTranslations(lang);
 
 let extractedCategory: CategoryData[] = [];
 let procedures: Data[] = [];
 let pagination: any = null;
 
 // Get query params
-const page = Astro.url.searchParams.get("page") || "1";
 const categoryFilter = Astro.url.searchParams.get("category") || "";
 
 try {
   const { api } = Astro.locals;
 
-  // Build API URL with params
-  let apiUrl = `api/client/procedure?page=${page}`;
-  if (categoryFilter) {
-    apiUrl += `&filter[category_code]=${categoryFilter}`;
-  }
+  const {
+    items,
+    categories,
+    pagination: pagResult,
+  } = await fetchListData<Data>({
+    api,
+    endpoint: "api/client/procedure",
+    searchParams: Astro.url.searchParams,
+  });
 
-  const searchParams = Astro.url.searchParams.get("search");
-  if (searchParams) {
-    apiUrl += `&filter[search]=${searchParams}`;
-  }
-
-  const { data } = await api.get<ApiResponse<Default<Data>>>(apiUrl);
-
-  pagination = data.data.pagination;
-  procedures = pagination.data;
-  extractedCategory = data.data.categories || [];
+  procedures = items;
+  extractedCategory = categories;
+  pagination = pagResult;
 } catch (error) {
   console.log("Error", error);
 }
@@ -68,248 +53,26 @@ try {
     <div class="max-w-7xl mx-auto px-6 py-4">
       <div class="flex flex-col md:flex-row gap-6 items-center justify-between">
         <!-- Búsqueda -->
-        <SearchInput placeholder="Buscar procedimiento..." class="md:w-96" />
+        <SearchInput
+          placeholder={t.procedure.search.placeholder}
+          class="md:w-96"
+        />
 
         <!-- Filtros -->
-        <div class="relative w-full md:w-auto flex items-center">
-          <!-- Botón Izquierda -->
-          <button
-            id="category-scroll-left"
-            type="button"
-            class="hidden md:flex absolute -left-5 z-30 p-2 bg-white border border-[#D6C4B6] rounded-full shadow-lg text-[#513A31] hover:bg-[#FEEBDD] transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-            aria-label="Scroll left"
-          >
-            <Icon name="chevron-left" size={20} />
-          </button>
-
-          <!-- Contenedor Scroll -->
-          <div
-            id="categories-container"
-            class="flex gap-3 overflow-x-auto pb-2 md:pb-0 w-full md:w-lg scroll-smooth no-scrollbar px-1 cursor-grab active:cursor-grabbing"
-          >
-            <a
-              href="?page=1"
-              class:list={[
-                "px-4 py-2 rounded-lg font-medium whitespace-nowrap shrink-0 select-none transition-all",
-                !categoryFilter
-                  ? "bg-[#513A31] text-[#FEEBDD]"
-                  : "border border-[#4a332d] text-[#4a332d] hover:bg-[#4a332d]/10",
-              ]}
-            >
-              Todos
-            </a>
-            {
-              extractedCategory.map((cat: CategoryData) => (
-                <a
-                  href={`?category=${cat.code}&page=1`}
-                  class:list={[
-                    "px-6 py-2 rounded-xl border transition-all duration-300 shrink-0 select-none",
-                    categoryFilter === cat.code
-                      ? "bg-[#513A31] text-[#FEEBDD] border-[#513A31]"
-                      : "border-[#4a332d] text-[#4a332d] hover:bg-[#4a332d]/10",
-                  ]}
-                >
-                  {cat.title}
-                </a>
-              ))
-            }
-          </div>
-
-          <!-- Botón Derecha -->
-          <button
-            id="category-scroll-right"
-            type="button"
-            class="hidden md:flex absolute -right-5 z-30 p-2 bg-white border border-[#D6C4B6] rounded-full shadow-lg text-[#513A31] hover:bg-[#FEEBDD] transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-            aria-label="Scroll right"
-          >
-            <Icon name="chevron-right" size={20} />
-          </button>
-        </div>
+        <CategoryList
+          categories={extractedCategory}
+          activeCategory={categoryFilter}
+          t={t}
+        />
       </div>
     </div>
   </section>
 
   <div>
-    <Grid
-      procedures={procedures}
-      pagination={pagination}
-      categoryFilter={categoryFilter}
-    />
-
-    <div></div>
+    <Grid procedures={procedures} pagination={pagination} />
   </div>
 
   <div>
     <CtaStep />
   </div>
 </Layout>
-
-<script>
-  function initScroll() {
-    const container = document.getElementById("categories-container");
-    const leftBtn = document.getElementById(
-      "category-scroll-left",
-    ) as HTMLButtonElement | null;
-    const rightBtn = document.getElementById(
-      "category-scroll-right",
-    ) as HTMLButtonElement | null;
-
-    if (!container || !leftBtn || !rightBtn) {
-      console.warn("Scroll elements not found");
-      return;
-    }
-
-    // Scroll con botones
-    const scrollAmount = 200;
-
-    const scrollLeftHandler = (e: Event) => {
-      e.preventDefault();
-      e.stopPropagation();
-      console.log("Scroll left clicked");
-      container.scrollLeft -= scrollAmount;
-    };
-
-    const scrollRightHandler = (e: Event) => {
-      e.preventDefault();
-      e.stopPropagation();
-      console.log("Scroll right clicked");
-      container.scrollLeft += scrollAmount;
-    };
-
-    // Usar addEventListener para mayor seguridad
-    leftBtn.replaceWith(leftBtn.cloneNode(true));
-    rightBtn.replaceWith(rightBtn.cloneNode(true));
-
-    // Re-obtener referencias frescas después del replaceWith
-    const newLeftBtn = document.getElementById(
-      "category-scroll-left",
-    ) as HTMLButtonElement;
-    const newRightBtn = document.getElementById(
-      "category-scroll-right",
-    ) as HTMLButtonElement;
-
-    newLeftBtn.addEventListener("click", scrollLeftHandler);
-    newRightBtn.addEventListener("click", scrollRightHandler);
-
-    // Drag to scroll con mouse
-    let isDown = false;
-    let startX: number;
-    let scrollLeft: number;
-
-    const onMouseDown = (e: MouseEvent) => {
-      isDown = true;
-      container.classList.add("active");
-      startX = e.pageX - container.offsetLeft;
-      scrollLeft = container.scrollLeft;
-      container.style.scrollBehavior = "auto";
-    };
-
-    const onMouseLeave = () => {
-      isDown = false;
-      container.classList.remove("active");
-      container.style.scrollBehavior = "smooth";
-    };
-
-    const onMouseUp = () => {
-      isDown = false;
-      container.classList.remove("active");
-      container.style.scrollBehavior = "smooth";
-    };
-
-    const onMouseMove = (e: MouseEvent) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - container.offsetLeft;
-      const walk = (x - startX) * 2;
-      container.scrollLeft = scrollLeft - walk;
-    };
-
-    // Eliminar listeners previos si existen (aunque clones ya lo hacen)
-    // Se agregan nuevos
-    container.onmousedown = onMouseDown;
-    container.onmouseleave = onMouseLeave;
-    container.onmouseup = onMouseUp; // Ojo: window mouseup es mejor, pero mantenemos simple por ahora
-    container.onmousemove = onMouseMove;
-
-    // Window mouseup extra para soltar fuera
-    window.addEventListener("mouseup", () => {
-      isDown = false;
-      container.classList.remove("active");
-      container.style.scrollBehavior = "smooth";
-    });
-
-    // Control de visibilidad de botones mejorado
-    const updateButtons = () => {
-      const { scrollLeft, scrollWidth, clientWidth } = container;
-
-      // Si el contenido cabe completamente, ocultar ambos botones
-      if (scrollWidth <= clientWidth + 2) {
-        newLeftBtn.style.display = "none";
-        newRightBtn.style.display = "none";
-        return;
-      }
-
-      // Mostrar botones solo en desktop
-      newLeftBtn.style.display = "flex";
-      newRightBtn.style.display = "flex";
-
-      // Deshabilitar botón izquierdo si está al inicio
-      if (scrollLeft <= 5) {
-        newLeftBtn.disabled = true;
-        newLeftBtn.style.opacity = "0";
-        newLeftBtn.style.pointerEvents = "none";
-      } else {
-        newLeftBtn.disabled = false;
-        newLeftBtn.style.opacity = "1";
-        newLeftBtn.style.pointerEvents = "auto";
-      }
-
-      // Deshabilitar botón derecho si está al final
-      const isAtEnd = scrollLeft + clientWidth >= scrollWidth - 5;
-      if (isAtEnd) {
-        newRightBtn.disabled = true;
-        newRightBtn.style.opacity = "0";
-        newRightBtn.style.pointerEvents = "none";
-      } else {
-        newRightBtn.disabled = false;
-        newRightBtn.style.opacity = "1";
-        newRightBtn.style.pointerEvents = "auto";
-      }
-    };
-
-    // Listeners para actualizar botones
-    container.addEventListener("scroll", updateButtons);
-    window.addEventListener("resize", updateButtons);
-
-    // Actualizar inmediatamente
-    setTimeout(updateButtons, 50);
-    setTimeout(updateButtons, 500);
-  }
-
-  // Ejecutar en carga inicial y navegaciones de Astro
-  initScroll();
-  document.addEventListener("astro:page-load", initScroll);
-</script>
-
-<style>
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  /* Transición suave para los botones */
-  #category-scroll-left,
-  #category-scroll-right {
-    transition:
-      opacity 0.3s ease,
-      transform 0.2s ease;
-  }
-
-  #category-scroll-left:hover:not(:disabled),
-  #category-scroll-right:hover:not(:disabled) {
-    transform: scale(1.1);
-  }
-</style>
