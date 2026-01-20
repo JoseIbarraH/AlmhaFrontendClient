@@ -1,0 +1,27 @@
+{
+    "header": {
+        "tag": "Blog",
+        "title": "Our Blog",
+        "subtitle": "Explore expert information on aesthetic procedures, postoperative care, and real patient experiences."
+    },
+    "list": {
+        "title": "All Procedures",
+        "filter": {
+            "most_recent": "Most Recent",
+            "most_read": "Most Read",
+            "oldest": "Oldest"
+        },
+        "card": {
+            "read_time": "5 min read",
+            "read_more": "Read more"
+        },
+        "category": {
+            "title": "Categories",
+            "all": "All"
+        }
+    },
+    "search": {
+        "filter_all": "All",
+        "placeholder": "Search articles..."
+    }
+}

@@ -2,6 +2,7 @@
 import { loadTranslations } from "@/lib/i18n";
 import Card from "./Card.astro";
 import type { Data } from "@/types/blog";
+import Pagination from "@/components/ui/Pagination.astro";
 
 const { blogs, pagination } = Astro.props;
 
@@ -25,4 +26,8 @@ const t = await loadTranslations(currentLang);
       ))
     }
   </div>
+  <Pagination
+    totalPages={pagination?.last_page || 0}
+    currentPage={pagination?.current_page || 1}
+  />
 </section>

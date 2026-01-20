@@ -1,0 +1,45 @@
+---
+import Icon from "@/components/ui/Icon.astro";
+---
+
+<div
+  class="bg-linear-to-br from-[#513A31] to-[#7D6A5D] rounded-2xl p-6 shadow-xl relative overflow-hidden"
+>
+  <!-- Decoración -->
+  <div
+    class="absolute top-0 right-0 w-32 h-32 bg-[#FEEBDD]/10 rounded-full blur-3xl"
+  >
+  </div>
+  <div
+    class="absolute bottom-0 left-0 w-24 h-24 bg-[#FEEBDD]/5 rounded-full blur-2xl"
+  >
+  </div>
+
+  <div class="relative z-10">
+    <div
+      class="w-12 h-12 bg-[#FEEBDD] rounded-xl flex items-center justify-center mb-4"
+    >
+      <Icon name="mail" class="w-6 h-6 text-[#513A31]" />
+    </div>
+
+    <h3 class="text-xl font-bold text-[#FEEBDD] mb-2">Newsletter</h3>
+    <p class="text-[#D6C4B6] text-sm mb-4">
+      Recibe contenido exclusivo directamente en tu correo
+    </p>
+
+    <form class="space-y-3">
+      <input
+        type="email"
+        placeholder="tu@email.com"
+        class="w-full px-4 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-[#FEEBDD]/30 text-[#FFF9F6] placeholder-[#D6C4B6] focus:outline-none focus:border-[#FEEBDD] transition-colors"
+      />
+      <button
+        type="submit"
+        class="w-full px-4 py-3 bg-[#FEEBDD] text-[#513A31] font-semibold rounded-lg hover:bg-[#FFF9F6] transition-colors flex items-center justify-center gap-2"
+      >
+        Suscribirme
+        <Icon name="arrow-right" class="w-4 h-4" />
+      </button>
+    </form>
+  </div>
+</div>

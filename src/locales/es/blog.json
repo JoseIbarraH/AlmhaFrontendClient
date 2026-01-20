@@ -21,6 +21,7 @@
         }
     },
     "search":{
-        "filter_all": "Todos"
+        "filter_all": "Todos",
+        "placeholder": "Buscar articulos..."
     }
 }

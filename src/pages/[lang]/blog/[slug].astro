@@ -1,18 +1,177 @@
 ---
+import placeholder from "@/assets/images/placeholder/procedure-default.png";
+import Breadcrumbs from "@/components/partials/blog/Breadcrumbs.astro";
+import Icon from "@/components/ui/Icon.astro";
 import Layout from "@/layouts/Layout.astro";
+import { formatDate } from "@/lib/date";
+import type { Blog } from "@/types/blog";
 
+const currentLang = Astro.currentLocale || "es";
 const { slug } = Astro.params;
+const { api } = Astro.locals;
 
+let blog: Blog | null = null;
 
+try {
+  const { data } = await api.get<{ data: Blog }>(`/api/client/blog/${slug}`);
+  blog = data.data;
+} catch (error) {
+  console.error(`Error cargando el procedimiento ${slug}:`, error);
+}
 
+if (!blog) {
+  return Astro.redirect(`/${Astro.params.lang || "es"}/404`);
+}
+
+const url = Astro.url.href;
+
+const shared = [
+  {
+    name: "Twitter",
+    url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(blog.title)}&url=${encodeURIComponent(url)}`,
+    icon: "Twitter",
+  },
+  {
+    name: "Facebook",
+    url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+    icon: "Facebook",
+  },
+  {
+    name: "Linkedin",
+    url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+    icon: "Linkedin",
+  },
+];
 ---
 
 <Layout>
-  <h1>Blog especifico</h1>
-  <h1>Blog especifico</h1>
-  <h1>Blog especifico</h1>
-  <h1>Blog especifico</h1>
-  <h1>Blog especifico</h1>
-  <h1>Blog especifico</h1>
-  <h1>Blog especifico</h1>
+  <div
+    class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16"
+  >
+    <div>
+      <Breadcrumbs
+        title={blog.title}
+        category={blog.category}
+        category_code={blog.category_code}
+      />
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-12 lg:gap-16">
+      <!-- Main Content -->
+      <article class="flex-1 max-w-3xl">
+        <!-- Category Badge -->
+        <div class="mb-6">
+          <span
+            class="inline-flex items-center px-4 py-1.5 bg-[#513A31]/10 text-[#513A31] rounded-full text-xs font-semibold tracking-widest uppercase"
+          >
+            {blog.category}
+          </span>
+        </div>
+
+        <!-- Title -->
+        <h1
+          class="font-serif-display text-4xl sm:text-5xl lg:text-6xl font-semibold text-[#513A31] leading-tight mb-8"
+        >
+          {blog.title}
+        </h1>
+
+        <div
+          class="flex items-center gap-6 mb-10 pb-10 border-b border-[#D6C4B6]/40"
+        >
+          <div class="flex items-center gap-4">
+            <div
+              class="w-14 h-14 rounded-full bg-linear-to-br from-[#513A31] to-[#7D6A5D] flex items-center justify-center text-[#FEEBDD] font-serif-display text-xl font-semibold shadow-lg"
+            >
+              J
+            </div>
+            <div>
+              <p class="text-[#513A31] font-medium">{blog.writer}</p>
+              <p class="text-[#7D6A5D] text-sm">Especialista</p>
+            </div>
+          </div>
+          <div class="h-8 w-px bg-[#D6C4B6]/50"></div>
+          <div class="flex items-center gap-2 text-[#7D6A5D] text-sm">
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+              ></path>
+            </svg>
+            <span>{formatDate(blog.created_at, currentLang)}</span>
+          </div>
+        </div>
+
+        <div
+          class="relative mb-12 rounded-2xl overflow-hidden shadow-2xl shadow-[#513A31]/10"
+        >
+          <div class="aspect-video bg-linear-to-br from-[#D6C4B6] to-[#7D6A5D]">
+            <img
+              src={blog.image || placeholder.src}
+              alt={blog.title}
+              class="w-full h-full object-cover"
+              onerror="this.style.display='none'"
+            />
+          </div>
+          <div class="absolute top-0 left-0 right-0 h-1 shimmer"></div>
+        </div>
+
+        <div class="prose-content text-[#513A31]/85 text-lg leading-relaxed">
+          <div
+            class="first-letter:text-6xl first-letter:font-serif-display first-letter:font-bold first-letter:text-[#513A31] first-letter:float-left first-letter:mr-3 first-letter:mt-1"
+            set:html={blog.content}
+          />
+        </div>
+
+        <div class="mt-12 pt-8 border-t border-[#D6C4B6]/40">
+          <div class="flex items-center justify-between flex-wrap gap-4">
+            <span class="text-[#7D6A5D] text-sm font-medium tracking-wide"
+              >Compartir artículo</span
+            >
+            <div class="flex items-center gap-3">
+              {
+                shared.map((social) => (
+                  <a
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="share-btn w-10 h-10 rounded-full bg-[#513A31]/10 hover:bg-[#513A31] text-[#513A31] hover:text-[#FEEBDD] transition-all duration-300 flex items-center justify-center"
+                    aria-label={`Compartir en ${social.name}`}
+                  >
+                    <Icon name={social.icon} size={20} />
+                  </a>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll(".share-btn").forEach((button) => {
+      button.addEventListener("click", (e) => {
+        e.preventDefault();
+        const target = e.currentTarget as HTMLAnchorElement;
+        const url = target.href;
+        const width = 600;
+        const height = 400;
+        const left = window.screen.width / 2 - width / 2;
+        const top = window.screen.height / 2 - height / 2;
+
+        window.open(
+          url,
+          "share-dialog",
+          `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,resizable=yes`,
+        );
+      });
+    });
+  </script>
 </Layout>

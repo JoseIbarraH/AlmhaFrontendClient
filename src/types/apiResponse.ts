@@ -8,6 +8,7 @@ export interface Default<T> {
   filters: Filters
   pagination: PaginatedResponse<T>
   categories: Category[]
+  last_three?: T[]
 }
 
 export interface Category {

@@ -2,49 +2,57 @@ import type { AxiosInstance } from "axios";
 import type { ApiResponse, Default, Category, PaginatedResponse } from "@/types/apiResponse";
 
 interface FetchListDataParams {
-    api: AxiosInstance;
-    endpoint: string;
-    searchParams: URLSearchParams;
+  api: AxiosInstance;
+  endpoint: string;
+  searchParams: URLSearchParams;
 }
 
 interface FetchListDataResult<T> {
-    categories: Category[];
-    items: T[];
-    pagination: PaginatedResponse<T> | null;
+  categories: Category[];
+  items: T[];
+  pagination: PaginatedResponse<T> | null;
+  last_three?: T[];
 }
 
-export async function fetchListData<T>({api, endpoint, searchParams}: FetchListDataParams): Promise<FetchListDataResult<T>> {
-    const page = searchParams.get("page") || "1";
-    const categoryFilter = searchParams.get("category") || "";
-    const searchValue = searchParams.get("search") || "";
+export async function fetchListData<T>({ api, endpoint, searchParams }: FetchListDataParams): Promise<FetchListDataResult<T>> {
+  const page = searchParams.get("page") || "1";
+  const categoryFilter = searchParams.get("category") || "";
+  const searchValue = searchParams.get("search") || "";
+  const sort = searchParams.get("sort") || "";
 
-    // Build query params
-    const params: Record<string, string> = {
-        page,
+  // Build query params
+  const params: Record<string, string> = {
+    page,
+  };
+
+  if (categoryFilter) {
+    params["filter[category_code]"] = categoryFilter;
+  }
+
+  if (searchValue) {
+    params["filter[search]"] = searchValue;
+  }
+
+  if (sort) {
+    params["sort"] = sort;
+  }
+
+  try {
+    const { data } = await api.get<ApiResponse<Default<T>>>(endpoint, { params });
+
+    return {
+      categories: data.data.categories || [],
+      items: data.data.pagination.data,
+      pagination: data.data.pagination,
+      last_three: data.data.last_three || [],
     };
-
-    if (categoryFilter) {
-        params["filter[category_code]"] = categoryFilter;
-    }
-
-    if (searchValue) {
-        params["filter[search]"] = searchValue;
-    }
-
-    try {
-        const { data } = await api.get<ApiResponse<Default<T>>>(endpoint, { params });
-
-        return {
-            categories: data.data.categories || [],
-            items: data.data.pagination.data,
-            pagination: data.data.pagination,
-        };
-    } catch (error) {
-        console.error(`Error fetching data from ${endpoint}`, error);
-        return {
-            categories: [],
-            items: [],
-            pagination: null,
-        };
-    }
+  } catch (error) {
+    console.error(`Error fetching data from ${endpoint}`, error);
+    return {
+      categories: [],
+      items: [],
+      pagination: null,
+      last_three: [],
+    };
+  }
 }
