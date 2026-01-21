@@ -23,5 +23,26 @@
     "search": {
         "filter_all": "All",
         "placeholder": "Search articles..."
+    },
+    "sidebar": {
+        "articles": "Interesting Articles"
+    },
+    "newsletter": {
+        "title": "Newsletter",
+        "description": "Receive exclusive content directly in your email",
+        "placeholder": "you@email.com",
+        "button": "Subscribe"
+    },
+    "contact_widget": {
+        "title": "Have questions?",
+        "description": "Contact us to resolve your concerns and schedule your assessment appointment.",
+        "button": "Contact Us"
+    },
+    "recent_articles": {
+        "title": "Recent Articles"
+    },
+    "breadcrumbs": {
+        "home": "Home",
+        "blog": "Blog"
     }
 }

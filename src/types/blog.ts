@@ -9,6 +9,7 @@ export interface Blog {
   category_code: string;
   status: string;
   created_at: string;
+  random_blogs?: Blog[];
 }
 
 export interface Data {

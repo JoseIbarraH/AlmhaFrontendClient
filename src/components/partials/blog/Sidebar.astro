@@ -1,0 +1,74 @@
+---
+import placeholder from "@/assets/images/placeholder/procedure-default.png";
+import ContactWidget from './ContactWidget.astro';
+import Newsletter from './Newsletter.astro';
+import type { Blog } from '@/types/blog';
+
+import { loadTranslations } from "@/lib/i18n";
+
+const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
+
+
+interface Props {
+  blogs: Blog[]
+}
+
+const { blogs } = Astro.props;
+
+---
+
+<aside class="lg:w-80 xl:w-96 shrink-0">
+  <div class="lg:sticky lg:top-28 space-y-8">
+    <div
+      class="bg-white/60 backdrop-blur-sm rounded-2xl p-6 shadow-xl shadow-[#513A31]/5 border border-[#D6C4B6]/30"
+    >
+      <div class="flex items-center gap-3 mb-6">
+        <div
+          class="w-1 h-8 bg-linear-to-b from-[#513A31] to-[#7D6A5D] rounded-full"
+        >
+        </div>
+        <h3 class="font-serif-display text-2xl font-semibold text-[#513A31]">
+          {t.blog.sidebar.articles}
+        </h3>
+      </div>
+
+      <div class="space-y-5">
+        {
+          blogs.map((blog) => (
+            <a href={`/${Astro.currentLocale}/blog/${blog.slug}`} class="group block">
+              <div class="flex gap-4">
+                <div class="w-20 h-20 shrink-0 rounded-xl overflow-hidden bg-linear-to-br from-[#D6C4B6] to-[#7D6A5D]">
+                  <img
+                    src={blog.image || placeholder.src}
+                    alt={blog.title}
+                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    onerror="this.style.display='none'"
+                  />
+                </div>
+                <div class="flex-1 min-w-0">
+                  <span class="text-xs text-[#7D6A5D] font-medium tracking-wider uppercase">
+                    {blog.category}
+                  </span>
+                  <h4 class="font-serif-display text-lg font-medium text-[#513A31] group-hover:text-[#7D6A5D] transition-colors line-clamp-2 mt-1">
+                    {blog.title}
+                  </h4>
+                </div>
+              </div>
+            </a>
+            <div class="h-px bg-[#D6C4B6]/30 last:hidden" />
+          ))
+        }
+
+        <div>
+          <Newsletter />
+        </div>
+
+        <div>
+          <ContactWidget />
+        </div>
+
+      </div>
+    </div>
+  </div>
+</aside>

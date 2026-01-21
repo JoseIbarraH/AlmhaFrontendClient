@@ -1,0 +1,33 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+import { loadTranslations } from "@/lib/i18n";
+
+const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
+---
+
+<div
+  class="bg-linear-to-br from-[#513A31] to-[#7D6A5D] rounded-2xl p-6 shadow-xl shadow-[#513A31]/10 text-center relative overflow-hidden group"
+>
+  <div
+    class="absolute inset-0 bg-[url('/src/assets/images/logo.png')] mix-blend-overlay"
+  >
+  </div>
+
+  <div class="relative z-10">
+    <h3 class="font-serif-display text-2xl font-semibold text-[#FEEBDD] mb-3">
+      {t.blog.contact_widget.title}
+    </h3>
+    <p class="text-[#FEEBDD]/80 mb-6 text-sm leading-relaxed">
+      {t.blog.contact_widget.description}
+    </p>
+
+    <a
+      href={getRelativeLocaleUrl(currentLang, "/contact")}
+      class="inline-flex items-center justify-center w-full px-6 py-3 bg-[#FEEBDD] text-[#513A31] font-medium rounded-xl hover:bg-white transition-all duration-300 shadow-lg shadow-[#513A31]/20 group-hover:transform group-hover:scale-[1.02]"
+    >
+      {t.blog.contact_widget.button}
+    </a>
+  </div>
+</div>

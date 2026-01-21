@@ -2,10 +2,9 @@
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { loadTranslations } from "@/lib/i18n";
 
-const lang = Astro.params.lang || "es";
-const t = await loadTranslations(lang);
-
 const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
+
 ---
 
 <a
@@ -45,7 +44,7 @@ const currentLang = Astro.currentLocale || "es";
 
   <!-- Texto del botón -->
   <span class="relative flex items-center gap-2.5 z-10 tracking-wide">
-    {t.navbar.contactbutton}
+    {t.navbar?.contactbutton || "Contactanos"}
     <svg
       class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-110"
       fill="none"

@@ -1,22 +1,45 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
 
+import { loadTranslations } from "@/lib/i18n";
+
 const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
 
 const { title, category, category_code } = Astro.props;
-
 ---
 
 <nav class="mb-8">
   <ol class="flex items-center gap-2 text-sm text-[#7D6A5D]">
     <li>
-      <a href={getRelativeLocaleUrl(currentLang, '/')} class="hover:text-[#513A31] transition-colors">Inicio</a>
+      <a
+        href={getRelativeLocaleUrl(currentLang, "/")}
+        class="hover:text-[#513A31] transition-colors"
+        >{t.blog.breadcrumbs.home}</a
+      >
     </li>
     <li><span class="text-[#D6C4B6]">/</span></li>
-    <li><a href={getRelativeLocaleUrl(currentLang, '/blog')} class="hover:text-[#513A31] transition-colors">Blog</a></li>
+    <li>
+      <a
+        href={getRelativeLocaleUrl(currentLang, "/blog")}
+        class="hover:text-[#513A31] transition-colors"
+        >{t.blog.breadcrumbs.blog}</a>
+    </li>
     <li><span class="text-[#D6C4B6]">/</span></li>
-    <li><a href={getRelativeLocaleUrl(currentLang, `/blog?category=${category_code}&page=1`)} class="hover:text-[#513A31] transition-colors">{category}</a></li>
+    <li>
+      <a
+        href={getRelativeLocaleUrl(
+          currentLang,
+          `/blog?category=${category_code}&page=1`,
+        )}
+        class="hover:text-[#513A31] transition-colors">{category}</a>
+    </li>
     <li><span class="text-[#D6C4B6]">/</span></li>
-    <li class="text-[#513A31] font-medium">{title}</li>
+    <li>
+      <a
+        href={getRelativeLocaleUrl(currentLang, `/blog/${Astro.props.slug}`)}
+        class="hover:text-[#513A31] transition-colors line-clamp-1 max-w-[200px]"
+        >{title}</a>
+    </li>
   </ol>
 </nav>

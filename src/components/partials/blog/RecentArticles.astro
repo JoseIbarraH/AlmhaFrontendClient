@@ -17,7 +17,7 @@ const { blogs, lang, t } = Astro.props;
 >
   <h3 class="text-xl font-bold text-[#513A31] mb-4 flex items-center gap-2">
     <Icon name="clock" class="w-5 h-5 text-[#FEEBDD]" />
-    Artículos Recientes
+    {t.blog.recent_articles.title}
   </h3>
   <ul class="space-y-4">
     {

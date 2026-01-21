@@ -1,6 +1,7 @@
 ---
 import placeholder from "@/assets/images/placeholder/procedure-default.png";
 import Breadcrumbs from "@/components/partials/blog/Breadcrumbs.astro";
+import Sidebar from "@/components/partials/blog/Sidebar.astro";
 import Icon from "@/components/ui/Icon.astro";
 import Layout from "@/layouts/Layout.astro";
 import { formatDate } from "@/lib/date";
@@ -15,6 +16,7 @@ let blog: Blog | null = null;
 try {
   const { data } = await api.get<{ data: Blog }>(`/api/client/blog/${slug}`);
   blog = data.data;
+  console.log(data);
 } catch (error) {
   console.error(`Error cargando el procedimiento ${slug}:`, error);
 }
@@ -44,7 +46,11 @@ const shared = [
 ];
 ---
 
-<Layout>
+<Layout
+  title={blog.title}
+  description={blog.content?.substring(0, 160) || blog.title}
+  image={blog.image}
+>
   <div
     class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16"
   >
@@ -152,6 +158,9 @@ const shared = [
           </div>
         </div>
       </article>
+      <div>
+        <Sidebar blogs={blog.random_blogs || []} />
+      </div>
     </div>
   </div>
 

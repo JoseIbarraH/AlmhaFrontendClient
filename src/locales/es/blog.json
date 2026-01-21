@@ -20,8 +20,29 @@
             "all": "Todos"
         }
     },
-    "search":{
+    "search": {
         "filter_all": "Todos",
         "placeholder": "Buscar articulos..."
+    },
+    "sidebar": {
+        "articles": "Artículos de interes"
+    },
+    "newsletter": {
+        "title": "Suscribete gratis",
+        "description": "Recibe contenido exclusivo directamente en tu correo",
+        "placeholder": "tu@email.com",
+        "button": "Suscribirme"
+    },
+    "contact_widget": {
+        "title": "¿Tienes dudas?",
+        "description": "Contáctanos para resolver tus inquietudes y agendar tu cita de valoración.",
+        "button": "Contáctanos"
+    },
+    "recent_articles": {
+        "title": "Artículos Recientes"
+    },
+    "breadcrumbs": {
+        "home": "Inicio",
+        "blog": "Blog"
     }
 }
