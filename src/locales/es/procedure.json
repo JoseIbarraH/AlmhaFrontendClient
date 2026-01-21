@@ -7,5 +7,30 @@
     "search": {
         "placeholder": "Buscar procedimiento...",
         "filter_all": "Todos"
+    },
+    "preparation": {
+        "title": "Preparación Prequirúrgica"
+    },
+    "post_operative": {
+        "title": "Cuidados Postoperatorios",
+        "do": {
+            "title": "Lo que SÍ debes hacer"
+        },
+        "dont": {
+            "title": "Lo que NO debes hacer"
+        }
+    },
+    "recovery_phase": {
+        "title": "Tiempo de Recuperación"
+    },
+    "faq": {
+        "title": "Preguntas Frecuentes"
+    },
+    "gallery": {
+        "title": "Galería de Resultados",
+        "subtitle": "Casos reales de nuestros pacientes"
+    },
+    "grid": {
+        "read_more": "Más información"
     }
 }

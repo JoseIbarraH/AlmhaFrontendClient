@@ -5,6 +5,11 @@ interface Props {
   phases: RecoveryPhase[];
 }
 
+import { loadTranslations } from "@/lib/i18n";
+
+const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
+
 const { phases } = Astro.props;
 ---
 
@@ -13,7 +18,7 @@ const { phases } = Astro.props;
     <h2
       class="text-4xl md:text-5xl font-light mb-16 text-center text-[#513A31]"
     >
-      Tiempo de Recuperación
+      {t.procedure.recovery_phase.title}
     </h2>
 
     <div class="space-y-8">

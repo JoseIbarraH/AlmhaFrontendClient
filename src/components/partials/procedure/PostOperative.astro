@@ -7,6 +7,11 @@ interface Props {
   dontList: Recommendation[];
 }
 
+import { loadTranslations } from "@/lib/i18n";
+
+const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
+
 const { doList, dontList } = Astro.props;
 ---
 
@@ -15,7 +20,7 @@ const { doList, dontList } = Astro.props;
     <h2
       class="text-4xl md:text-5xl font-light mb-12 text-center text-[#513A31]"
     >
-      Cuidados Postoperatorios
+      {t.procedure.post_operative.title}
     </h2>
 
     <div class="grid md:grid-cols-2 gap-8 mb-12">
@@ -24,7 +29,7 @@ const { doList, dontList } = Astro.props;
           class="text-2xl font-medium mb-6 text-[#513A31] flex items-center gap-3"
         >
           <span class="text-3xl">✓</span>
-          Lo que SÍ debes hacer
+          {t.procedure.post_operative.do.title}
         </h3>
         <ul class="space-y-4 text-[#7D6A5D]">
           {
@@ -45,7 +50,7 @@ const { doList, dontList } = Astro.props;
           class="text-2xl font-medium mb-6 text-[#513A31] flex items-center gap-3"
         >
           <span class="text-3xl">✗</span>
-          Lo que NO debes hacer
+          {t.procedure.post_operative.dont.title}
         </h3>
         <ul class="space-y-4 text-[#7D6A5D]">
           {

@@ -7,5 +7,30 @@
     "search": {
         "placeholder": "Search procedure...",
         "filter_all": "All"
+    },
+    "preparation": {
+        "title": "Pre-surgical Preparation"
+    },
+    "post_operative": {
+        "title": "Postoperative Care",
+        "do": {
+            "title": "What you MUST do"
+        },
+        "dont": {
+            "title": "What you MUST NOT do"
+        }
+    },
+    "recovery_phase": {
+        "title": "Recovery Time"
+    },
+    "faq": {
+        "title": "Frequently Asked Questions"
+    },
+    "gallery": {
+        "title": "Results Gallery",
+        "subtitle": "Real patient cases"
+    },
+    "grid": {
+        "read_more": "Read more"
     }
 }

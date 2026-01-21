@@ -6,12 +6,17 @@ interface Props {
   items: Faq[];
 }
 
+import { loadTranslations } from "@/lib/i18n";
+
+const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
+
 const { items } = Astro.props;
 ---
 
 <section class="max-w-4xl mx-auto px-4 py-16 md:py-24">
   <h2 class="text-4xl md:text-5xl font-light mb-16 text-center text-[#513A31]">
-    Preguntas Frecuentes
+    {t.procedure.faq.title}
   </h2>
 
   <div class="space-y-4">

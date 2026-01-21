@@ -5,6 +5,11 @@ interface Props {
   steps: PreparationStep[];
 }
 
+import { loadTranslations } from "@/lib/i18n";
+
+const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
+
 const { steps } = Astro.props;
 ---
 
@@ -13,7 +18,7 @@ const { steps } = Astro.props;
     <h2
       class="text-4xl md:text-5xl font-light mb-12 text-center text-[#513A31]"
     >
-      Preparación Prequirúrgica
+      {t.procedure.preparation.title}
     </h2>
     <div class="grid md:grid-cols-3 gap-8">
       {
