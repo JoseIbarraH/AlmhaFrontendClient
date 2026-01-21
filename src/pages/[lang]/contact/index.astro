@@ -1,5 +1,47 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import Combobox from "@/components/ui/Combobox.astro";
+
+interface ContactSettings {
+  phone?: string;
+  email?: string;
+  location?: string;
+  whatsapp_number?: string;
+  whatsapp_active?: boolean;
+}
+
+const API_URL = import.meta.env.PUBLIC_API_URL;
+let settings: ContactSettings = {};
+let procedures: { value: string; label: string }[] = [];
+
+const lang = Astro.currentLocale || "es";
+
+try {
+  const response = await fetch(
+    `${API_URL}/api/client/contact-data?lang=${lang}`,
+  );
+  const data = await response.json();
+  if (data.success) {
+    settings = data.data.settings;
+    procedures = data.data.procedures.map((p: any) => ({
+      value: p.title,
+      label: p.title,
+    }));
+  }
+} catch (error) {
+  console.error("Error fetching contact data:", error);
+}
+
+const {
+  phone = "+57 300 123 4567",
+  email = "info@almha.com",
+  location = "Calle Principal #123\nCartagena, Bolívar\nColombia",
+  whatsapp_number,
+  whatsapp_active,
+} = settings;
+
+// Format location for display (handle newlines)
+const formattedLocation = location.replace(/\n/g, "<br/>");
 ---
 
 <Layout>
@@ -65,6 +107,7 @@ import Layout from "@/layouts/Layout.astro";
                   >
                   <input
                     type="text"
+                    name="name"
                     placeholder="Tu nombre"
                     class="w-full px-4 py-3.5 bg-[#FFF9F6]
                            border border-[#D6C4B6]/70 rounded-xl
@@ -81,6 +124,7 @@ import Layout from "@/layouts/Layout.astro";
                   >
                   <input
                     type="email"
+                    name="email"
                     placeholder="tu@email.com"
                     class="w-full px-4 py-3.5 bg-[#FFF9F6]
                            border border-[#D6C4B6]/70 rounded-xl
@@ -99,6 +143,7 @@ import Layout from "@/layouts/Layout.astro";
                   >
                   <input
                     type="tel"
+                    name="phone"
                     placeholder="+57 300 123 4567"
                     class="w-full px-4 py-3.5 bg-[#FFF9F6]
                            border border-[#D6C4B6]/70 rounded-xl
@@ -111,21 +156,14 @@ import Layout from "@/layouts/Layout.astro";
                 <div>
                   <label
                     class="block text-xs font-semibold text-[#513A31] mb-2 uppercase tracking-wide"
-                    >Procedimiento</label
+                    >Procedimiento/otros</label
                   >
-                  <select
-                    class="w-full px-4 py-3.5 bg-[#FFF9F6]
-                           border border-[#D6C4B6]/70 rounded-xl
-                           focus:border-[#7D6A5D]
-                           focus:ring-2 focus:ring-[#FEEBDD]/60
-                           outline-none transition"
-                  >
-                    <option>Seleccionar</option>
-                    <option>Rinoplastia</option>
-                    <option>Liposucción</option>
-                    <option>Abdominoplastia</option>
-                    <option>Otro</option>
-                  </select>
+
+                  <Combobox
+                    options={procedures}
+                    name="procedure"
+                    placeholder="Seleccionar procedimiento..."
+                  />
                 </div>
               </div>
 
@@ -136,6 +174,7 @@ import Layout from "@/layouts/Layout.astro";
                 >
                 <textarea
                   rows="5"
+                  name="message"
                   placeholder="Cuéntanos tus expectativas..."
                   class="w-full px-4 py-3.5 bg-[#FFF9F6]
                          border border-[#D6C4B6]/70 rounded-xl
@@ -179,11 +218,10 @@ import Layout from "@/layouts/Layout.astro";
               📍
             </div>
             <h3 class="text-xl font-semibold text-[#513A31] mb-2">Ubicación</h3>
-            <p class="text-[#7D6A5D] leading-relaxed">
-              Calle Principal #123<br />
-              Cartagena, Bolívar<br />
-              Colombia
-            </p>
+            <p
+              class="text-[#7D6A5D] leading-relaxed"
+              set:html={formattedLocation}
+            />
           </div>
 
           <div
@@ -199,7 +237,7 @@ import Layout from "@/layouts/Layout.astro";
               📞
             </div>
             <h3 class="text-xl font-semibold text-[#513A31] mb-2">Teléfono</h3>
-            <p class="text-[#7D6A5D]">+57 (300) 123 4567</p>
+            <p class="text-[#7D6A5D]">{phone}</p>
             <p class="text-sm text-[#7D6A5D] mt-2">
               Lun–Vie · 8:00 AM – 6:00 PM
             </p>
@@ -218,7 +256,7 @@ import Layout from "@/layouts/Layout.astro";
               ✉️
             </div>
             <h3 class="text-xl font-semibold text-[#513A31] mb-2">Email</h3>
-            <p class="text-[#7D6A5D]">info@almha.com</p>
+            <p class="text-[#7D6A5D]">{email}</p>
           </div>
         </div>
       </div>

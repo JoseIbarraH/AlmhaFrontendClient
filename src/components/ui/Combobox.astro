@@ -1,0 +1,256 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+  options: { value: string | number; label: string }[];
+  placeholder?: string;
+  name?: string;
+  id?: string;
+}
+
+const { options, placeholder = "Seleccionar...", name, id } = Astro.props;
+const uniqueId = `combobox-${Math.random().toString(36).substr(2, 9)}`;
+---
+
+<div class="combobox-wrapper relative w-full" id={uniqueId}>
+  <!-- Hidden input to store value -->
+  <input type="hidden" name={name} id={id} class="combobox-hidden-input" />
+
+  <!-- Trigger Button -->
+  <button
+    type="button"
+    class="combobox-trigger w-full px-4 py-3.5 bg-[#FFF9F6] border border-[#D6C4B6]/70 rounded-xl focus:border-[#7D6A5D] focus:ring-2 focus:ring-[#FEEBDD]/60 outline-none transition text-left flex justify-between items-center text-[#513A31] hover:bg-white cursor-pointer group"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+  >
+    <span
+      class="combobox-display text-[#7D6A5D] opacity-70 group-hover:opacity-100 transition-opacity"
+    >
+      {placeholder}
+    </span>
+    <span class="pointer-events-none flex items-center pr-2">
+      <svg
+        class="combobox-arrow h-5 w-5 text-[#D6C4B6] transition-transform duration-300"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </span>
+  </button>
+
+  <!-- Dropdown -->
+  <div
+    class="combobox-dropdown hidden absolute z-50 mt-2 w-full bg-white shadow-2xl rounded-xl ring-1 ring-black/5 overflow-hidden transition-all duration-200 origin-top opacity-0 scale-95 transform"
+    role="listbox"
+  >
+    <!-- Search -->
+    <div class="sticky top-0 z-10 bg-white px-3 py-2 border-b border-[#FEEBDD]">
+      <div class="relative">
+        <input
+          type="text"
+          class="combobox-search w-full pl-9 pr-3 py-2.5 bg-[#FFF9F6] border border-[#D6C4B6]/50 rounded-lg focus:outline-none focus:border-[#7D6A5D] focus:ring-1 focus:ring-[#7D6A5D]/20 text-[#513A31] text-sm transition-all placeholder-[#D6C4B6]"
+          placeholder="Buscar..."
+        />
+        <div
+          class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+        >
+          <svg
+            class="h-4 w-4 text-[#D6C4B6]"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- List -->
+    <ul
+      class="combobox-list max-h-60 overflow-y-auto py-1"
+      style="scrollbar-width: thin; scrollbar-color: #D6C4B6 transparent;"
+    >
+      {
+        (
+          <li
+            class="combobox-option relative cursor-pointer select-none py-3 pl-4 pr-9 text-[#513A31] hover:bg-[#FFF9F6] transition-colors duration-150"
+            data-value="others"
+            role="option"
+          >
+            <span class="block truncate font-medium">Otros</span>
+            <span class="combobox-check hidden absolute inset-y-0 right-0 items-center pr-4 text-[#7D6A5D]">
+              <Icon name="check" size={20} />
+            </span>
+          </li>
+        )
+      }
+      {
+        options.map((option) => (
+          <li
+            class="combobox-option relative cursor-pointer select-none py-3 pl-4 pr-9 text-[#513A31] hover:bg-[#FFF9F6] transition-colors duration-150"
+            data-value={option.value}
+            role="option"
+          >
+            <span class="block truncate font-medium">{option.label}</span>
+            <span class="combobox-check hidden absolute inset-y-0 right-0 items-center pr-4 text-[#7D6A5D]">
+              <Icon name="check" size={20} />
+            </span>
+          </li>
+        ))
+      }
+      <li
+        class="combobox-no-results hidden text-[#D6C4B6] cursor-default select-none relative py-8 pl-3 pr-9 text-center text-sm"
+      >
+        No se encontraron resultados
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script define:vars={{ options, uniqueId, placeholder }}>
+  document.addEventListener("DOMContentLoaded", () => {
+    const wrapper = document.getElementById(uniqueId);
+    if (!wrapper) return;
+
+    const trigger = wrapper.querySelector(".combobox-trigger");
+    const dropdown = wrapper.querySelector(".combobox-dropdown");
+    const input = wrapper.querySelector(".combobox-hidden-input");
+    const display = wrapper.querySelector(".combobox-display");
+    const arrow = wrapper.querySelector(".combobox-arrow");
+    const searchInput = wrapper.querySelector(".combobox-search");
+    const list = wrapper.querySelector(".combobox-list");
+    const optionsList = Array.from(
+      wrapper.querySelectorAll(".combobox-option"),
+    );
+    const noResults = wrapper.querySelector(".combobox-no-results");
+
+    let isOpen = false;
+
+    function toggle(e) {
+      if (e) e.stopPropagation();
+      isOpen = !isOpen;
+      if (isOpen) open();
+      else close();
+    }
+
+    function open() {
+      isOpen = true;
+      dropdown.classList.remove("hidden");
+
+      // Small delay to allow display block to apply before opacity transition
+      requestAnimationFrame(() => {
+        dropdown.classList.remove("opacity-0", "scale-95");
+        dropdown.classList.add("opacity-100", "scale-100");
+      });
+
+      trigger.setAttribute("aria-expanded", "true");
+      arrow.classList.add("rotate-180");
+      searchInput.value = "";
+      filterOptions("");
+      searchInput.focus();
+    }
+
+    function close() {
+      isOpen = false;
+      dropdown.classList.remove("opacity-100", "scale-100");
+      dropdown.classList.add("opacity-0", "scale-95");
+
+      // Wait for transition to finish
+      setTimeout(() => {
+        if (!isOpen) dropdown.classList.add("hidden");
+      }, 200);
+
+      trigger.setAttribute("aria-expanded", "false");
+      arrow.classList.remove("rotate-180");
+    }
+
+    function select(optionEl) {
+      const value = optionEl.dataset.value;
+      const label = optionEl.querySelector("span").innerText;
+
+      input.value = value;
+      display.innerText = label;
+      display.classList.remove("opacity-70", "text-[#7D6A5D]");
+      display.classList.add("text-[#513A31]"); // Selected color
+
+      // Update checkmarks
+      optionsList.forEach((op) => {
+        const check = op.querySelector(".combobox-check");
+        if (op === optionEl) {
+          check.classList.remove("hidden");
+          check.classList.add("flex");
+        } else {
+          check.classList.add("hidden");
+          check.classList.remove("flex");
+        }
+      });
+
+      close();
+
+      // Trigger change event if needed
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      input.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+
+    function filterOptions(query) {
+      const lowerQuery = query.toLowerCase();
+      let hasResults = false;
+
+      optionsList.forEach((op) => {
+        // Use text content instead of props to match DOM
+        const label = op.querySelector("span").innerText.toLowerCase();
+        if (label.includes(lowerQuery)) {
+          op.classList.remove("hidden");
+          hasResults = true;
+        } else {
+          op.classList.add("hidden");
+        }
+      });
+
+      if (hasResults) {
+        noResults.classList.add("hidden");
+      } else {
+        noResults.classList.remove("hidden");
+      }
+    }
+
+    // Events
+    trigger.addEventListener("click", toggle);
+
+    // Close on click outside
+    document.addEventListener("click", (e) => {
+      if (!wrapper.contains(e.target) && isOpen) {
+        close();
+      }
+    });
+
+    // Select option
+    optionsList.forEach((op) => {
+      op.addEventListener("click", (e) => {
+        e.stopPropagation(); // Prevent closing immediately before logic
+        select(op);
+      });
+    });
+
+    // Search
+    searchInput.addEventListener("input", (e) => {
+      filterOptions(e.target.value);
+    });
+
+    // Prevent closing when clicking inside search or list
+    dropdown.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
+  });
+</script>
