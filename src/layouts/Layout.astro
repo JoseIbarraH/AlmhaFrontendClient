@@ -42,8 +42,6 @@ const {
   image = defaultImage.src,
   procedureContext = "",
 } = Astro.props;
-
-const GA_MEASUREMENT_ID = 'G-5G7KLND29N';
 ---
 
 <!doctype html>
@@ -71,21 +69,28 @@ const GA_MEASUREMENT_ID = 'G-5G7KLND29N';
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
 
-    {/* Scripts de Google Analytics */}
-    {GA_MEASUREMENT_ID && (
-        <>
-            <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}></script>
-            <script is:inline>
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '{GA_MEASUREMENT_ID}');
-            </script>
-        </>
-    )}
   </head>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5G7KLND29N"></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+
+    gtag("config", "G-5G7KLND29N");
+  </script>
+
   <body>
-    <Navbar images={images} topProcedure={topProcedure} procedures={procedures} settings={settings} procedureContext={procedureContext} />
+    <Navbar
+      images={images}
+      topProcedure={topProcedure}
+      procedures={procedures}
+      settings={settings}
+      procedureContext={procedureContext}
+    />
     <div class="h-25 bg-[#513A31]"></div>
     <slot />
     <Footer settings={settings} />
