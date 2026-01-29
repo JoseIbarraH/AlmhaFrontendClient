@@ -1,19 +1,19 @@
 import axios from "axios";
 
-const baseURL = process.env.PUBLIC_API_URL ?? import.meta.env.PUBLIC_API_URL;
+const baseURL =
+  import.meta.env.PUBLIC_API_URL ??
+  process.env.PUBLIC_API_URL;
 
 if (!baseURL) {
   throw new Error("PUBLIC_API_URL is not defined");
 }
 
 export function createApi(lang: string) {
-  const api = axios.create({
+  return axios.create({
     baseURL,
     headers: {
       "Content-Type": "application/json",
       "Accept-Language": lang,
     },
   });
-
-  return api;
 }
