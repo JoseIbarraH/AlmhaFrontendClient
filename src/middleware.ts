@@ -1,7 +1,7 @@
-import type { APIContext } from "astro";
-import { createApi } from "./lib/api";
 import type { ApiResponse } from "@/types/apiResponse";
 import type { Maintenance } from "./types/setting";
+import type { APIContext } from "astro";
+import { createApi } from "./lib/api";
 
 export const onRequest = async (
   context: APIContext,
