@@ -1,12 +1,15 @@
 import axios from "axios";
 
-const baseURL = import.meta.env.PUBLIC_API_URL ?? process.env.PUBLIC_API_URL;
+const defaultBaseURL = import.meta.env.PUBLIC_API_URL ?? process.env.PUBLIC_API_URL;
 
-if (!baseURL) {
-  throw new Error("PUBLIC_API_URL is not defined");
-}
+export function createApi(lang: string, apiUrl?: string) {
+  const baseURL = apiUrl || defaultBaseURL;
 
-export function createApi(lang: string) {
+  if (!baseURL) {
+    console.warn("PUBLIC_API_URL is not defined in environment or passed as argument");
+    // Optional: throw here if strictness is required, or let axios fail later
+  }
+
   return axios.create({
     baseURL,
     headers: {

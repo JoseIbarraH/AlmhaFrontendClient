@@ -4,6 +4,7 @@ import Icon from "@/components/ui/Icon.astro";
 
 const currentLang = Astro.currentLocale || "es";
 const t = await loadTranslations(currentLang);
+const apiUrl = import.meta.env.PUBLIC_API_URL ?? process.env.PUBLIC_API_URL;
 ---
 
 <div
@@ -33,7 +34,7 @@ const t = await loadTranslations(currentLang);
       {t.blog.newsletter.description}
     </p>
 
-    <form id="newsletter-form" class="space-y-3">
+    <form id="newsletter-form" class="space-y-3" data-api-url={apiUrl}>
       <input
         id="newsletter-email"
         type="email"
@@ -69,7 +70,8 @@ const t = await loadTranslations(currentLang);
 
   if (form) {
     const lang = document.documentElement.lang || "es";
-    const api = createApi(lang);
+    const apiUrl = form.dataset.apiUrl;
+    const api = createApi(lang, apiUrl);
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -92,7 +94,11 @@ const t = await loadTranslations(currentLang);
           ? { "X-XSRF-TOKEN": decodeURIComponent(xsrfToken) }
           : {};
 
-        const response = await api.post("/api/client/subscribe", { email }, { headers });
+        const response = await api.post(
+          "/api/client/subscribe",
+          { email },
+          { headers },
+        );
 
         if (response.status === 200) {
           // Axios data is in response.data
