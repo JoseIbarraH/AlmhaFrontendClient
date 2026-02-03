@@ -1,0 +1,15 @@
+{
+    "certified_specialist": "Certified Specialist",
+    "biography": "Biography",
+    "about_me": "About Me",
+    "gallery": {
+        "title": "Results Gallery",
+        "subtitle": "Real transformations of our satisfied patients"
+    },
+    "results_disclaimer": "<span class='font-bold'>Important note:</span> Results may vary according to the individual characteristics of each patient. The images shown are real cases with the consent of the patients. A personalized consultation is recommended to evaluate each specific case.",
+    "cta": {
+        "title": "Ready for your transformation?",
+        "description": "Schedule a personalized consultation with {name} and discover how we can help you achieve your aesthetic goals safely and professionally.",
+        "button": "Schedule Consultation"
+    }
+}

@@ -1,5 +1,6 @@
 ---
 import type { GalleryItem } from "@/types/procedure";
+import { ArrowLeft, ArrowRight, X } from "@lucide/astro";
 
 interface Props {
   images: GalleryItem[];
@@ -14,7 +15,7 @@ const { images } = Astro.props;
 ---
 
 <section class="bg-[#513A31] py-16 md:py-24">
-  <div class="max-w-6xl mx-auto px-4">
+  <div class="max-w-6xl mx-auto px-4 group">
     <h2 class="text-4xl md:text-5xl font-light mb-4 text-center text-[#FFF9F6]">
       {t.procedure.gallery.title}
     </h2>
@@ -22,18 +23,146 @@ const { images } = Astro.props;
       {t.procedure.gallery.subtitle}
     </p>
 
-    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-      {
-        images.map((item) => (
-          <div class="aspect-square rounded-lg overflow-hidden shadow-xl">
-            <img
-              src={item.path}
-              alt="Resultado paciente"
-              class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-            />
-          </div>
-        ))
-      }
+    <div class="relative">
+      <!-- Botones de navegación -->
+      <button
+        id="gallery-prev"
+        class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-12 bg-white/10 hover:bg-white/20 text-[#FFF9F6] p-2 rounded-full backdrop-blur-sm transition-all z-10 disabled:opacity-50 disabled:cursor-not-allowed hidden md:block"
+        aria-label="Anterior"
+      >
+        <ArrowLeft class="size-6" />
+      </button>
+
+      <button
+        id="gallery-next"
+        class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-12 bg-white/10 hover:bg-white/20 text-[#FFF9F6] p-2 rounded-full backdrop-blur-sm transition-all z-10 disabled:opacity-50 disabled:cursor-not-allowed hidden md:block"
+        aria-label="Siguiente"
+      >
+        <ArrowRight class="size-6" />
+      </button>
+
+      <!-- Scroll Container -->
+      <div
+        id="gallery-container"
+        class="grid grid-rows-2 grid-flow-col gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory"
+      >
+        {
+          images.map((item) => (
+            <button
+              class="aspect-square w-64 md:w-80 rounded-lg overflow-hidden shadow-xl snap-center shrink-0 cursor-zoom-in gallery-item-btn"
+              data-src={item.path}
+              aria-label="Ver imagen en grande"
+            >
+              <img
+                src={item.path}
+                alt="Resultado paciente"
+                class="w-full h-full object-cover hover:scale-105 transition-transform duration-300 pointer-events-none"
+                loading="lazy"
+              />
+            </button>
+          ))
+        }
+      </div>
     </div>
   </div>
 </section>
+
+<!-- Modal -->
+<div
+  id="image-modal"
+  class="fixed inset-0 z-50 bg-black/90 hidden items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300"
+>
+  <button
+    id="modal-close"
+    class="absolute top-4 right-4 text-white/70 hover:text-white transition-colors p-2"
+  >
+    <X class="size-8 cursor-pointer" />
+  </button>
+  <img
+    id="modal-image"
+    src=""
+    alt="Vista previa"
+    class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl scale-95 transition-transform duration-300"
+  />
+</div>
+
+<script>
+  const container = document.getElementById("gallery-container");
+  const prevBtn = document.getElementById("gallery-prev");
+  const nextBtn = document.getElementById("gallery-next");
+
+  // Modal elements
+  const modal = document.getElementById("image-modal");
+  const modalImage = document.getElementById("modal-image") as HTMLImageElement;
+  const modalClose = document.getElementById("modal-close");
+  const galleryItems = document.querySelectorAll(".gallery-item-btn");
+
+  if (container && prevBtn && nextBtn) {
+    const scrollAmount = 350; // Ancho aproximado + gap
+
+    prevBtn.addEventListener("click", () => {
+      container.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+    });
+
+    nextBtn.addEventListener("click", () => {
+      container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    });
+  }
+
+  // Modal Logic
+  if (modal && modalImage && modalClose) {
+    const openModal = (src: string) => {
+      modalImage.src = src;
+      modal.classList.remove("hidden");
+      // Small delay to allow display:flex to apply before opacity transition
+      requestAnimationFrame(() => {
+        modal.classList.remove("opacity-0");
+        modal.classList.add("flex"); // Ensure flex is added
+        modalImage.classList.remove("scale-95");
+        modalImage.classList.add("scale-100");
+      });
+    };
+
+    const closeModal = () => {
+      modal.classList.add("opacity-0");
+      modalImage.classList.add("scale-95");
+      modalImage.classList.remove("scale-100");
+
+      setTimeout(() => {
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+        modalImage.src = "";
+      }, 300);
+    };
+
+    galleryItems.forEach((item) => {
+      item.addEventListener("click", (e) => {
+        const target = e.currentTarget as HTMLButtonElement;
+        const src = target.dataset.src;
+        if (src) openModal(src);
+      });
+    });
+
+    modalClose.addEventListener("click", closeModal);
+
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+        closeModal();
+      }
+    });
+  }
+</script>
+
+<style>
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>

@@ -1,5 +1,20 @@
 ---
+import Members from "@/components/partials/about_us/Members.astro";
 import Layout from "@/layouts/Layout.astro";
+import type { ApiResponse } from "@/types/apiResponse";
+import type { Data } from "@/types/member";
+
+let members: Data[] = []
+
+try {
+  const { api } = Astro.locals;
+
+  const { data } = await api.get<ApiResponse<Data[]>>("api/client/members");
+  members = data.data
+  console.log(data.data);
+} catch (error) {
+  console.log("Error: ", error);
+}
 ---
 
 <Layout>
@@ -232,93 +247,6 @@ import Layout from "@/layouts/Layout.astro";
     </section>
 
     <!-- Equipo -->
-    <section class="py-20 bg-white">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="text-center mb-16">
-          <span
-            class="inline-block px-4 py-2 bg-[#FEEBDD]/20 text-[#7D6A5D] rounded-full text-sm font-semibold mb-4"
-          >
-            Conoce a nuestro equipo
-          </span>
-          <h2 class="text-4xl md:text-5xl font-bold text-[#513A31] mb-4">
-            Profesionales Destacados
-          </h2>
-          <p class="text-xl text-[#7D6A5D] max-w-2xl mx-auto">
-            Especialistas certificados con años de experiencia y formación
-            internacional
-          </p>
-        </div>
-
-        <div class="grid md:grid-cols-3 gap-8">
-          <div class="group">
-            <div class="relative overflow-hidden rounded-2xl mb-6">
-              <img
-                src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400"
-                alt="Doctor"
-                class="w-full h-96 object-cover group-hover:scale-110 transition-transform duration-500"
-              />
-              <div
-                class="absolute inset-0 bg-linear-to-t from-[#513A31]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
-              >
-              </div>
-            </div>
-            <h3 class="text-2xl font-bold text-[#513A31] mb-2">
-              Dr. Carlos Méndez
-            </h3>
-            <p class="text-[#7D6A5D] font-medium mb-3">Cirujano Plástico</p>
-            <p class="text-[#7D6A5D] text-sm">
-              Especialista en cirugía reconstructiva y estética con más de 20
-              años de experiencia.
-            </p>
-          </div>
-
-          <div class="group">
-            <div class="relative overflow-hidden rounded-2xl mb-6">
-              <img
-                src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400"
-                alt="Doctora"
-                class="w-full h-96 object-cover group-hover:scale-110 transition-transform duration-500"
-              />
-              <div
-                class="absolute inset-0 bg-linear-to-t from-[#513A31]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
-              >
-              </div>
-            </div>
-            <h3 class="text-2xl font-bold text-[#513A31] mb-2">
-              Dra. Ana Rodríguez
-            </h3>
-            <p class="text-[#7D6A5D] font-medium mb-3">
-              Cirujana Estética Facial
-            </p>
-            <p class="text-[#7D6A5D] text-sm">
-              Experta en procedimientos faciales mínimamente invasivos y
-              rejuvenecimiento.
-            </p>
-          </div>
-
-          <div class="group">
-            <div class="relative overflow-hidden rounded-2xl mb-6">
-              <img
-                src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400"
-                alt="Doctor"
-                class="w-full h-96 object-cover group-hover:scale-110 transition-transform duration-500"
-              />
-              <div
-                class="absolute inset-0 bg-linear-to-t from-[#513A31]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
-              >
-              </div>
-            </div>
-            <h3 class="text-2xl font-bold text-[#513A31] mb-2">
-              Dr. Luis Torres
-            </h3>
-            <p class="text-[#7D6A5D] font-medium mb-3">Cirujano Corporal</p>
-            <p class="text-[#7D6A5D] text-sm">
-              Especializado en contorno corporal y procedimientos
-              post-bariátricos.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <Members members={members}/>
   </div>
 </Layout>

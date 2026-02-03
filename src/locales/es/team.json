@@ -1,0 +1,15 @@
+{
+    "certified_specialist": "Especialista Certificado",
+    "biography": "Biografía",
+    "about_me": "Sobre mí",
+    "gallery": {
+        "title": "Galería de Resultados",
+        "subtitle": "Transformaciones reales de nuestros pacientes satisfechos"
+    },
+    "results_disclaimer": "<span class='font-bold'>Nota importante:</span> Los resultados pueden variar de acuerdo a las características individuales de cada paciente. Las imágenes mostradas son casos reales con el consentimiento de los pacientes. Se recomienda una consulta personalizada para evaluar cada caso específico.",
+    "cta": {
+        "title": "¿Listo para tu transformación?",
+        "description": "Agenda una consulta personalizada con {name} y descubre cómo podemos ayudarte a alcanzar tus objetivos estéticos de forma segura y profesional.",
+        "button": "Agendar Consulta"
+    }
+}

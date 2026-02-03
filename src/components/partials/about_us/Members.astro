@@ -1,0 +1,135 @@
+---
+import type { Data } from "@/types/member";
+import { loadTranslations } from "@/lib/i18n";
+import { ArrowLeft, ArrowRight } from "@lucide/astro";
+
+interface Props {
+  members: Data[];
+}
+
+const { members } = Astro.props;
+
+const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
+---
+
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-6 group">
+    <div class="text-center mb-16">
+      <span
+        class="inline-block px-4 py-2 bg-[#FEEBDD]/20 text-[#7D6A5D] rounded-full text-sm font-semibold mb-4"
+      >
+        Conoce a nuestro equipo
+      </span>
+      <h2 class="text-4xl md:text-5xl font-bold text-[#513A31] mb-4">
+        Profesionales Destacados
+      </h2>
+      <p class="text-xl text-[#7D6A5D] max-w-2xl mx-auto">
+        Especialistas certificados con años de experiencia y formación
+        internacional
+      </p>
+    </div>
+
+    <div class="relative">
+      <!-- Botones de navegación -->
+      <button
+        id="members-prev"
+        class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-12 bg-[#513A31]/10 hover:bg-[#513A31]/20 text-[#513A31] p-2 rounded-full backdrop-blur-sm transition-all z-10 disabled:opacity-50 disabled:cursor-not-allowed hidden md:block"
+        aria-label="Anterior"
+      >
+        <ArrowLeft class="size-6" />
+      </button>
+
+      <button
+        id="members-next"
+        class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-12 bg-[#513A31]/10 hover:bg-[#513A31]/20 text-[#513A31] p-2 rounded-full backdrop-blur-sm transition-all z-10 disabled:opacity-50 disabled:cursor-not-allowed hidden md:block"
+        aria-label="Siguiente"
+      >
+        <ArrowRight class="size-6" />
+      </button>
+
+      <div
+        id="members-container"
+        class="grid grid-flow-col auto-cols-[100%] md:auto-cols-[350px] gap-8 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory"
+      >
+        {
+          members.map((member) => (
+            <a
+              href={`/${currentLang}/about/${member.slug}`}
+              class="group snap-center block"
+            >
+              <div class="relative overflow-hidden rounded-2xl mb-6">
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  class="w-full h-96 object-cover transition-transform duration-500"
+                />
+                <div class="absolute inset-0 bg-linear-to-t from-[#513A31]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              </div>
+              <h3 class="text-2xl font-bold text-[#513A31] mb-2">
+                {member.name}
+              </h3>
+              <p class="text-[#7D6A5D] font-medium mb-3">
+                {member.specialization}
+              </p>
+              <p class="text-[#7D6A5D] text-sm line-clamp-3">
+                {member.description}
+              </p>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const container = document.getElementById("members-container");
+  const prevBtn = document.getElementById("members-prev");
+  const nextBtn = document.getElementById("members-next");
+
+  if (container && prevBtn && nextBtn) {
+    const scrollAmount = 380; // Ancho aproximado + gap
+
+    const checkOverflow = () => {
+      const isOverflowing = container.scrollWidth > container.clientWidth;
+      if (isOverflowing) {
+        prevBtn.classList.remove("hidden");
+        prevBtn.classList.add("md:block");
+
+        nextBtn.classList.remove("hidden");
+        nextBtn.classList.add("md:block");
+      } else {
+        prevBtn.classList.add("hidden");
+        prevBtn.classList.remove("md:block");
+
+        nextBtn.classList.add("hidden");
+        nextBtn.classList.remove("md:block");
+      }
+    };
+
+    // Check initially
+    checkOverflow();
+
+    // Check on resize
+    window.addEventListener("resize", checkOverflow);
+
+    prevBtn.addEventListener("click", () => {
+      container.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+    });
+
+    nextBtn.addEventListener("click", () => {
+      container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    });
+  }
+</script>
+
+<style>
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>
