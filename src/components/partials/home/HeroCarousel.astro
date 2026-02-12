@@ -2,8 +2,10 @@
 import Placeholder from "@/assets/images/placeholder/placeholder.png";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import Button from "@/components/ui/Button.astro";
+import { loadTranslations } from "@/lib/i18n";
 
 const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
 
 interface Props {
   slides?: Array<{
@@ -66,7 +68,7 @@ const slides = userSlides && userSlides.length > 0 ? userSlides : defaultSlides;
       <p
         class="mb-6 text-xs font-light tracking-[0.4em] uppercase text-[#FEEBDD] transition-all delay-200 duration-700 animate-slide-up"
       >
-        Turismo Estético Premium
+        {t?.home?.hero?.badge}
       </p>
 
       <!-- Dynamic Title -->
@@ -89,13 +91,13 @@ const slides = userSlides && userSlides.length > 0 ? userSlides : defaultSlides;
         class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
       >
         <Button href={getRelativeLocaleUrl(currentLang, "procedure")}>
-          Ver Planes
+          {t?.home?.hero?.view_plans}
         </Button>
         <Button
           href={getRelativeLocaleUrl(currentLang, "about")}
           variant="secondary"
         >
-          Conocer Más
+          {t?.home?.hero?.learn_more}
         </Button>
       </div>
     </div>
@@ -121,7 +123,7 @@ const slides = userSlides && userSlides.length > 0 ? userSlides : defaultSlides;
     <span
       class="text-[10px] font-light tracking-[0.3em] uppercase text-[#FFF9F6]/60 [writing-mode:vertical-lr]"
     >
-      Scroll
+      {t?.home?.hero?.scroll}
     </span>
     <div class="h-12 w-px bg-[#FFF9F6]/30">
       <div class="h-4 w-px animate-bounce bg-[#FFF9F6]"></div>

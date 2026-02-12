@@ -11,6 +11,10 @@ interface Props {
 
 const { brands = [] } = Astro.props;
 
+import { loadTranslations } from "@/lib/i18n";
+const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
+
 // Duplicate brands array for seamless loop
 const duplicatedBrands = [...brands, ...brands];
 ---
@@ -21,18 +25,17 @@ const duplicatedBrands = [...brands, ...brands];
       <span
         class="text-xs font-light tracking-[0.4em] uppercase text-[#7D6A5D]"
       >
-        Respaldados por los mejores
+        {t?.home?.brands?.badge}
       </span>
       <h2
         class="mt-4 font-serif text-3xl font-bold text-[#513A31] md:text-4xl text-balance"
       >
-        Marcas y Tecnología de Confianza
+        {t?.home?.brands?.title}
       </h2>
       <p
         class="mx-auto mt-4 max-w-2xl text-base font-light leading-relaxed text-[#7D6A5D]"
       >
-        Trabajamos exclusivamente con las marcas líderes mundiales en estética
-        médica para garantizar resultados excepcionales y seguros.
+        {t?.home?.brands?.description}
       </p>
     </div>
   </div>

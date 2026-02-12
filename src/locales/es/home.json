@@ -1,4 +1,37 @@
 {
-    "title": "Almha",
-    "description": "Almha"
+    "hero": {
+        "badge": "Turismo Estético Premium",
+        "view_plans": "Ver Planes",
+        "learn_more": "Conocer Más",
+        "scroll": "Scroll"
+    },
+    "brands": {
+        "badge": "Respaldados por los mejores",
+        "title": "Marcas y Tecnología de Confianza",
+        "description": "Trabajamos exclusivamente con las marcas líderes mundiales en estética médica para garantizar resultados excepcionales y seguros."
+    },
+    "doctor": {
+        "role_badge": "Director Médico",
+        "name": "Dr. Alejandro Restrepo",
+        "specialty": "Cirujano Plástico y Estético",
+        "description": "Con una pasión inquebrantable por la perfección estética y un enfoque personalizado en cada paciente, el Dr. Restrepo ha dedicado su carrera a combinar la ciencia médica más avanzada con el arte de la belleza natural.",
+        "credentials": {
+            "0": "Fellowship en Cirugía Estética Facial — Universidad de Miami",
+            "1": "Miembro de la Sociedad Internacional de Cirugía Plástica Estética (ISAPS)",
+            "2": "+15 años de experiencia en procedimientos estéticos avanzados",
+            "3": "Más de 8.000 procedimientos exitosos realizados",
+            "4": "Certificación en tecnología láser y tratamientos no invasivos"
+        },
+        "cta": "Agendar Consulta",
+        "experience_years": "15+",
+        "experience_label": "Años de<br />experiencia"
+    },
+    "treatments": {
+        "badge": "Nuestros Servicios",
+        "title": "Tratamientos de Excelencia",
+        "description": "Cada procedimiento es personalizado según sus necesidades únicas, utilizando las técnicas más avanzadas del mundo.",
+        "specialties_badge": "Especialidades",
+        "includes": "Incluye:",
+        "cta": "Solicitar Información"
+    }
 }

@@ -27,9 +27,7 @@ const {
   carouselTool = {},
   imageVideo = [],
   treatments = [],
-} = homeData.data;
-
-console.log("carousel: ", carouselTool);
+} = homeData.data || {};
 ---
 
 <Layout>
@@ -56,7 +54,7 @@ console.log("carousel: ", carouselTool);
   <div class="parallax-wrapper">
     <>
       {
-        backgrounds.background1Setting.enabled && (
+        backgrounds?.background1Setting?.enabled && (
           <BackgroundParallax
             title={backgrounds?.background1?.[0]?.title}
             subtitle={backgrounds?.background1?.[0]?.subtitle}
@@ -68,7 +66,7 @@ console.log("carousel: ", carouselTool);
       }
 
       {
-        backgrounds.background2Setting.enabled && (
+        backgrounds?.background2Setting?.enabled && (
           <BackgroundParallax
             title={backgrounds?.background2?.[0]?.title}
             subtitle={backgrounds?.background2?.[0]?.subtitle}
@@ -80,7 +78,7 @@ console.log("carousel: ", carouselTool);
       }
 
       {
-        backgrounds.background3Setting.enabled && (
+        backgrounds?.background3Setting?.enabled && (
           <BackgroundParallax
             title={backgrounds?.background3?.[0]?.title}
             subtitle={backgrounds?.background3?.[0]?.subtitle}

@@ -1,4 +1,37 @@
 {
-    "title": "Almha",
-    "description": "Almha"
+    "hero": {
+        "badge": "Premium Aesthetic Tourism",
+        "view_plans": "View Plans",
+        "learn_more": "Learn More",
+        "scroll": "Scroll"
+    },
+    "brands": {
+        "badge": "Backed by the best",
+        "title": "Trusted Brands and Technology",
+        "description": "We work exclusively with world-leading brands in aesthetic medicine to ensure exceptional and safe results."
+    },
+    "doctor": {
+        "role_badge": "Medical Director",
+        "name": "Dr. Alejandro Restrepo",
+        "specialty": "Plastic and Aesthetic Surgeon",
+        "description": "With an unwavering passion for aesthetic perfection and a personalized approach for every patient, Dr. Restrepo has dedicated his career to combining the most advanced medical science with the art of natural beauty.",
+        "credentials": {
+            "0": "Fellowship in Facial Aesthetic Surgery — University of Miami",
+            "1": "Member of the International Society of Aesthetic Plastic Surgery (ISAPS)",
+            "2": "+15 years of experience in advanced aesthetic procedures",
+            "3": "More than 8,000 successful procedures performed",
+            "4": "Certification in laser technology and non-invasive treatments"
+        },
+        "cta": "Book Consultation",
+        "experience_years": "15+",
+        "experience_label": "Years of<br />experience"
+    },
+    "treatments": {
+        "badge": "Our Services",
+        "title": "Excellence in Treatments",
+        "description": "Each procedure is customized to your unique needs, using the world's most advanced techniques.",
+        "specialties_badge": "Specialties",
+        "includes": "Includes:",
+        "cta": "Request Information"
+    }
 }

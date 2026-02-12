@@ -1,5 +1,9 @@
 ---
 import { Sparkles, Syringe, Zap, Heart } from "@lucide/astro";
+import { loadTranslations } from "@/lib/i18n";
+
+const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
 
 const { treatments: propTreatments } = Astro.props;
 
@@ -69,14 +73,13 @@ const iconMap: Record<string, any> = {
   <div class="container mx-auto px-6">
     <div class="text-center mb-16">
       <p class="text-sm tracking-[0.3em] text-primary uppercase mb-4">
-        Nuestros Servicios
+        {t?.home?.treatments?.badge}
       </p>
       <h2 class="font-serif text-3xl md:text-5xl text-foreground mb-6">
-        Tratamientos de Excelencia
+        {t?.home?.treatments?.title}
       </h2>
       <p class="max-w-2xl mx-auto text-muted-foreground">
-        Cada procedimiento es personalizado según sus necesidades únicas,
-        utilizando las técnicas más avanzadas del mundo.
+        {t?.home?.treatments?.description}
       </p>
     </div>
 
@@ -133,7 +136,7 @@ const iconMap: Record<string, any> = {
               >
                 <div class="mb-8">
                   <span class="text-xs tracking-[0.3em] text-primary uppercase">
-                    Especialidades
+                    {t?.home?.treatments?.specialties_badge}
                   </span>
                 </div>
                 <h3 class="font-serif text-2xl md:text-3xl text-foreground mb-6">
@@ -144,7 +147,7 @@ const iconMap: Record<string, any> = {
                 </p>
                 <div class="space-y-4">
                   <p class="text-sm tracking-wider text-foreground uppercase mb-4">
-                    Incluye:
+                    {t?.home?.treatments?.includes}
                   </p>
                   <ul class="grid grid-cols-2 gap-3">
                     {(treatment.features || []).map((feature) => (
@@ -159,7 +162,7 @@ const iconMap: Record<string, any> = {
                   href="#contact"
                   class="mt-10 inline-flex px-8 py-4 bg-[#513A31] text-[#FFF9F6] text-sm tracking-wider uppercase hover:bg-primary/90 transition-all duration-300"
                 >
-                  Solicitar Información
+                  {t?.home?.treatments?.cta}
                 </a>
               </div>
             );
@@ -186,7 +189,7 @@ const iconMap: Record<string, any> = {
   }
   .treatment-btn[aria-selected="false"] {
     background-color: transparent;
-    border-color: #D6C4B6;
+    border-color: #d6c4b6;
   }
   .treatment-btn[aria-selected="false"]:hover {
     border-color: rgba(81, 58, 49, 0.1);
