@@ -1,59 +1,143 @@
 ---
 import defaultImage from "@/assets/images/abdominoplastia.jpg";
 
+interface Props {
+  id?: string;
+  title?: string;
+  subtitle?: string;
+  bg?: string;
+  fullScreen?: boolean;
+  index?: number;
+}
+
 const {
   id = "default",
   title = "",
   subtitle = "",
   bg = defaultImage.src,
-  fullScreen = true
+  fullScreen = true,
+  index = 0,
 } = Astro.props;
 
 // Detectar si es video por extensión
 const isVideo = (url: string) => {
   if (!url) return false;
-  const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov', '.avi', '.mkv', '.m4v'];
-  return videoExtensions.some(ext => url.toLowerCase().endsWith(ext));
+  const videoExtensions = [
+    ".mp4",
+    ".webm",
+    ".ogg",
+    ".mov",
+    ".avi",
+    ".mkv",
+    ".m4v",
+  ];
+  return videoExtensions.some((ext) => url.toLowerCase().endsWith(ext));
 };
 
 const isVideoBackground = isVideo(bg);
+
+const alignments = [
+  "items-start text-left pl-8 md:pl-20 lg:pl-32",
+  "items-center text-center",
+  "items-end text-right pr-8 md:pr-20 lg:pr-32",
+];
+
+const alignmentClass = alignments[index % 3];
+// We need to pass the alignment class to the client script or handle it via CSS/structure
+// The structure provided in the prompt puts the alignment class on the container of the text.
 ---
 
 <div
   id={id}
-  class={`relative overflow-hidden flex justify-center items-center ${fullScreen ? 'h-screen' : ''}`}
+  class={`parallax-container relative h-screen w-full overflow-hidden ${fullScreen ? "h-screen" : ""}`}
+  data-index={index}
 >
-  {isVideoBackground ? (
-    <!-- Video de fondo -->
-    <video
-      class="absolute inset-0 w-full h-full object-cover"
-      autoplay
-      muted
-      loop
-      playsinline
-      preload="auto"
-    >
-      <source src={bg} type={`video/${bg.split('.').pop()}`} />
-    </video>
-  ) : (
-    <!-- Imagen de fondo con parallax -->
+  {
+    isVideoBackground ? (
+      <div class="absolute inset-0 bg-cover bg-center will-change-transform parallax-bg">
+        <video
+          class="absolute inset-0 w-full h-full object-cover"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+        >
+          <source src={bg} type={`video/${bg.split(".").pop()}`} />
+        </video>
+      </div>
+    ) : (
+      <div
+        class="absolute inset-0 bg-cover bg-center will-change-transform parallax-bg"
+        style={`background-image: url(${bg}); transform: scale(1.15);`}
+      />
+    )
+  }
+
+  <div class="absolute inset-0 bg-[#513A31]/50"></div>
+
+  <div
+    class={`relative z-10 flex h-full flex-col justify-center ${alignmentClass}`}
+  >
     <div
-      class="absolute inset-0 w-full h-full bg-fixed bg-center bg-cover bg-no-repeat"
-      style={`background-image: url(${bg});`}
-    />
-  )}
-
-  <!-- Overlay oscuro -->
-  <div class="absolute inset-0 bg-black/40"></div>
-
-  <!-- Contenido -->
-  <section class="relative z-10 px-6 py-20 bg-transparent text-center">
-    <h2 class="text-3xl font-bold mb-4 text-white">{title}</h2>
-    <p class="text-neutral-200">
-      {subtitle}
-    </p>
-  </section>
+      class="parallax-content transition-all duration-1000 translate-y-10 opacity-0"
+    >
+      <span
+        class="mb-4 block text-xs font-light tracking-[0.4em] uppercase text-[#FEEBDD]/80"
+      >
+        {subtitle}
+      </span>
+      <h2
+        class="max-w-lg font-serif text-4xl font-bold leading-tight text-[#FFF9F6] md:text-5xl lg:text-6xl text-balance"
+      >
+        {title}
+      </h2>
+      <div class="mt-6 h-px w-16 bg-[#FEEBDD]/60 line-element"></div>
+    </div>
+  </div>
 </div>
+
+<script>
+  function initParallax() {
+    const containers = document.querySelectorAll(".parallax-container");
+
+    const handleScroll = () => {
+      containers.forEach((container) => {
+        const bg = container.querySelector(".parallax-bg") as HTMLElement;
+        const content = container.querySelector(".parallax-content");
+
+        if (!container || !bg) return;
+
+        const rect = container.getBoundingClientRect();
+        const scrollY = -rect.top;
+
+        // Parallax effect
+        // We calculate offset similarly to the React example
+        const offset = scrollY * 0.3;
+        bg.style.transform = `translateY(${offset}px) scale(1.15)`;
+
+        // Reveal effect
+        if (rect.top < window.innerHeight * 0.75) {
+          content?.classList.remove("translate-y-10", "opacity-0");
+          content?.classList.add("translate-y-0", "opacity-100");
+        }
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    // Initial check
+    handleScroll();
+  }
+
+  // Support for View Transitions
+  document.addEventListener("astro:page-load", initParallax);
+  // Fallback for initial load if View Transitions are not used or for first paint
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initParallax);
+  } else {
+    initParallax();
+  }
+</script>
 
 <style>
   /* Ocultar controles del video */
@@ -63,5 +147,16 @@ const isVideoBackground = isVideo(bg);
 
   video::-webkit-media-controls-enclosure {
     display: none !important;
+  }
+
+  /* Helper to center the line when text is centered or align right when text is right */
+  .items-center .line-element {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .items-end .line-element {
+    margin-left: auto;
+    margin-right: 0;
   }
 </style>

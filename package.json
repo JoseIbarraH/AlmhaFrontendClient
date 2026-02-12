@@ -10,10 +10,10 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
-    "@astrojs/node": "^9.5.1",
+    "@astrojs/node": "^9.5.2",
     "@lucide/astro": "^0.562.0",
     "@tailwindcss/vite": "^4.1.17",
-    "astro": "^5.16.4",
+    "astro": "^5.17.1",
     "axios": "^1.13.2",
     "hamburgers": "^1.2.1",
     "lucide-static": "^0.556.0",

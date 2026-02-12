@@ -1,0 +1,93 @@
+---
+interface Props {
+  brands?: Array<{
+    id: number;
+    type: string;
+    image: string;
+    title: string;
+    subtitle: string;
+  }>;
+}
+
+const { brands = [] } = Astro.props;
+
+// Duplicate brands array for seamless loop
+const duplicatedBrands = [...brands, ...brands];
+---
+
+<section class="overflow-hidden bg-[#FFF9F6] py-24">
+  <div class="mx-auto max-w-7xl px-6">
+    <div class="text-center">
+      <span
+        class="text-xs font-light tracking-[0.4em] uppercase text-[#7D6A5D]"
+      >
+        Respaldados por los mejores
+      </span>
+      <h2
+        class="mt-4 font-serif text-3xl font-bold text-[#513A31] md:text-4xl text-balance"
+      >
+        Marcas y Tecnología de Confianza
+      </h2>
+      <p
+        class="mx-auto mt-4 max-w-2xl text-base font-light leading-relaxed text-[#7D6A5D]"
+      >
+        Trabajamos exclusivamente con las marcas líderes mundiales en estética
+        médica para garantizar resultados excepcionales y seguros.
+      </p>
+    </div>
+  </div>
+
+  {/* Scrolling marquee */}
+  <div class="relative mt-16">
+    <div
+      class="pointer-events-none absolute left-0 top-0 z-10 h-full w-24 bg-linear-to-r from-[#FFF9F6] to-transparent"
+    >
+    </div>
+    <div
+      class="pointer-events-none absolute right-0 top-0 z-10 h-full w-24 bg-linear-to-l from-[#FFF9F6] to-transparent"
+    >
+    </div>
+
+    <div class="flex animate-marquee gap-8 w-max">
+      {
+        duplicatedBrands.map((brand) => (
+          <div class="flex h-36 min-w-[220px] flex-col items-center justify-center border border-[#D6C4B6]/50 bg-[#FFF9F6] px-6 py-4 transition-all duration-300 hover:border-[#513A31]/30 hover:shadow-lg">
+            {brand.image ? (
+              <img
+                src={brand.image}
+                alt={brand.title}
+                class="h-16 w-auto object-contain mb-3"
+              />
+            ) : (
+              <span class="font-serif text-lg font-bold text-[#513A31] mb-1">
+                {brand.title}
+              </span>
+            )}
+            <span class="text-xs font-light tracking-wider text-[#7D6A5D] text-center leading-tight">
+              {brand.subtitle}
+            </span>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
+  }
+
+  .animate-marquee:hover {
+    animation-play-state: paused;
+  }
+</style>

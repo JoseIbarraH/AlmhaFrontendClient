@@ -1,0 +1,199 @@
+---
+import Placeholder from "@/assets/images/placeholder/placeholder.png";
+import type { Carousel } from "@/types/navbar";
+
+interface Props {
+  slides?: Carousel[];
+}
+
+const { slides: userSlides } = Astro.props;
+
+const defaultSlides: Carousel[] = [
+  {
+    image: Placeholder.src,
+    title: "Donde la belleza\nse encuentra con el lujo",
+    subtitle:
+      "Tratamientos estéticos de clase mundial en destinos paradisíacos",
+  },
+  {
+    image: Placeholder.src,
+    title: "Tu transformación\ncomienza aquí",
+    subtitle: "Procedimientos personalizados con la más alta tecnología médica",
+  },
+  {
+    image: Placeholder.src,
+    title: "Recupera en\nel paraíso",
+    subtitle: "Combina tratamientos estéticos con unas vacaciones inolvidables",
+  },
+];
+
+const slides = userSlides && userSlides.length > 0 ? userSlides : defaultSlides;
+---
+
+<section
+  id="navbar-carousel-container"
+  class="relative h-full w-full overflow-hidden navbar-carousel"
+  data-slides={JSON.stringify(slides)}
+>
+  <!-- Slides -->
+  {
+    slides.map((slide, i) => (
+      <div
+        class={`absolute inset-0 transition-opacity duration-1000 ease-in-out navbar-slide ${i === 0 ? "opacity-100 z-10 active" : "opacity-0 z-0"}`}
+        data-index={i}
+      >
+        <div
+          class="absolute inset-0 bg-cover bg-center navbar-slide-image"
+          style={`background-image: url(${slide.image}); transform: ${i === 0 ? "scale(1.05)" : "scale(1)"}; transition: transform 8s ease-out;`}
+        />
+        <div class="absolute inset-0 bg-[#513A31]/40" />
+      </div>
+    ))
+  }
+
+  <!-- Content Container -->
+  <div
+    class="relative z-20 flex h-full flex-col items-center justify-center px-6 text-center"
+  >
+    <div id="navbar-carousel-content">
+      <p
+        class="mb-6 text-xs font-light tracking-[0.4em] uppercase text-[#FEEBDD] transition-all delay-200 duration-700 animate-slide-up"
+      >
+        Turismo Estético Premium
+      </p>
+
+      <!-- Dynamic Title -->
+      <h1
+        id="navbar-hero-title"
+        class="max-w-4xl font-serif text-2xl font-bold leading-tight text-[#FFF9F6] md:text-4xl lg:text-5xl whitespace-pre-line text-balance transition-opacity duration-500 ease-in-out"
+      >
+        {slides[0].title}
+      </h1>
+
+      <!-- Dynamic Subtitle -->
+      <p
+        id="navbar-hero-subtitle"
+        class="mt-6 max-w-xl text-sm font-light leading-relaxed text-[#FEEBDD]/90 md:text-base transition-opacity duration-500 ease-in-out"
+      >
+        {slides[0].subtitle}
+      </p>
+    </div>
+  </div>
+
+  <!-- Dots -->
+  <div class="absolute bottom-10 left-1/2 z-20 flex -translate-x-1/2 gap-3">
+    {
+      slides.map((_, i) => (
+        <button
+          aria-label={`Ir a diapositiva ${i + 1}`}
+          class={`h-[4px] transition-all duration-500 navbar-dot ${i === 0 ? "w-10 bg-[#FFF9F6]" : "w-6 bg-[#FFF9F6]/40 hover:bg-[#FFF9F6]/70"}`}
+          data-index={i}
+        />
+      ))
+    }
+  </div>
+</section>
+
+<script>
+  function initNavbarCarousel() {
+    const section = document.querySelector(".navbar-carousel") as HTMLElement;
+    if (!section) return;
+
+    const slidesData = JSON.parse(section.dataset.slides || "[]");
+
+    const slides = section.querySelectorAll(".navbar-slide");
+    const dots = section.querySelectorAll(".navbar-dot");
+    const titleEl = document.getElementById("navbar-hero-title");
+    const subtitleEl = document.getElementById("navbar-hero-subtitle");
+
+    let currentIndex = 0;
+    let isTransitioning = false;
+    let autoPlayInterval: number;
+
+    const updateSlide = (index: number) => {
+      // Background Image Transition
+      slides.forEach((slide, i) => {
+        const slideImg = slide.querySelector(
+          ".navbar-slide-image",
+        ) as HTMLElement;
+        if (i === index) {
+          slide.classList.remove("opacity-0", "z-0");
+          slide.classList.add("opacity-100", "z-10", "active");
+          if (slideImg) slideImg.style.transform = "scale(1.05)";
+        } else {
+          slide.classList.remove("opacity-100", "z-10", "active");
+          slide.classList.add("opacity-0", "z-0");
+          if (slideImg) slideImg.style.transform = "scale(1)";
+        }
+      });
+
+      // Content Transition (Text)
+      if (titleEl && subtitleEl) {
+        // Fade out
+        titleEl.style.opacity = "0";
+        subtitleEl.style.opacity = "0";
+
+        setTimeout(() => {
+          // Update Text
+          titleEl.textContent = slidesData[index].title;
+          subtitleEl.textContent = slidesData[index].subtitle;
+
+          // Fade in
+          titleEl.style.opacity = "1";
+          subtitleEl.style.opacity = "1";
+        }, 500); // Wait for half the transition time
+      }
+
+      // Dots Update
+      dots.forEach((dot, i) => {
+        if (i === index) {
+          dot.classList.remove("w-6", "bg-[#FFF9F6]/40");
+          dot.classList.add("w-10", "bg-[#FFF9F6]");
+        } else {
+          dot.classList.remove("w-10", "bg-[#FFF9F6]");
+          dot.classList.add("w-6", "bg-[#FFF9F6]/40");
+        }
+      });
+    };
+
+    const goTo = (index: number) => {
+      if (isTransitioning || index === currentIndex) return;
+      isTransitioning = true;
+      currentIndex = index;
+
+      updateSlide(index);
+
+      setTimeout(() => {
+        isTransitioning = false;
+      }, 1000); // Match CSS duration
+    };
+
+    const nextSlide = () => {
+      goTo((currentIndex + 1) % slides.length);
+    };
+
+    // Attach click handlers to dots
+    dots.forEach((dot, i) => {
+      dot.addEventListener("click", () => {
+        goTo(i);
+        resetAutoPlay();
+      });
+    });
+
+    const startAutoPlay = () => {
+      autoPlayInterval = window.setInterval(nextSlide, 6000); // 6 seconds
+    };
+
+    const resetAutoPlay = () => {
+      window.clearInterval(autoPlayInterval);
+      startAutoPlay();
+    };
+
+    // Start
+    startAutoPlay();
+  }
+
+  // Run on load and on View Transitions if using Astro View Transitions
+  document.addEventListener("astro:page-load", initNavbarCarousel);
+  document.addEventListener("DOMContentLoaded", initNavbarCarousel);
+</script>

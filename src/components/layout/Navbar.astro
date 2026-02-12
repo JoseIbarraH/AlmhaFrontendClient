@@ -2,7 +2,8 @@
 import type { Carousel, Procedure, Settings } from "@/types/navbar";
 import Procedures from "@/components/shared/Procedures.astro";
 import LanguageSwitcher from "../ui/LanguageSwitcher.astro";
-import CarouselComponent from "../shared/Carousel.astro";
+import CarouselComponent from "../partials/home/Carousel.astro";
+import NavbarCarousel from "./NavbarCarousel.astro";
 import ContacButton from "../ui/ContactButton.astro";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import ContactData from "../ui/ContactData.astro";
@@ -248,7 +249,8 @@ const {
           class="absolute inset-0 bg-linear-to-r from-transparent to-[#513A31]/30 z-10"
         >
         </div>
-        <CarouselComponent buttonDown={true} slides={images} />
+        <!-- <CarouselComponent buttonDown={true} slides={images} /> -->
+        <NavbarCarousel slides={images} />
       </div>
 
       <!-- Columna 2: Links del menú -->

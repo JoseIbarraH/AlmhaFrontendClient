@@ -8,7 +8,7 @@ export interface NavbarData {
 }
 
 export interface Carousel {
-  path: string;
+  image: string;
   title: string;
   subtitle: string;
 }

@@ -1,0 +1,137 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import Button from "@/components/ui/Button.astro";
+import DoctorImage from "@/assets/images/doctor.jpg";
+
+const currentLang = Astro.currentLocale || "es";
+
+const credentials = [
+  "Fellowship en Cirugía Estética Facial — Universidad de Miami",
+  "Miembro de la Sociedad Internacional de Cirugía Plástica Estética (ISAPS)",
+  "+15 años de experiencia en procedimientos estéticos avanzados",
+  "Más de 8.000 procedimientos exitosos realizados",
+  "Certificación en tecnología láser y tratamientos no invasivos",
+];
+---
+
+<section
+  id="nosotros"
+  class="overflow-hidden bg-[#FEEBDD]/30 py-24 lg:py-32 doctor-section"
+>
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="grid items-center gap-16 lg:grid-cols-2">
+      <!-- Image -->
+      <div
+        class="relative transition-all duration-1000 -translate-x-10 opacity-0 doctor-image-container"
+      >
+        <div
+          class="relative aspect-3/4 w-full max-w-md mx-auto lg:mx-0 overflow-hidden"
+        >
+          <img
+            src={DoctorImage.src}
+            alt="Dr. Alejandro Restrepo, director médico de Belleza Eterna"
+            class="object-cover w-full h-full"
+          />
+        </div>
+        <!-- Decorative frame -->
+        <div
+          class="absolute -bottom-4 -right-4 -z-10 hidden h-full w-full border border-[#D6C4B6] lg:block"
+        >
+        </div>
+        <!-- Experience badge -->
+        <div
+          class="absolute -bottom-6 -right-6 flex h-28 w-28 flex-col items-center justify-center bg-[#513A31] text-center lg:bottom-8 lg:right-12"
+        >
+          <span class="font-serif text-3xl font-bold text-[#FFF9F6]">
+            15+
+          </span>
+          <span
+            class="text-[10px] font-light tracking-wider uppercase text-[#FEEBDD]"
+          >
+            Años de
+            <br />
+            experiencia
+          </span>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div
+        class="transition-all duration-1000 delay-300 translate-x-10 opacity-0 doctor-content-container"
+      >
+        <span
+          class="text-xs font-light tracking-[0.4em] uppercase text-[#7D6A5D]"
+        >
+          Director Médico
+        </span>
+        <h2
+          class="mt-4 font-serif text-3xl font-bold text-[#513A31] md:text-4xl lg:text-5xl text-balance"
+        >
+          Dr. Alejandro Restrepo
+        </h2>
+        <p class="mt-2 font-serif text-lg italic text-[#7D6A5D]">
+          Cirujano Plástico y Estético
+        </p>
+
+        <div class="mt-6 h-px w-16 bg-[#D6C4B6]"></div>
+
+        <p class="mt-6 text-base font-light leading-relaxed text-[#7D6A5D]">
+          Con una pasión inquebrantable por la perfección estética y un enfoque
+          personalizado en cada paciente, el Dr. Restrepo ha dedicado su carrera
+          a combinar la ciencia médica más avanzada con el arte de la belleza
+          natural. Su filosofía se centra en realzar la belleza única de cada
+          persona, logrando resultados armónicos y duraderos.
+        </p>
+
+        <ul class="mt-8 flex flex-col gap-3">
+          {
+            credentials.map((cred) => (
+              <li class="flex items-start gap-3 text-sm font-light text-[#7D6A5D]">
+                <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 bg-[#513A31]" />
+                {cred}
+              </li>
+            ))
+          }
+        </ul>
+
+        <div class="mt-10">
+          <Button href={getRelativeLocaleUrl(currentLang, "contact")}>
+            Agendar Consulta
+          </Button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function initDoctorSection() {
+    const section = document.querySelector(".doctor-section");
+    const imageContainer = document.querySelector(".doctor-image-container");
+    const contentContainer = document.querySelector(
+      ".doctor-content-container",
+    );
+
+    if (!section || !imageContainer || !contentContainer) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          imageContainer.classList.remove("-translate-x-10", "opacity-0");
+          imageContainer.classList.add("translate-x-0", "opacity-100");
+
+          contentContainer.classList.remove("translate-x-10", "opacity-0");
+          contentContainer.classList.add("translate-x-0", "opacity-100");
+
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.2 },
+    );
+
+    observer.observe(section);
+  }
+
+  document.addEventListener("astro:page-load", initDoctorSection);
+  document.addEventListener("DOMContentLoaded", initDoctorSection);
+</script>
