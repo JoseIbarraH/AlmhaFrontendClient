@@ -1,32 +1,42 @@
 ---
-import Carousel from "@/components/shared/Carousel.astro";
-import Layout from "../../layouts/Layout.astro";
+import BrandsSection from "@/components/partials/home/BrandsSection.astro";
+import DoctorSection from "@/components/partials/home/DoctorSection.astro";
+import TreatmentsSection from "@/components/partials/home/TreatmentsSection.astro";
 import BackgroundParallax from "@/components/ui/BackgroundParallax.astro";
-import ImageVideo from "@/components/shared/ImageVideo.astro";
+import HeroCarousel from "@/components/partials/home/HeroCarousel.astro";
+import ImageVideo from "@/components/partials/home/ImageVideo.astro";
+import Layout from "../../layouts/Layout.astro";
 
 const { api } = Astro.locals;
 
 const designFetch = async () => {
-
+  try {
+    const response = await api.get("api/client/home");
+    return response.data || {};
+  } catch (error) {
+    console.error("Error fetching carousel:", error);
+    return {};
+  }
 };
 
-designFetch();
+const homeData = await designFetch();
 
 const {
-  backgrounds = [],
+  backgrounds = {},
   carousel = [],
-  carouselTool = [],
+  carouselTool = {},
   imageVideo = [],
-} = Astro.locals.global?.design || {};
+  treatments = [],
+} = homeData.data;
 
-/* console.log("carousel: ", carousel); */
+console.log("carousel: ", carouselTool);
 ---
 
 <Layout>
   <>
     {
       (carousel?.carouselSetting?.enabled ?? true) && (
-        <Carousel slides={carousel?.carousel ?? []} />
+        <HeroCarousel slides={carousel?.carousel ?? []} />
       )
     }
 
@@ -37,30 +47,59 @@ const {
     }
   </>
 
-  <div class="h-[500px] bg-white flex justify-center items-center">
-    <h1>Texto</h1>
+  <div class="bg-white flex justify-center items-center">
+    <DoctorSection />
   </div>
 
+  <TreatmentsSection treatments={treatments} />
+
   <div class="parallax-wrapper">
-    <BackgroundParallax
-      title={backgrounds?.background1?.[0]?.title}
-      subtitle={backgrounds?.background1?.[0]?.subtitle}
-      bg={backgrounds?.background1?.[0]?.image}
-      id="parallax1"
-    />
-    <BackgroundParallax
-      title={backgrounds?.background2?.[0]?.title}
-      subtitle={backgrounds?.background2?.[0]?.subtitle}
-      bg={backgrounds?.background2?.[0]?.image}
-      id="parallax2"
-    />
-    <BackgroundParallax
-      title={backgrounds?.background3?.[0]?.title}
-      subtitle={backgrounds?.background3?.[0]?.subtitle}
-      bg={backgrounds?.background3?.[0]?.image}
-      id="parallax3"
-    />
+    <>
+      {
+        backgrounds.background1Setting.enabled && (
+          <BackgroundParallax
+            title={backgrounds?.background1?.[0]?.title}
+            subtitle={backgrounds?.background1?.[0]?.subtitle}
+            bg={backgrounds?.background1?.[0]?.image}
+            id="parallax1"
+            index={0}
+          />
+        )
+      }
+
+      {
+        backgrounds.background2Setting.enabled && (
+          <BackgroundParallax
+            title={backgrounds?.background2?.[0]?.title}
+            subtitle={backgrounds?.background2?.[0]?.subtitle}
+            bg={backgrounds?.background2?.[0]?.image}
+            id="parallax2"
+            index={1}
+          />
+        )
+      }
+
+      {
+        backgrounds.background3Setting.enabled && (
+          <BackgroundParallax
+            title={backgrounds?.background3?.[0]?.title}
+            subtitle={backgrounds?.background3?.[0]?.subtitle}
+            bg={backgrounds?.background3?.[0]?.image}
+            id="parallax3"
+            index={2}
+          />
+        )
+      }
+    </>
   </div>
+
+  <>
+    {
+      carouselTool?.carouselToolSetting?.enabled && (
+        <BrandsSection brands={carouselTool?.carouselTool ?? []} />
+      )
+    }
+  </>
 </Layout>
 
 <script>
