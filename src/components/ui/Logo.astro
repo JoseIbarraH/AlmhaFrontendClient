@@ -1,11 +1,11 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
-import logoImage from "@/assets/images/Imagotipo_horizontal_beige.png";
-import logo from "@/assets/images/logo.png";
+import logoImage from "@/assets/images/logos/Imagotipo_horizontal_beige.png";
+import logo from "@/assets/images/logos/logo.png";
 
 interface Props {
   class?: string;
-  size?: "sm" | "md" | "lg" | "xl" | "xl2" | string;
+  size?: "sm" | "md" | "lg" | "xl" | "xl2" | "auto" | string;
   text?: boolean;
   textSize?: "sm" | "md" | "lg" | "xl" | "xl2" | string;
   phone?: boolean;
@@ -26,6 +26,7 @@ const sizeClasses = {
   lg: "h-16 w-auto",
   xl: "h-32 w-auto",
   xl2: "h-64 w-auto",
+  auto: "h-auto w-auto"
 };
 
 const computedSize =

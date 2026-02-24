@@ -3,8 +3,8 @@ import LogoName from "@/components/ui/LogoName.astro";
 import Icon from "../ui/Icon.astro";
 import { loadTranslations } from "@/lib/i18n";
 import { getRelativeLocaleUrl } from "astro:i18n";
-import BackgroundParallax from "../ui/BackgroundParallax.astro";
-import img from "@/assets/images/1150360.jpg";
+import BackgroundParallax from "../partials/home/BackgroundParallax.astro";
+import img from "@/assets/images/test/1150360.jpg";
 import type { Settings } from "@/types/navbar";
 
 const currentLang = Astro.currentLocale || "es";
@@ -212,7 +212,7 @@ const activeSocials = settings?.social
     height: 100%;
 
     background-image:
-      url("/src/assets/images/logo.png"), url("/src/assets/images/logo.png");
+      url("/src/assets/images/logos/logo.png"), url("/src/assets/images/logos/logo.png");
 
     background-size:
       40px 40px,

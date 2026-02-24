@@ -1,15 +1,11 @@
 ---
 import type { Carousel, Procedure, Settings } from "@/types/navbar";
-import Procedures from "@/components/shared/Procedures.astro";
 import LanguageSwitcher from "../ui/LanguageSwitcher.astro";
-import CarouselComponent from "../partials/home/Carousel.astro";
-import NavbarCarousel from "./NavbarCarousel.astro";
 import ContacButton from "../ui/ContactButton.astro";
 import { getRelativeLocaleUrl } from "astro:i18n";
-import ContactData from "../ui/ContactData.astro";
 import { loadTranslations } from "@/lib/i18n";
 import Logo from "../ui/Logo.astro";
-import Icon from "../ui/Icon.astro";
+import { ChevronDown, ChevronRight } from "@lucide/astro";
 
 const currentLang = Astro.currentLocale || "es";
 const t = await loadTranslations(currentLang);
@@ -23,20 +19,14 @@ const menuItems = [
 ];
 
 interface Props {
-  images: Carousel[];
-  topProcedure: Procedure[];
   procedures: Record<string, Procedure[]>;
   settings: Settings | null;
   procedureContext?: string;
 }
 
-const {
-  images = [],
-  topProcedure = [],
-  procedures = {},
-  settings = null,
-  procedureContext = "",
-} = Astro.props;
+const { procedures = {}, settings = null, procedureContext = "" } = Astro.props;
+
+console.log(procedures);
 ---
 
 <div class="relative">
@@ -46,41 +36,42 @@ const {
   >
     <div
       id="navbar-header"
-      class="w-full patron relative bg-[#513A31] z-50 border-b border-[#7D6A5D]"
+      class="w-full patron relative bg-[#513A31] z-50 border-b border-[#7D6A5D] md:h-[150px]"
     >
       <div
-        class="container mx-auto relative flex items-center justify-between py-4 px-6 lg:px-8"
+        class="container mx-auto relative flex items-center justify-between px-4 h-full"
       >
-        <button
-          id="hamburger-btn"
-          class="hamburger-btn flex items-center transition-colors rounded-lg px-2 py-1 -ml-2 z-50 hover:bg-[#FEEBDD]/10"
-          type="button"
-          aria-label="Toggle menu"
-          aria-expanded="false"
-        >
-          <span class="hamburger hamburger--spin scale-75" aria-hidden="true">
-            <span class="hamburger-box">
-              <span class="hamburger-inner"></span>
-            </span>
-          </span>
-          <span class="text-[#FFF9F6] text-sm font-medium">{t.navbar.menu}</span
+        <div class="block md:hidden">
+          <button
+            id="hamburger-btn"
+            class="hamburger-btn flex items-center transition-colors rounded-lg px-2 py-1 -ml-2 z-50 hover:bg-[#FEEBDD]/10"
+            type="button"
+            aria-label="Toggle menu"
+            aria-expanded="false"
           >
-        </button>
-
+            <span class="hamburger hamburger--spin scale-75" aria-hidden="true">
+              <span class="hamburger-box">
+                <span class="hamburger-inner"></span>
+              </span>
+            </span>
+          </button>
+        </div>
         <div
-          class="absolute left-1/2 -translate-x-1/2 max-w-[200px] md:max-w-[250px] z-40"
+          class="absolute left-1/2 -translate-x-1/2 max-w-[400px] md:max-w-[450px] z-40"
         >
-          <div class="overflow-hidden w-full">
+          <div class="overflow-hidden w-full py-4">
             <div class="block lg:hidden w-full">
               <Logo
                 phone={true}
-                class="text-[#FEEBDD] hover:text-[#FFF9F6] transition-colors w-full h-auto max-h-10 object-contain"
+                class="text-[#FEEBDD] hover:text-[#FFF9F6] transition-colors w-full h-auto object-contain"
+                size="sm"
               />
             </div>
             <div class="hidden lg:block w-full">
               <Logo
                 phone={false}
-                class="text-[#FEEBDD] hover:text-[#FFF9F6] transition-colors w-full h-auto max-h-10 object-contain"
+                class="text-[#FEEBDD] hover:text-[#FFF9F6] transition-colors w-full h-auto object-contain"
+                size="lg"
               />
             </div>
           </div>
@@ -89,318 +80,159 @@ const {
         <div class="md:flex items-center gap-6 ml-auto z-40">
           <LanguageSwitcher />
           <div class="hidden md:flex items-center gap-6 ml-auto z-40">
-            <ContacButton
-              whatsapp={settings?.contact?.whatsapp}
-              procedureContext={procedureContext}
-            />
+            <ContacButton />
           </div>
         </div>
       </div>
     </div>
+    <div class="bg-[#513A31] hidden md:block">
+      <div
+        class="h-full flex items-start justify-center gap-4 md:gap-6 px-6 md:px-10 relative"
+      >
+        {
+          menuItems.map((item, index) =>
+            item.drop ? (
+              <div class="group relative inline-block">
+                <a
+                  href={getRelativeLocaleUrl(currentLang, item.href)}
+                  class="flex items-center gap-2 py-2 px-2 hover:bg-[#FEEBDD]/10 transition-colors"
+                >
+                  <span class="text-[#FFF9F6] text-xl font-advent">
+                    {item.label}
+                  </span>
 
-    <div
-      id="navbar-procedures"
-      class="bg-[#513A31]/95 backdrop-blur-md transition-all duration-500 ease-in-out opacity-100 origin-top relative z-10"
-    >
-      <div class="container mx-auto px-4 md:px-6 lg:px-8 relative group/scroll">
-        <button
-          id="scroll-left"
-          class="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 items-center justify-center bg-[#513A31]/90 backdrop-blur-sm text-[#FEEBDD] rounded-full border border-[#FEEBDD]/30 opacity-0 transition-opacity disabled:opacity-0 shadow-lg hover:bg-[#FEEBDD]/20"
-          aria-label="Scroll left"
-        >
-          <Icon name="chevron-down" class="w-4 h-4 rotate-90" />
-        </button>
-
-        <button
-          id="scroll-right"
-          class="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 items-center justify-center bg-[#513A31]/90 backdrop-blur-sm text-[#FEEBDD] rounded-full border border-[#FEEBDD]/30 opacity-0 transition-opacity disabled:opacity-0 shadow-lg hover:bg-[#FEEBDD]/20"
-          aria-label="Scroll right"
-        >
-          <Icon name="chevron-down" class="w-4 h-4 -rotate-90" />
-        </button>
-
-        <div
-          id="categories-scroll"
-          class="flex justify-start md:justify-center gap-4 md:gap-1 text-sm relative overflow-visible overflow-x-auto md:overflow-x-hidden overflow-y-visible snap-x snap-mandatory scroll-smooth pb-2 md:pb-0 scrollbar-hide"
-        >
-          {
-            Object.entries(procedures).map(
-              ([category, items], index, array) => (
-                <>
-                  <div class="relative shrink-0 snap-center procedure-category">
-                    <button
-                      class="procedure-btn flex items-center gap-1 text-[#FEEBDD] uppercase tracking-widest text-[10px] md:text-xs py-3 md:py-2 px-2 md:px-0 hover:text-white transition-colors whitespace-nowrap"
-                      data-category-btn
-                    >
-                      {category}
-                      <Icon
-                        name="chevron-down"
-                        class="chevron-icon w-3 h-3 transition-transform duration-300 pointer-events-none"
-                      />
-                    </button>
-
-                    {/* Dropdown para móvil */}
-                    <div
-                      class="procedure-dropdown md:hidden fixed left-0 right-0 bg-[#513A31]/98 backdrop-blur-md border-t border-[#FEEBDD]/20 p-2 opacity-0 invisible transition-all duration-300 shadow-xl z-[60px] overflow-y-auto"
-                      data-mobile-dropdown
-                    >
-                      <div class="flex flex-col gap-2">
-                        {items.map((item, index) => (
-                          <a
-                            href={getRelativeLocaleUrl(
-                              currentLang,
-                              `procedure/${item.slug}`,
-                            )}
-                            class="dropdown-item group/item flex items-center gap-2 py-3 px-3 rounded-lg hover:bg-[#FEEBDD]/10 active:bg-[#FEEBDD]/20 transition-all duration-300 opacity-0"
-                            style={`transition-delay: ${index * 30}ms`}
-                          >
-                            <div class="shrink-0 w-4 h-4 flex flex-col items-center justify-center bg-[#FEEBDD]/20 group-hover/item:bg-[#FEEBDD]/30 rounded-md transition-all duration-300">
-                              <Icon
-                                name="arrow-right"
-                                color="#FEEBDD"
-                                class="w-3 h-3"
-                              />
-                            </div>
-                            <span class="text-[#FFF9F6] text-sm font-bold group-hover/item:text-[#FEEBDD] transition-colors flex-1">
-                              {item.title}
-                            </span>
-                            <div class="w-0 h-0.5 bg-[#FEEBDD] group-hover/item:w-4 transition-all duration-500 rounded-full" />
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Dropdown para desktop */}
-                    <div
-                      class="procedure-dropdown hidden md:block fixed bg-[#513A31]/95 backdrop-blur-md border border-[#FEEBDD]/20 rounded-xl opacity-0 invisible transition-all duration-300 transform  shadow-2xl z-[60px]"
-                      data-desktop-dropdown
-                    >
-                      <div class="relative">
-                        {/* Botones de scroll interno */}
-                        <button
-                          class="dropdown-scroll-left absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 items-center justify-center bg-[#513A31] hover:bg-[#FEEBDD]/20 text-[#FEEBDD] rounded-full border-2 border-[#FEEBDD]/30 transition-all shadow-lg opacity-0 invisible hidden"
-                          type="button"
-                        >
-                          <Icon name="chevron-down" class="w-5 h-5 rotate-90" />
-                        </button>
-
-                        <button
-                          class="dropdown-scroll-right absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 items-center justify-center bg-[#513A31] hover:bg-[#FEEBDD]/20 text-[#FEEBDD] rounded-full border-2 border-[#FEEBDD]/30 transition-all shadow-lg opacity-0 invisible hidden"
-                          type="button"
-                        >
-                          <Icon
-                            name="chevron-down"
-                            class="w-5 h-5 -rotate-90"
-                          />
-                        </button>
-
-                        {/* Contenedor con scroll */}
-                        <div
-                          class="dropdown-items-scroll flex flex-col gap-2 overflow-x-auto scrollbar-thin scrollbar-thumb-[#FEEBDD]/30 scrollbar-track-transparent hover:scrollbar-thumb-[#FEEBDD]/50 snap-x snap-mandatory scroll-smooth px-2 py-2 cursor-grab active:cursor-grabbing"
-                          data-scroll-container
-                        >
-                          {items.map((item, index) => (
-                            <a
-                              href={getRelativeLocaleUrl(
-                                currentLang,
-                                `procedure/${item.slug}`,
-                              )}
-                              class="dropdown-item shrink-0 w-64 group/item flex items-center gap-3 p-2 rounded-lg hover:bg-[#FEEBDD]/10 transition-all duration-300 snap-start bg-[#513A31]/40 border border-[#FEEBDD]/10 hover:border-[#FEEBDD]/30 opacity-0"
-                              style={`transition-delay: ${index * 30}ms`}
-                            >
-                              <div class="shrink-0 w-4 h-4 flex items-center justify-center bg-[#FEEBDD]/20 group-hover/item:bg-[#FEEBDD]/30 rounded-md transition-all duration-300 group-hover/item:translate-x-1">
-                                <Icon
-                                  name="arrow-right"
-                                  color="#FEEBDD"
-                                  class="w-4 h-4 transition-transform duration-300 group-hover/item:scale-110"
-                                />
-                              </div>
-                              <span class="text-[#FFF9F6] text-sm font-bold group-hover/item:text-[#FEEBDD] transition-colors duration-300 whitespace-normal leading-tight flex-1">
-                                {item.title}
-                              </span>
-                            </a>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
+                  <div class="flex justify-center items-center transition-all duration-200 transform group-hover:rotate-180 text-[#FFF9F6] group-hover:text-[#FEEBDD]">
+                    <ChevronDown size={20} />
                   </div>
-                  {index < array.length - 1 && (
-                    <div class="h-8 w-[2px] bg-linear-to-b from-transparent via-[#FEEBDD]/40 to-transparent mx-8 hidden md:block self-center" />
+                </a>
+
+                <ul class="absolute hidden group-hover:block w-48 pt-2 z-10 divide-y divide-gray-300 dark:divide-gray-500">
+                  {Object.entries(procedures).map(
+                    ([categoryName, subItems]) => (
+                      <li class="group/sub relative bg-[#513A31] border-b border-white/10 last:border-0">
+                        <button class="w-full flex justify-between items-center font-advent text-left py-3 px-4 text-[#FFF9F6] hover:bg-[#FEEBDD]/10 transition-colors">
+                          <span class="font-medium">{categoryName}</span>
+                          <ChevronRight size={16} />
+                        </button>
+
+                        <ul class="absolute hidden group-hover/sub:block left-full top-0 w-64 ml-[2px] shadow-2xl divide-y divide-white/5">
+                          {subItems.map((sub) => (
+                            <li class="bg-[#513A31]">
+                              <a
+                                href={`/${currentLang}/procedure/${sub.slug}`}
+                                class="bg-[#513A31] text-[#FFF9F6] py-3 px-4 block text-sm transition-colors font-advent hover:bg-[#FEEBDD]/10"
+                              >
+                                {sub.title}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </li>
+                    ),
                   )}
-                </>
-              ),
-            )
-          }
-        </div>
+                </ul>
+              </div>
+            ) : (
+              <a
+                href={getRelativeLocaleUrl(currentLang, item.href)}
+                class="group py-2 px-2 hover:bg-[#FEEBDD]/10"
+              >
+                <span class="text-[#FFF9F6] text-xl font-advent">
+                  {item.label}
+                </span>
+              </a>
+            ),
+          )
+        }
       </div>
     </div>
   </nav>
-
-  <!-- Menú Fullscreen -->
   <div
     id="fullscreen-menu"
-    class="fixed left-0 right-0 bg-linear-to-br from-[#513A31]/98 to-[#7D6A5D]/98 backdrop-blur-md z-30 opacity-0 invisible transition-all duration-500 ease-out overflow-hidden"
-    style="top: var(--header-height, 80px); bottom: 0;"
+    class="fixed inset-0 bg-[#513A31] z-40 flex flex-col pt-32 px-6 transition-all duration-500 opacity-0 invisible overflow-y-auto"
   >
-    <div class="grid grid-cols-1 md:grid-cols-4 h-full w-full">
-      <!-- Columna 1: Carousel -->
-      <div class="h-full w-full overflow-hidden hidden md:block relative">
-        <div
-          class="absolute inset-0 bg-linear-to-r from-transparent to-[#513A31]/30 z-10"
-        >
-        </div>
-        <!-- <CarouselComponent buttonDown={true} slides={images} /> -->
-        <NavbarCarousel slides={images} />
-      </div>
+    <div class="patron absolute inset-0 opacity-10 pointer-events-none"></div>
 
-      <!-- Columna 2: Links del menú -->
-      <div
-        class="h-full flex flex-col items-start justify-center gap-4 md:gap-6 px-6 md:px-10 relative mt-10 md:mt-0"
-      >
-        <div>
-          <span
-            class="text-[#FEEBDD] text-xs md:text-sm font-semibold tracking-widest uppercase"
+    <nav class="relative z-10 flex flex-col gap-4 pb-10">
+      {
+        menuItems.map((item, index) => (
+          <div
+            class="menu-link-wrapper opacity-0 translate-y-4 transition-all duration-500"
+            style={`transition-delay: ${index * 100}ms`}
           >
-            {t.navbar.navigation.title}
-          </span>
-          <h2 class="text-xl md:text-2xl font-bold text-[#FFF9F6] mt-2 md:mt-4">
-            {t.navbar.navigation.subtitle}
-          </h2>
-        </div>
+            {item.drop ? (
+              /* PRIMER NIVEL: BOTÓN "PROCEDURES" */
+              <div class="mobile-dropdown group/main">
+                <button class="mobile-dropdown-btn w-full flex justify-between items-center text-[#FFF9F6] text-3xl font-advent hover:text-[#FEEBDD] transition-colors py-2">
+                  {item.label}
+                  <ChevronDown
+                    size={24}
+                    class="transform transition-transform duration-300 arrow-icon"
+                  />
+                </button>
 
-        {
-          menuItems.map((item, index) => (
-            <a
-              href={getRelativeLocaleUrl(currentLang, item.href)}
-              class="menu-link-wrapper group flex items-center gap-3 py-2 px-4 -mx-4 rounded-lg hover:bg-[#FEEBDD]/10 transition-all duration-300 opacity-0 translate-y-8"
-              style={`transition-delay: ${index * 100}ms`}
-            >
-              <div class="shrink-0 w-6 h-6 flex items-center justify-center bg-[#FEEBDD]/20 group-hover:bg-[#FEEBDD]/30 rounded-md transition-all duration-300 group-hover:translate-x-1">
-                <Icon
-                  name="arrow-right"
-                  color="#FEEBDD"
-                  class="w-4 h-4 text-[#FEEBDD] transition-transform duration-300 group-hover:scale-110"
-                />
+                <div class="mobile-dropdown-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out bg-[#FEEBDD]/5 rounded-lg">
+                  <div class="flex flex-col gap-2 p-2">
+                    {Object.entries(procedures).map(
+                      ([categoryName, subItems]) => (
+                        <div class="mobile-dropdown mobile-category-dropdown border-b border-[#FEEBDD]/5 last:border-0">
+                          <button class="mobile-dropdown-btn w-full flex justify-between items-center py-3 px-4 text-[#FEEBDD] text-sm uppercase tracking-widest italic">
+                            {categoryName}
+                            <ChevronRight
+                              size={16}
+                              class="transform transition-transform duration-300 arrow-icon"
+                            />
+                          </button>
+
+                          <div class="mobile-dropdown-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                            <ul class="flex flex-col gap-3 pb-4 px-6">
+                              {subItems.map((sub) => (
+                                <li>
+                                  <a
+                                    href={`/${currentLang}/procedure/${sub.slug}`}
+                                    class="text-[#FFF9F6]/80 hover:text-[#FFF9F6] text-lg block border-l border-[#FEEBDD]/20 pl-4"
+                                  >
+                                    {sub.title}
+                                  </a>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      ),
+                    )}
+                  </div>
+                </div>
               </div>
-              <span class="text-[#FFF9F6] text-xl md:text-2xl font-bold group-hover:text-[#FEEBDD] transition-colors duration-300 group-hover:translate-x-1">
+            ) : (
+              <a
+                href={getRelativeLocaleUrl(currentLang, item.href)}
+                class="text-[#FFF9F6] text-3xl font-advent hover:text-[#FEEBDD] transition-colors py-2 block"
+              >
                 {item.label}
-              </span>
-              <div class="ml-auto w-0 h-0.5 bg-[#FEEBDD] group-hover:w-8 transition-all duration-500 rounded-full" />
-            </a>
-          ))
-        }
+              </a>
+            )}
+          </div>
+        ))
+      }
 
-        <div class="flex justify-center items-center w-full md:hidden mt-20">
-          <ContacButton
-            whatsapp={settings?.contact?.whatsapp}
-            procedureContext={procedureContext}
-          />
-        </div>
-
-        <div
-          class="absolute right-0 top-0 bottom-0 w-px bg-linear-to-b from-transparent via-[#FEEBDD]/30 to-transparent"
-        >
-        </div>
-      </div>
-
-      <!-- Columna 3: Procedimientos -->
       <div
-        class="h-full flex-col items-center justify-start px-4 py-6 relative overflow-hidden hidden md:flex bg-[#513A31]/20"
+        class="mt-6 pt-6 border-t border-[#FEEBDD]/10 opacity-0 translate-y-4 transition-all duration-700 delay-500"
       >
-        <div
-          class="w-full h-full overflow-y-auto scrollbar-custom flex flex-col gap-4 pr-2"
-        >
-          {
-            topProcedure.map((item) => (
-              <Procedures
-                image={item.image}
-                title={item.title}
-                slug={item.slug}
-              />
-            ))
-          }
-        </div>
-        <div
-          class="absolute right-0 top-0 bottom-0 w-px bg-linear-to-b from-transparent via-[#FEEBDD]/30 to-transparent"
-        >
-        </div>
+        <ContacButton />
       </div>
-
-      <!-- Columna 4: Contacto -->
-      <div class="h-full relative overflow-hidden">
-        <div
-          class="h-full flex flex-col items-start justify-center gap-4 md:gap-6 px-6 md:px-10 relative"
-        >
-          <div class="text-[#FFF9F6] text-xl md:text-2xl font-bold">
-            <div>
-              <span
-                class="text-[#FEEBDD] text-xs md:text-sm font-semibold tracking-widest uppercase"
-              >
-                {t.navbar.contact.title}
-              </span>
-              <h2
-                class="text-xl md:text-2xl font-bold text-[#FFF9F6] mt-2 md:mt-4 mb-4 md:mb-6"
-              >
-                {t.navbar.contact.subtitle}
-              </h2>
-              <div class="space-y-4 md:space-y-6">
-                <ContactData
-                  icon="phone"
-                  title={t.navbar.contact.phone}
-                  value={settings?.contact.contact_phone}
-                />
-                <ContactData
-                  icon="mail"
-                  title={t.navbar.contact.email}
-                  value={settings?.contact.contact_email}
-                />
-                <ContactData
-                  icon="map-pin"
-                  title={t.navbar.contact.location}
-                  value={settings?.contact.contact_location}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="absolute inset-0 pointer-events-none opacity-50 md:opacity-100"
-        >
-          <div
-            class="absolute top-1/4 right-1/4 w-40 h-40 md:w-64 md:h-64 bg-[#FEEBDD]/10 rounded-full blur-3xl"
-          >
-          </div>
-          <div
-            class="absolute bottom-1/4 left-1/4 w-60 h-60 md:w-96 md:h-96 bg-[#FEEBDD]/5 rounded-full blur-3xl"
-          >
-          </div>
-        </div>
-        <div class="logo"></div>
-      </div>
-    </div>
+    </nav>
   </div>
 </div>
 
 <script>
   function initMenu() {
     const navbar = document.getElementById("main-navbar");
-    const navbarHeader = document.getElementById("navbar-header");
     const hamburgerBtn = document.getElementById("hamburger-btn");
     const hamburger = hamburgerBtn?.querySelector(".hamburger");
     const fullscreenMenu = document.getElementById("fullscreen-menu");
     const navbarProcedure = document.getElementById("navbar-procedures");
 
-    function updateHeaderHeight() {
-      if (navbarHeader && fullscreenMenu) {
-        const headerHeight = navbarHeader.offsetHeight;
-        fullscreenMenu.style.setProperty(
-          "--header-height",
-          `${headerHeight}px`,
-        );
-      }
-    }
-
-    updateHeaderHeight();
     let isOpen = false;
 
     function toggleMenu() {
@@ -421,9 +253,7 @@ const {
       if (e.key === "Escape" && isOpen) toggleMenu();
     });
 
-    window.addEventListener("resize", updateHeaderHeight);
-
-    // Navbar hide on scroll
+    // --- Lógica de ocultar Navbar al hacer scroll ---
     let lastScrollTop = 0;
     const scrollThreshold = 10;
     let ticking = false;
@@ -435,9 +265,13 @@ const {
         ticking = false;
         return;
       }
+
       const scrollDifference = Math.abs(scrollTop - lastScrollTop);
       if (scrollDifference >= scrollThreshold) {
-        if (scrollTop > lastScrollTop && scrollTop > 80) {
+        if (
+          scrollTop > lastScrollTop &&
+          scrollTop > (navbar?.offsetHeight || 200)
+        ) {
           navbar?.classList.add("-translate-y-full");
         } else if (scrollTop < lastScrollTop) {
           navbar?.classList.remove("-translate-y-full");
@@ -458,244 +292,165 @@ const {
       { passive: true },
     );
 
-    // === DROPDOWNS MEJORADOS ===
-    const categories = document.querySelectorAll(".procedure-category");
+    // --- Lógica de Acordeones Anidados ---
+    const setupMobileAccordion = () => {
+      // Función para cerrar un dropdown y todos sus hijos recursivamente
+      const closeDropdown = (dropdown: HTMLElement) => {
+        const content = dropdown.querySelector<HTMLElement>(
+          ":scope > .mobile-dropdown-content",
+        );
+        const arrow = dropdown.querySelector<HTMLElement>(
+          ":scope > .mobile-dropdown-btn .arrow-icon",
+        );
+        if (content) {
+          content.style.maxHeight = "0px";
+          // Cerrar también todos los hijos anidados
+          const nestedDropdowns =
+            content.querySelectorAll<HTMLElement>(".mobile-dropdown");
+          nestedDropdowns.forEach((nested) => closeDropdown(nested));
+        }
+        if (arrow) arrow.style.transform = "rotate(0deg)";
+      };
 
-    categories.forEach((category) => {
-      const btn = category.querySelector(".procedure-btn") as HTMLElement;
-      const mobileDropdown = category.querySelector(
-        "[data-mobile-dropdown]",
-      ) as HTMLElement;
-      const desktopDropdown = category.querySelector(
-        "[data-desktop-dropdown]",
-      ) as HTMLElement;
-      const chevron = btn.querySelector(".chevron-icon");
+      const allDropdowns =
+        document.querySelectorAll<HTMLElement>(".mobile-dropdown");
 
-      // Función para cerrar todos los dropdowns
-      function closeAllDropdowns() {
-        document.querySelectorAll(".procedure-category").forEach((cat) => {
-          cat.querySelectorAll(".procedure-dropdown").forEach((dd) => {
-            dd.classList.add("opacity-0", "invisible");
-            dd.classList.remove("visible");
-          });
-          cat
-            .querySelectorAll(".chevron-icon")
-            .forEach((ch) => ch.classList.remove("rotate-180"));
-          cat.querySelectorAll(".dropdown-item").forEach((item) => {
-            item.classList.add("opacity-0", "translate-y-2");
-          });
-        });
-      }
+      allDropdowns.forEach((dropdown) => {
+        const btn = dropdown.querySelector<HTMLButtonElement>(
+          ":scope > .mobile-dropdown-btn",
+        );
+        const content = dropdown.querySelector<HTMLElement>(
+          ":scope > .mobile-dropdown-content",
+        );
+        const arrow = dropdown.querySelector<HTMLElement>(
+          ":scope > .mobile-dropdown-btn .arrow-icon",
+        );
 
-      // Click para toggle (Móvil y Desktop)
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
+        btn?.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
 
-        const isDesktop = window.innerWidth >= 768;
-        const dropdown = isDesktop ? desktopDropdown : mobileDropdown;
-        const isOpen = dropdown.classList.contains("visible");
+          if (!content || !arrow) return;
 
-        closeAllDropdowns();
+          const isCurrentlyOpen =
+            content.style.maxHeight && content.style.maxHeight !== "0px";
 
-        if (!isOpen) {
-          if (isDesktop) {
-            const btnRect = btn.getBoundingClientRect();
-            const navbarRect = navbarProcedure?.getBoundingClientRect();
-            const dropdownWidth = desktopDropdown.offsetWidth;
-            const viewportWidth = window.innerWidth;
-            const margin = 20;
+          // --- CERRAR HERMANOS DEL MISMO NIVEL ---
+          const parentContainer = dropdown.parentElement;
+          const siblings = parentContainer?.querySelectorAll<HTMLElement>(
+            ":scope > .mobile-dropdown",
+          );
 
-            let left = btnRect.left + btnRect.width / 2 - dropdownWidth / 2;
-
-            if (left < margin) left = margin;
-            if (left + dropdownWidth > viewportWidth - margin) {
-              left = viewportWidth - dropdownWidth - margin;
+          siblings?.forEach((sibling) => {
+            if (sibling !== dropdown) {
+              closeDropdown(sibling);
             }
+          });
 
-            desktopDropdown.style.left = `${left}px`;
-            desktopDropdown.style.top = `${btnRect.bottom - 90}px`;
+          // --- ABRIR / CERRAR ACTUAL ---
+          if (!isCurrentlyOpen) {
+            // Abrir: usamos scrollHeight para la animación inicial
+            content.style.maxHeight = `${content.scrollHeight}px`;
+            arrow.style.transform = "rotate(180deg)";
 
-            // Remove hover-specific hiding classes just in case
-            desktopDropdown.classList.remove("translate-y-2");
+            // Después de la transición, cambiamos a 'none' para que los hijos
+            // puedan expandirse libremente sin quedar cortados
+            content.addEventListener("transitionend", function handler() {
+              if (
+                content.style.maxHeight &&
+                content.style.maxHeight !== "0px"
+              ) {
+                content.style.maxHeight = "none";
+              }
+              content.removeEventListener("transitionend", handler);
+            });
           } else {
-            const navbarRect = navbarProcedure?.getBoundingClientRect();
-            if (navbarRect) {
-              mobileDropdown.style.top = `${navbarRect.bottom - 100}px`;
-            }
+            // Cerrar: primero fijamos la altura actual para que la transición funcione
+            content.style.maxHeight = `${content.scrollHeight}px`;
+            // Forzar reflow para que el browser registre el valor
+            content.offsetHeight;
+            content.style.maxHeight = "0px";
+            arrow.style.transform = "rotate(0deg)";
+
+            // Cerrar todos los hijos anidados también
+            const nestedDropdowns =
+              content.querySelectorAll<HTMLElement>(".mobile-dropdown");
+            nestedDropdowns.forEach((nested) => closeDropdown(nested));
           }
-
-          dropdown.classList.remove("opacity-0", "invisible");
-          dropdown.classList.add("visible");
-          chevron?.classList.add("rotate-180");
-
-          dropdown.querySelectorAll(".dropdown-item").forEach((item, idx) => {
-            setTimeout(() => {
-              item.classList.remove("opacity-0", "translate-y-2");
-            }, idx * 30);
-          });
-        }
-      });
-
-      // Inicializar scroll buttons una sola vez
-      setupScrollButtons(desktopDropdown);
-    });
-
-    // Cerrar al hacer click fuera
-    document.addEventListener("click", (e) => {
-      const target = e.target as HTMLElement;
-      if (!target.closest(".procedure-category")) {
-        document.querySelectorAll(".procedure-category").forEach((cat) => {
-          cat.querySelectorAll(".procedure-dropdown").forEach((dd) => {
-            dd.classList.add("opacity-0", "invisible");
-            dd.classList.remove("visible");
-          });
-          cat
-            .querySelectorAll(".chevron-icon")
-            .forEach((ch) => ch.classList.remove("rotate-180"));
-        });
-      }
-    });
-
-    // Setup scroll buttons para dropdowns
-    function setupScrollButtons(dropdown: HTMLElement) {
-      const container = dropdown.querySelector(
-        "[data-scroll-container]",
-      ) as HTMLElement;
-      const leftBtn = dropdown.querySelector(
-        ".dropdown-scroll-left",
-      ) as HTMLButtonElement;
-      const rightBtn = dropdown.querySelector(
-        ".dropdown-scroll-right",
-      ) as HTMLButtonElement;
-
-      if (!container || !leftBtn || !rightBtn) return;
-
-      function updateButtons() {
-        const { scrollLeft, scrollWidth, clientWidth } = container;
-        const hasOverflow = scrollWidth > clientWidth;
-
-        if (!hasOverflow) {
-          leftBtn.classList.add("opacity-0", "invisible", "hidden");
-          rightBtn.classList.add("opacity-0", "invisible", "hidden");
-          return;
-        }
-
-        leftBtn.classList.remove("hidden");
-        rightBtn.classList.remove("hidden");
-        leftBtn.classList.add("flex");
-        rightBtn.classList.add("flex");
-
-        if (scrollLeft > 10) {
-          leftBtn.classList.remove("opacity-0", "invisible");
-        } else {
-          leftBtn.classList.add("opacity-0", "invisible");
-        }
-
-        if (scrollLeft < scrollWidth - clientWidth - 10) {
-          rightBtn.classList.remove("opacity-0", "invisible");
-        } else {
-          rightBtn.classList.add("opacity-0", "invisible");
-        }
-      }
-
-      leftBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        container.scrollBy({ left: -250, behavior: "smooth" });
-      });
-
-      rightBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        container.scrollBy({ left: 250, behavior: "smooth" });
-      });
-
-      container.addEventListener("scroll", updateButtons);
-
-      // Drag to scroll
-      let isDown = false;
-      let startX: number;
-      let scrollLeftStart: number;
-
-      container.addEventListener("mousedown", (e) => {
-        isDown = true;
-        startX = e.pageX - container.offsetLeft;
-        scrollLeftStart = container.scrollLeft;
-        container.style.cursor = "grabbing";
-      });
-
-      container.addEventListener("mouseleave", () => {
-        isDown = false;
-        container.style.cursor = "grab";
-      });
-
-      container.addEventListener("mouseup", () => {
-        isDown = false;
-        container.style.cursor = "grab";
-      });
-
-      container.addEventListener("mousemove", (e) => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - container.offsetLeft;
-        const walk = (x - startX) * 2;
-        container.scrollLeft = scrollLeftStart - walk;
-      });
-
-      updateButtons();
-    }
-
-    // Horizontal scroll de categorías
-    const scrollContainer = document.getElementById("categories-scroll");
-    const leftBtn = document.getElementById("scroll-left");
-    const rightBtn = document.getElementById("scroll-right");
-
-    if (scrollContainer && leftBtn && rightBtn) {
-      function checkScroll() {
-        const container = scrollContainer as HTMLElement;
-        const lBtn = leftBtn as HTMLElement;
-        const rBtn = rightBtn as HTMLElement;
-        const { scrollLeft, scrollWidth, clientWidth } = container;
-
-        if (scrollWidth <= clientWidth) {
-          lBtn.style.opacity = "0";
-          rBtn.style.opacity = "0";
-          return;
-        }
-
-        lBtn.style.opacity = scrollLeft > 10 ? "1" : "0";
-        rBtn.style.opacity =
-          scrollLeft < scrollWidth - clientWidth - 10 ? "1" : "0";
-      }
-
-      leftBtn.addEventListener("click", () => {
-        (scrollContainer as HTMLElement).scrollBy({
-          left: -200,
-          behavior: "smooth",
         });
       });
+    };
 
-      rightBtn.addEventListener("click", () => {
-        (scrollContainer as HTMLElement).scrollBy({
-          left: 200,
-          behavior: "smooth",
-        });
-      });
-
-      scrollContainer.addEventListener("scroll", checkScroll);
-      window.addEventListener("resize", checkScroll);
-      checkScroll();
-    }
+    setupMobileAccordion();
   }
 
+  // Ejecución inicial y soporte para Astro View Transitions
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initMenu);
   } else {
     initMenu();
   }
-
   document.addEventListener("astro:page-load", initMenu);
 </script>
 
 <style is:global>
+  .mobile-dropdown-content {
+    max-height: 0;
+    overflow: hidden;
+    transition:
+      max-height 0.4s ease-in-out,
+      opacity 0.3s ease;
+    opacity: 0;
+  }
+
+  /* Cuando está abierto (max-height != 0px), mostramos opacidad */
+  .mobile-dropdown-content:not([style*="max-height: 0px"]) {
+    opacity: 1;
+  }
+
+  /* Cuando max-height es 'none' (abierto completo), permitir overflow para hijos */
+  .mobile-dropdown-content[style*="max-height: none"] {
+    overflow: visible;
+  }
+
+  .mobile-dropdown-content[style*="max-height: 0px"] {
+    opacity: 0;
+  }
+
+  /* Asegura que el botón hamburguesa esté encima de todo */
+  #hamburger-btn {
+    position: relative;
+    z-index: 60;
+  }
+
+  /* Estado abierto del menú */
+  #fullscreen-menu.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Animación de los links cuando el menú se abre */
+  #fullscreen-menu.open .menu-link-wrapper {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Estilos de la hamburguesa (animación spin) */
+  .hamburger.is-active .hamburger-inner,
+  .hamburger.is-active .hamburger-inner::before,
+  .hamburger.is-active .hamburger-inner::after {
+    background-color: #feebdd !important;
+  }
+
+  /* Evitar que el scroll del fondo se mueva cuando el menú está abierto */
+  body.menu-open {
+    overflow: hidden;
+  }
+
+  .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+
   .hamburger-inner,
   .hamburger-inner::before,
   .hamburger-inner::after {
@@ -816,7 +571,7 @@ const {
     right: 20px;
 
     /* 4. Imagen de fondo */
-    background: url("/src/assets/images/logo.png");
+    background: url("/src/assets/images/logos/logo.png");
     background-size: 100% 100%; /* El 100% hace que la imagen llene el espacio de 100x100px */
     background-repeat: no-repeat; /* Asegura que no se repita */
   }
@@ -830,7 +585,7 @@ const {
     height: 100%;
 
     background-image:
-      url("/src/assets/images/logo.png"), url("/src/assets/images/logo.png");
+      url("/src/assets/images/logos/logo.png"), url("/src/assets/images/logos/logo.png");
 
     background-size:
       40px 40px,

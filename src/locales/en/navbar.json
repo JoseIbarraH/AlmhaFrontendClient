@@ -1,8 +1,4 @@
 {
-    "navigation": {
-        "title": "Navigation",
-        "subtitle": "Discover everything we offer you"
-    },
     "links": {
         "home": "Home",
         "procedure": "Procedures",
@@ -10,7 +6,6 @@
         "contact": "Contact",
         "blog": "Blog"
     },
-    "menu": "Menu",
     "contactbutton": "Contact Us",
     "contact": {
         "title": "Contact",

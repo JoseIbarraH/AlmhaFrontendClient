@@ -1,8 +1,7 @@
 ---
 import BrandsSection from "@/components/partials/home/BrandsSection.astro";
 import DoctorSection from "@/components/partials/home/DoctorSection.astro";
-import TreatmentsSection from "@/components/partials/home/TreatmentsSection.astro";
-import BackgroundParallax from "@/components/ui/BackgroundParallax.astro";
+import BackgroundParallax from "@/components/partials/home/BackgroundParallax.astro";
 import HeroCarousel from "@/components/partials/home/HeroCarousel.astro";
 import ImageVideo from "@/components/partials/home/ImageVideo.astro";
 import Layout from "../../layouts/Layout.astro";
@@ -31,6 +30,10 @@ const {
 ---
 
 <Layout>
+  <div class="bg-white flex justify-center items-center">
+    <DoctorSection />
+  </div>
+
   <>
     {
       (carousel?.carouselSetting?.enabled ?? true) && (
@@ -44,12 +47,6 @@ const {
       )
     }
   </>
-
-  <div class="bg-white flex justify-center items-center">
-    <DoctorSection />
-  </div>
-
-  <TreatmentsSection treatments={treatments} />
 
   <div class="parallax-wrapper">
     <>

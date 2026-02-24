@@ -1,8 +1,8 @@
 ---
 import Navbar from "@/components/layout/Navbar.astro";
 import Footer from "@/components/layout/Footer.astro";
-import defaultImage from "@/assets/images/abdominoplastia.jpg";
-import "@/assets/css/global.css";
+import defaultImage from "@/assets/images/test/abdominoplastia.jpg";
+import "@/styles/global.css";
 
 import { loadTranslations } from "../lib/i18n";
 const lang = Astro.params.lang || "es";
@@ -69,10 +69,12 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
 
-  </head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5G7KLND29N"
+    ></script></head
+  >
 
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5G7KLND29N"></script>
+
   <script is:inline>
     window.dataLayer = window.dataLayer || [];
     function gtag() {
@@ -85,15 +87,32 @@ const {
 
   <body>
     <Navbar
-      images={images}
-      topProcedure={topProcedure}
       procedures={procedures}
       settings={settings}
       procedureContext={procedureContext}
     />
-    <div class="h-25 bg-[#513A31]"></div>
+    <div id="navbar-spacer" class="bg-[#513A31]"></div>
     <slot />
     <Footer settings={settings} />
+
+    <script is:inline>
+      function updateNavbarSpacer() {
+        const navbar = document.getElementById("main-navbar");
+        const spacer = document.getElementById("navbar-spacer");
+        if (navbar && spacer) {
+          spacer.style.height = navbar.offsetHeight + "px";
+        }
+      }
+
+      // Ejecutar al cargar y al redimensionar
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", updateNavbarSpacer);
+      } else {
+        updateNavbarSpacer();
+      }
+      window.addEventListener("resize", updateNavbarSpacer);
+      document.addEventListener("astro:page-load", updateNavbarSpacer);
+    </script>
   </body>
 </html>
 
