@@ -1,9 +1,11 @@
 ---
+import BackgroundParallax from "@/components/partials/home/BackgroundParallax.astro";
 import BrandsSection from "@/components/partials/home/BrandsSection.astro";
 import DoctorSection from "@/components/partials/home/DoctorSection.astro";
-import BackgroundParallax from "@/components/partials/home/BackgroundParallax.astro";
 import HeroCarousel from "@/components/partials/home/HeroCarousel.astro";
 import ImageVideo from "@/components/partials/home/ImageVideo.astro";
+import Quote from "@/components/partials/home/QuoteComponent.astro";
+import Logo from "@/assets/images/logos/logo2.png";
 import Layout from "../../layouts/Layout.astro";
 
 const { api } = Astro.locals;
@@ -27,6 +29,7 @@ const {
   imageVideo = [],
   treatments = [],
 } = homeData.data || {};
+
 ---
 
 <Layout>
@@ -48,41 +51,101 @@ const {
     }
   </>
 
+  <Quote />
+
   <div class="parallax-wrapper">
     <>
       {
         backgrounds?.background1Setting?.enabled && (
           <BackgroundParallax
-            title={backgrounds?.background1?.[0]?.title}
-            subtitle={backgrounds?.background1?.[0]?.subtitle}
             bg={backgrounds?.background1?.[0]?.image}
             id="parallax1"
-            index={0}
-          />
+          >
+            <div class="parallax-content flex items-center justify-center w-full h-full px-4">
+              <div class="text-center max-w-3xl mx-auto parallax-fade-in">
+                <div class="p1-ornamental-frame">
+                  {/* <span class="p1-corner p1-corner-tl" /> */}
+                  <span class="p1-corner p1-corner-tr" />
+                  <span class="p1-corner p1-corner-bl" />
+                  {/* <span class="p1-corner p1-corner-br" /> */}
+
+                  <div class="p1-stars">
+                    <span class="p1-star">✦</span>
+                    <span class="p1-star">✦</span>
+                    <span class="p1-star">✦</span>
+                  </div>
+
+                  <div class="p1-glow-line mx-auto mb-5" />
+
+                  <h2 class="parallax-title text-white p1-title-anim">
+                    {backgrounds?.background1?.[0]?.title}
+                  </h2>
+
+                  <div class="p1-divider-group mx-auto my-5">
+                    <span class="p1-divider-wing" />
+                    <span class="p1-divider-icon">❖</span>
+                    <span class="p1-divider-wing" />
+                  </div>
+
+                  <p class="parallax-subtitle text-white/80 p1-subtitle-anim">
+                    {backgrounds?.background1?.[0]?.subtitle}
+                  </p>
+
+                  <div class="p1-glow-line mx-auto mt-5" />
+                </div>
+              </div>
+            </div>
+          </BackgroundParallax>
         )
       }
 
       {
         backgrounds?.background2Setting?.enabled && (
           <BackgroundParallax
-            title={backgrounds?.background2?.[0]?.title}
-            subtitle={backgrounds?.background2?.[0]?.subtitle}
             bg={backgrounds?.background2?.[0]?.image}
             id="parallax2"
-            index={1}
-          />
+          >
+            <div class="parallax-content flex items-center justify-center w-full h-full px-4">
+              <div class="text-center max-w-3xl mx-auto parallax-fade-in">
+                <span class="parallax-eyebrow">✦</span>
+                <h2 class="parallax-title text-white mt-4">
+                  {backgrounds?.background2?.[0]?.title}
+                </h2>
+                <div class="parallax-divider mx-auto my-5">
+                  <span class="parallax-divider-diamond" />
+                </div>
+                <p class="parallax-subtitle text-white/80">
+                  {backgrounds?.background2?.[0]?.subtitle}
+                </p>
+              </div>
+            </div>
+          </BackgroundParallax>
         )
       }
 
       {
         backgrounds?.background3Setting?.enabled && (
           <BackgroundParallax
-            title={backgrounds?.background3?.[0]?.title}
-            subtitle={backgrounds?.background3?.[0]?.subtitle}
             bg={backgrounds?.background3?.[0]?.image}
             id="parallax3"
-            index={2}
-          />
+          >
+            <div class="parallax-content flex items-center justify-center w-full h-full px-4">
+              <div class="text-center max-w-3xl mx-auto parallax-fade-in">
+                <div class="parallax-bracket-frame mx-auto">
+                  <span class="parallax-eyebrow">✦</span>
+                  <h2 class="parallax-title text-white">
+                    {backgrounds?.background3?.[0]?.title}
+                  </h2>
+                  <div class="parallax-divider mx-auto my-5">
+                    <span class="parallax-divider-diamond" />
+                  </div>
+                  <p class="parallax-subtitle text-white/75 mt-3">
+                    {backgrounds?.background3?.[0]?.subtitle}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </BackgroundParallax>
         )
       }
     </>
@@ -250,5 +313,254 @@ const {
     position: absolute;
     transform: none;
     right: 32px;
+  }
+
+  /* ─── Parallax Content Overlays ─── */
+
+  .parallax-title {
+    font-family: "Playfair Display", "Georgia", serif;
+    /* font-family: "Advent Pro", sans-serif; */
+    font-size: clamp(1.75rem, 3vw, 3.5rem);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1.2;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .parallax-subtitle {
+    font-family: "Inter", "Helvetica Neue", sans-serif;
+    font-size: clamp(0.95rem, 2vw, 1.35rem);
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    line-height: 1.6;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  /* ─── Section 1: Ornamental Frame ─── */
+
+  .p1-ornamental-frame {
+    position: relative;
+    padding: 3rem 3.5rem;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 640px) {
+    .p1-ornamental-frame {
+      padding: 2rem 1.5rem;
+    }
+  }
+
+  /* Corners */
+  .p1-corner {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    border-color: #dcbe9a;
+    border-style: solid;
+  }
+  .p1-corner-tl {
+    top: -1px;
+    left: -1px;
+    border-width: 2px 0 0 2px;
+  }
+  .p1-corner-tr {
+    top: -1px;
+    right: -1px;
+    border-width: 2px 2px 0 0;
+  }
+  .p1-corner-bl {
+    bottom: -1px;
+    left: -1px;
+    border-width: 0 0 2px 2px;
+  }
+  .p1-corner-br {
+    bottom: -1px;
+    right: -1px;
+    border-width: 0 2px 2px 0;
+  }
+
+  /* Glow line */
+  .p1-glow-line {
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #dcbe9a, transparent);
+    box-shadow: 0 0 12px rgba(220, 190, 154, 0.4);
+    animation: glowPulse 3s ease-in-out infinite;
+  }
+
+  @keyframes glowPulse {
+    0%,
+    100% {
+      box-shadow: 0 0 8px rgba(220, 190, 154, 0.3);
+      opacity: 0.7;
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(220, 190, 154, 0.6);
+      opacity: 1;
+    }
+  }
+
+  /* Stars */
+  .p1-stars {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .p1-star {
+    color: #dcbe9a;
+    font-size: 0.75rem;
+    opacity: 0;
+    animation: starAppear 0.6s ease-out forwards;
+    text-shadow: 0 0 10px rgba(220, 190, 154, 0.5);
+  }
+  .p1-star:nth-child(1) {
+    animation-delay: 0.3s;
+  }
+  .p1-star:nth-child(2) {
+    animation-delay: 0.5s;
+    font-size: 1rem;
+  }
+  .p1-star:nth-child(3) {
+    animation-delay: 0.7s;
+  }
+
+  @keyframes starAppear {
+    from {
+      opacity: 0;
+      transform: scale(0) rotate(180deg);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+  }
+
+  /* Divider group */
+  .p1-divider-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    width: 240px;
+  }
+
+  .p1-divider-wing {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #dcbe9a);
+  }
+  .p1-divider-wing:last-child {
+    background: linear-gradient(90deg, #dcbe9a, transparent);
+  }
+
+  .p1-divider-icon {
+    color: #dcbe9a;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    text-shadow: 0 0 8px rgba(220, 190, 154, 0.4);
+  }
+
+  /* Staggered text animations */
+  .p1-title-anim {
+    opacity: 0;
+    transform: translateY(15px);
+    animation: fadeSlideUp 0.8s ease-out 0.4s forwards;
+  }
+  .p1-subtitle-anim {
+    opacity: 0;
+    transform: translateY(15px);
+    animation: fadeSlideUp 0.8s ease-out 0.7s forwards;
+  }
+
+  @keyframes fadeSlideUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Eyebrow star (section 2) */
+  .parallax-eyebrow {
+    display: inline-block;
+    font-size: 1.25rem;
+    color: #dcbe9a;
+    letter-spacing: 0.3em;
+    text-shadow: 0 0 15px rgba(220, 190, 154, 0.5);
+  }
+
+  /* Diamond divider (section 2) */
+  .parallax-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 200px;
+  }
+
+  .parallax-divider::before,
+  .parallax-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #dcbe9a);
+  }
+
+  .parallax-divider::after {
+    background: linear-gradient(90deg, #dcbe9a, transparent);
+  }
+
+  .parallax-divider-diamond {
+    width: 8px;
+    height: 8px;
+    background: #dcbe9a;
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  /* Bracket frame (section 3) */
+  .parallax-bracket-frame {
+    position: relative;
+    padding: 2.5rem 3rem;
+    max-width: 600px;
+  }
+
+  .parallax-bracket-frame::before,
+  .parallax-bracket-frame::after {
+    content: "";
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-color: #dcbe9a;
+    border-style: solid;
+  }
+
+  .parallax-bracket-frame::before {
+    top: 0;
+    left: 0;
+    border-width: 1px 0 0 1px;
+  }
+
+  .parallax-bracket-frame::after {
+    bottom: 0;
+    right: 0;
+    border-width: 0 1px 1px 0;
+  }
+
+  /* Fade-in animation on scroll */
+  .parallax-fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: parallaxFadeIn 1s ease-out forwards;
+  }
+
+  @keyframes parallaxFadeIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 </style>

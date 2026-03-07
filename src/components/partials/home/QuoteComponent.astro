@@ -1,0 +1,69 @@
+---
+import logo from "@/assets/images/logos/logo.png";
+import logo2 from "@/assets/images/logos/logo2.png";
+
+interface Props {
+  quote?: string;
+  author?: string;
+  logoAlt?: string;
+}
+
+const {
+  quote = "Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.",
+  author = "Albert Einstein",
+  logoAlt = "Logo",
+} = Astro.props;
+---
+
+<section aria-label="Cita destacada">
+  <div
+    class="relative overflow-hidden bg-[#7D6A5D] flex flex-col justify-center items-center gap-4 py-16 px-4"
+  >
+    <!-- Logo difuminado de fondo -->
+    <img
+      src={logo2.src}
+      aria-hidden="true"
+      class="absolute bottom-[-60px] right-[-60px] w-[180px] md:bottom-[-150px] md:right-[-150px] md:w-[400px] opacity-28 pointer-events-none select-none"
+    />
+    <!-- Icono de comillas -->
+    <div class="w-full max-w-[160px] md:max-w-[470px]">
+      <div
+        class="rounded-4xl bg-[#FEEBDD] w-[60px] h-[60px] flex items-center justify-center"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          height="35"
+          width="35"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="#7D6A5D"
+          opacity="0.5"
+          aria-hidden="true"
+        >
+          <path
+            d="M3.691 6.292C5.094 4.771 7.217 4 10 4h1v2.819l-.804.161c-1.37.274-2.323.813-2.833 1.604A2.902 2.902 0 0 0 6.925 10H10a1 1 0 0 1 1 1v7c0 1.103-.897 2-2 2H3a1 1 0 0 1-1-1v-5l.003-2.919c-.009-.111-.199-2.741 1.688-4.789zM20 20h-6a1 1 0 0 1-1-1v-5l.003-2.919c-.009-.111-.199-2.741 1.688-4.789C16.094 4.771 18.217 4 21 4h1v2.819l-.804.161c-1.37.274-2.323.813-2.833 1.604A2.902 2.902 0 0 0 17.925 10H21a1 1 0 0 1 1 1v7c0 1.103-.897 2-2 2z"
+          ></path>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Cita con logo -->
+    <div class="flex w-full max-w-[700px] gap-4 items-center justify-center">
+      <img
+        src={logo.src}
+        alt={logoAlt}
+        class="w-[80px] md:w-[100px] shrink-0"
+      />
+
+      <blockquote
+        class="flex flex-col gap-1 px-4 border-l-2 border-l-[#FEEBDD]"
+      >
+        <p class="font-advent text-xl md:text-3xl text-[#FFF9F6]">
+          {quote}
+        </p>
+        <cite class="font-advent text-lg md:text-2xl text-[#FFF9F6] not-italic">
+          —{author}
+        </cite>
+      </blockquote>
+    </div>
+  </div>
+</section>
