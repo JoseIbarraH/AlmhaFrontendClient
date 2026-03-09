@@ -3,9 +3,9 @@ import BackgroundParallax from "@/components/partials/home/BackgroundParallax.as
 import BrandsSection from "@/components/partials/home/BrandsSection.astro";
 import DoctorSection from "@/components/partials/home/DoctorSection.astro";
 import HeroCarousel from "@/components/partials/home/HeroCarousel.astro";
+import InfoSection from "@/components/partials/home/InfoSection.astro";
 import ImageVideo from "@/components/partials/home/ImageVideo.astro";
 import Quote from "@/components/partials/home/QuoteComponent.astro";
-import Logo from "@/assets/images/logos/logo2.png";
 import Layout from "../../layouts/Layout.astro";
 
 const { api } = Astro.locals;
@@ -29,7 +29,6 @@ const {
   imageVideo = [],
   treatments = [],
 } = homeData.data || {};
-
 ---
 
 <Layout>
@@ -52,6 +51,8 @@ const {
   </>
 
   <Quote />
+
+  <InfoSection />
 
   <div class="parallax-wrapper">
     <>
@@ -77,7 +78,7 @@ const {
 
                   <div class="p1-glow-line mx-auto mb-5" />
 
-                  <h2 class="parallax-title text-white p1-title-anim">
+                  <h2 class="font-advent parallax-title text-white p1-title-anim">
                     {backgrounds?.background1?.[0]?.title}
                   </h2>
 
@@ -87,7 +88,7 @@ const {
                     <span class="p1-divider-wing" />
                   </div>
 
-                  <p class="parallax-subtitle text-white/80 p1-subtitle-anim">
+                  <p class="font-advent parallax-subtitle text-white/80 p1-subtitle-anim">
                     {backgrounds?.background1?.[0]?.subtitle}
                   </p>
 
@@ -107,14 +108,14 @@ const {
           >
             <div class="parallax-content flex items-center justify-center w-full h-full px-4">
               <div class="text-center max-w-3xl mx-auto parallax-fade-in">
-                <span class="parallax-eyebrow">✦</span>
-                <h2 class="parallax-title text-white mt-4">
+                <span class="font-advent parallax-eyebrow">✦</span>
+                <h2 class="font-advent parallax-title text-white mt-4">
                   {backgrounds?.background2?.[0]?.title}
                 </h2>
                 <div class="parallax-divider mx-auto my-5">
                   <span class="parallax-divider-diamond" />
                 </div>
-                <p class="parallax-subtitle text-white/80">
+                <p class="font-advent parallax-subtitle text-white/80">
                   {backgrounds?.background2?.[0]?.subtitle}
                 </p>
               </div>
@@ -318,8 +319,7 @@ const {
   /* ─── Parallax Content Overlays ─── */
 
   .parallax-title {
-    font-family: "Playfair Display", "Georgia", serif;
-    /* font-family: "Advent Pro", sans-serif; */
+    font-family: "Advent Pro", sans-serif;
     font-size: clamp(1.75rem, 3vw, 3.5rem);
     font-weight: 600;
     letter-spacing: 0.08em;
@@ -329,7 +329,7 @@ const {
   }
 
   .parallax-subtitle {
-    font-family: "Inter", "Helvetica Neue", sans-serif;
+    font-family: "Advent Pro", sans-serif;
     font-size: clamp(0.95rem, 2vw, 1.35rem);
     font-weight: 300;
     letter-spacing: 0.12em;

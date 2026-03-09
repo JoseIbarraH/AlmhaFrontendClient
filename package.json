@@ -9,11 +9,11 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.2",
-    "@astrojs/node": "^9.5.2",
+    "@astrojs/check": "^0.9.6",
+    "@astrojs/node": "^9.5.4",
     "@lucide/astro": "^0.562.0",
     "@tailwindcss/vite": "^4.1.17",
-    "astro": "^5.17.1",
+    "astro": "^5.18.0",
     "axios": "^1.13.2",
     "hamburgers": "^1.2.1",
     "lucide-static": "^0.556.0",

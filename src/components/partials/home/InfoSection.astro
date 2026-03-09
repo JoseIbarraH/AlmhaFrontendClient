@@ -1,0 +1,243 @@
+---
+import profileImage from "@/assets/images/test/nariz.jpg";
+---
+
+<section id="info-section" class="relative w-full overflow-hidden bg-[#F5E6D8]">
+  <div class="info-grid">
+    <!-- Left: Portrait Image -->
+    <div class="info-image-col">
+      <img
+        src={profileImage.src}
+        alt="Cirugía plástica facial - Perfil"
+        class="info-portrait"
+      />
+    </div>
+
+    <!-- Right: Content -->
+    <div class="info-content-col">
+      <div class="info-content-inner">
+        <!-- Header row: Title + Icon -->
+        <div class="info-header">
+          <div class="info-header-text">
+            <span class="info-eyebrow">Cirugía plástica facial</span>
+            <h2 class="info-title">
+              Creando la versión<br />más hermosa de ti.
+            </h2>
+          </div>
+          <!-- Decorative Icon -->
+          <div class="info-icon" aria-hidden="true">
+            <svg
+              viewBox="0 0 80 80"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20"
+            >
+              <!-- Cross/flower ornamental shape -->
+              <path
+                d="M40 8C40 8 44 20 44 28C44 32 48 36 52 36C60 36 72 40 72 40C72 40 60 44 52 44C48 44 44 48 44 52C44 60 40 72 40 72C40 72 36 60 36 52C36 48 32 44 28 44C20 44 8 40 8 40C8 40 20 36 28 36C32 36 36 32 36 28C36 20 40 8 40 8Z"
+                fill="#513A31"></path>
+              <!-- Small dots at the tips -->
+              <circle cx="40" cy="4" r="2" fill="#513A31"></circle>
+              <circle cx="40" cy="76" r="2" fill="#513A31"></circle>
+              <circle cx="4" cy="40" r="2" fill="#513A31"></circle>
+              <circle cx="76" cy="40" r="2" fill="#513A31"></circle>
+              <!-- Diagonal accent dots -->
+              <circle cx="18" cy="18" r="1.5" fill="#513A31"></circle>
+              <circle cx="62" cy="18" r="1.5" fill="#513A31"></circle>
+              <circle cx="18" cy="62" r="1.5" fill="#513A31"></circle>
+              <circle cx="62" cy="62" r="1.5" fill="#513A31"></circle>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Decorative separator line -->
+        <div class="info-separator"></div>
+
+        <!-- Description paragraph -->
+        <p class="info-description">
+          Tu tratamiento se personalizará para mejorar la armonía natural de tu
+          rostro. Déjanos ayudarte a resaltar tus rasgos más bonitos alisando
+          arrugas, líneas y pliegues, para lograr un aspecto más vital, dinámico
+          y juvenil que resulte completamente natural. Utilizamos la última
+          generación de láseres no invasivos y las técnicas quirúrgicas de
+          lifting facial más avanzadas y menos invasivas para una cicatrización
+          más rápida y resultados más bonitos y naturales.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ─── Grid Layout ─── */
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    min-height: 500px;
+  }
+
+  @media (min-width: 768px) {
+    .info-grid {
+      grid-template-columns: 1fr 1fr;
+      min-height: 600px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .info-grid {
+      min-height: 650px;
+    }
+  }
+
+  /* ─── Image Column ─── */
+  .info-image-col {
+    position: relative;
+    overflow: hidden;
+    min-height: 400px;
+  }
+
+  @media (min-width: 768px) {
+    .info-image-col {
+      min-height: unset;
+    }
+  }
+
+  .info-portrait {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    display: block;
+    filter: grayscale(100%);
+    transition: filter 0.6s ease;
+  }
+
+  /* ─── Content Column ─── */
+  .info-content-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .info-content-col {
+      padding: 3rem 2.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .info-content-col {
+      padding: 4rem 3.5rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .info-content-col {
+      padding: 4rem 5rem;
+    }
+  }
+
+  .info-content-inner {
+    max-width: 520px;
+    width: 100%;
+  }
+
+  /* ─── Header (Title + Icon) ─── */
+  .info-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .info-header-text {
+    flex: 1;
+  }
+
+  .info-eyebrow {
+    display: block;
+    font-family: "Advent Pro", sans-serif;
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #7d6a5d;
+    margin-bottom: 0.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .info-eyebrow {
+      font-size: 0.85rem;
+    }
+  }
+
+  .info-title {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+    font-weight: 600;
+    font-style: italic;
+    color: #513a31;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+
+  /* ─── Decorative Icon ─── */
+  .info-icon {
+    flex-shrink: 0;
+    margin-top: 0.25rem;
+    opacity: 0.85;
+    transition: transform 0.5s ease;
+  }
+
+  .info-icon:hover {
+    transform: rotate(45deg);
+  }
+
+  /* ─── Separator ─── */
+  .info-separator {
+    width: 50px;
+    height: 1px;
+    background-color: #7d6a5d;
+    margin-bottom: 1.5rem;
+    opacity: 0.5;
+  }
+
+  /* ─── Description ─── */
+  .info-description {
+    font-family: "Advent Pro", sans-serif;
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.75;
+    color: #513a31;
+    letter-spacing: 0.01em;
+  }
+
+  @media (min-width: 768px) {
+    .info-description {
+      font-size: 1rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .info-description {
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+  }
+
+  /* ─── Scroll-triggered animation ─── */
+  .info-content-inner {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: infoFadeIn 0.8s ease-out 0.3s forwards;
+  }
+
+  @keyframes infoFadeIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
