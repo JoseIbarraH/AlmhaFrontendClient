@@ -29,6 +29,8 @@ if (whatsapp_number) {
   }
   const query = finalMessage ? `?text=${encodeURIComponent(finalMessage)}` : "";
   whatsappLink = `https://wa.me/${cleanNumber}${query}`;
+
+  console.log("Whatsapp link: ", whatsappLink)
 }
 ---
 
@@ -37,7 +39,7 @@ if (whatsapp_number) {
     <!-- Overlay/Decorative glow -->
     <div class="absolute -top-20 -left-20 w-64 h-64 bg-[#FEEBDD]/10 rounded-full blur-3xl"></div>
     <div class="absolute -bottom-20 -right-20 w-64 h-64 bg-[#FEEBDD]/10 rounded-full blur-3xl"></div>
-    
+
     <div class="relative z-10 flex flex-col items-center gap-6">
       <!-- Decorative Icon/Element -->
       <div class="w-16 h-16 bg-[#FEEBDD] rounded-full flex items-center justify-center shadow-lg mb-2">
@@ -49,7 +51,7 @@ if (whatsapp_number) {
       <h2 class="font-advent text-3xl md:text-5xl font-semibold text-[#FFF9F6] tracking-wide">
         ¿Te interesa este procedimiento?
       </h2>
-      
+
       <p class="text-[#FEEBDD]/90 text-lg md:text-xl max-w-2xl font-light leading-relaxed">
         Agenda tu consulta hoy mismo para recibir atención personalizada y despejar todas tus dudas.
       </p>
