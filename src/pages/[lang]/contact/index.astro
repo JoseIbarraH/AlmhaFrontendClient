@@ -12,17 +12,14 @@ interface ContactSettings {
   whatsapp_open_new_tab?: boolean;
 }
 
-const API_URL = import.meta.env.PUBLIC_API_URL;
+const { api } = Astro.locals;
 let settings: ContactSettings = {};
 let procedures: { value: string; label: string }[] = [];
 
 const lang = Astro.currentLocale || "es";
 
 try {
-  const response = await fetch(
-    `${API_URL}/api/client/contact-data?lang=${lang}`,
-  );
-  const data = await response.json();
+  const { data } = await api.get(`/api/client/contact-data?lang=${lang}`);
   if (data.success) {
     settings = data.data.settings;
     procedures = data.data.procedures.map((p: any) => ({
