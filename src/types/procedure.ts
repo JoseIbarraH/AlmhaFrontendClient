@@ -20,6 +20,10 @@ export interface Procedure {
   dont: Recommendation[];
   faq: Faq[];
   gallery: GalleryItem[];
+  whatsapp_number?: string | null;
+  whatsapp_active?: boolean;
+  whatsapp_message?: string | null;
+  whatsapp_open_new_tab?: boolean;
 }
 
 export interface ProcedureSection {

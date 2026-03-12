@@ -8,6 +8,7 @@ import Gallery from "@/components/partials/procedure/Gallery.astro";
 import Header from "@/components/partials/procedure/Header.astro";
 import WhatIs from "@/components/partials/procedure/WhatIs.astro";
 import Faq from "@/components/partials/procedure/Faq.astro";
+import ProcedureContactCTA from "@/components/partials/procedure/ProcedureContactCTA.astro";
 import type { Procedure } from "@/types/procedure";
 import Layout from "@/layouts/Layout.astro";
 
@@ -21,6 +22,7 @@ try {
     `/api/client/procedure/${slug}`,
   );
   procedure = data.data;
+  console.log(procedure)
 } catch (error) {
   console.error(`Error cargando el procedimiento ${slug}:`, error);
 }
@@ -77,4 +79,12 @@ const recoverySection = procedure.section.find((s) => s.type === "recovery");
   }
 
   {procedure.faq && procedure.faq.length > 0 && <Faq items={procedure.faq} />}
+
+  <ProcedureContactCTA 
+    whatsapp_number={procedure.whatsapp_number}
+    whatsapp_active={procedure.whatsapp_active}
+    whatsapp_message={procedure.whatsapp_message}
+    whatsapp_open_new_tab={procedure.whatsapp_open_new_tab}
+    procedure_title={procedure.title}
+  />
 </Layout>
