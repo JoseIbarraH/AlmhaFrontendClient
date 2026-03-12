@@ -1,7 +1,7 @@
 ---
 import { loadTranslations } from "@/lib/i18n";
-import image from "@/assets/images/test/doctor_fondo.jpg";
-import imagotipo from "@/assets/images/logos/Imagotipo_sin_tagline.png";
+import image from "@/assets/images/test/doctor2.png";
+import imagotipo from "@/assets/images/logos/Imagotipo_nombre_beige.png";
 
 const currentLang = Astro.currentLocale || "es";
 const t = await loadTranslations(currentLang);
@@ -29,9 +29,9 @@ const credentials = Object.values(t?.home?.doctor?.credentials || {});
         class="w-full drop-shadow-2xl"
       />
       <h1
-        class="wrap-break-word font-advent text-lg sm:text-xl md:text-xl lg:text-2xl text-left md:text-center text-[#513A31]"
+        class="wrap-break-word font-advent text-lg sm:text-xl md:text-xl lg:text-2xl text-left md:text-center text-[#FFF9F6]"
       >
-        CIRUJANO PLÁSTICO Y ESPECIALISTA EN ALGO PARA LLENAR DE RENOMBRE MUNDIAL
+        CIRUJANO PLÁSTICO Y ESPECIALISTA EN CIRUGÍA RECONSTRUCTIVA Y RESTAURATIVA
       </h1>
     </div>
   </div>
