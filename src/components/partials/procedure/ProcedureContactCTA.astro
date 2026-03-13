@@ -29,13 +29,11 @@ if (whatsapp_number) {
   }
   const query = finalMessage ? `?text=${encodeURIComponent(finalMessage)}` : "";
   whatsappLink = `https://wa.me/${cleanNumber}${query}`;
-
-  console.log("Whatsapp link: ", whatsappLink)
 }
 ---
 
 <section class="w-full bg-[#FFF9F6] py-20 px-6 sm:px-12 lg:px-24 flex items-center justify-center">
-  <div class="max-w-4xl w-full bg-linear-to-br from-[#513A31] to-[#7D6A5D] rounded-[2rem] p-10 md:p-16 text-center shadow-2xl relative overflow-hidden">
+  <div class="max-w-4xl w-full bg-linear-to-br from-[#513A31] to-[#7D6A5D] rounded-4xl p-10 md:p-16 text-center shadow-2xl relative overflow-hidden">
     <!-- Overlay/Decorative glow -->
     <div class="absolute -top-20 -left-20 w-64 h-64 bg-[#FEEBDD]/10 rounded-full blur-3xl"></div>
     <div class="absolute -bottom-20 -right-20 w-64 h-64 bg-[#FEEBDD]/10 rounded-full blur-3xl"></div>

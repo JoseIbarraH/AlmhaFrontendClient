@@ -22,7 +22,6 @@ try {
     `/api/client/procedure/${slug}`,
   );
   procedure = data.data;
-  console.log(procedure)
 } catch (error) {
   console.error(`Error cargando el procedimiento ${slug}:`, error);
 }
@@ -80,7 +79,7 @@ const recoverySection = procedure.section.find((s) => s.type === "recovery");
 
   {procedure.faq && procedure.faq.length > 0 && <Faq items={procedure.faq} />}
 
-  <ProcedureContactCTA 
+  <ProcedureContactCTA
     whatsapp_number={procedure.whatsapp_number}
     whatsapp_active={procedure.whatsapp_active}
     whatsapp_message={procedure.whatsapp_message}
