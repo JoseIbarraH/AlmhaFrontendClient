@@ -1,6 +1,7 @@
 ---
 import Navbar from "@/components/layout/Navbar.astro";
 import Footer from "@/components/layout/Footer.astro";
+import ChatWidget from "@/components/shared/ChatWidget.astro";
 import defaultImage from "@/assets/images/test/abdominoplastia.jpg";
 import "@/styles/global.css";
 
@@ -69,6 +70,8 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
 
+
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-5G7KLND29N"
     ></script></head
   >
@@ -94,6 +97,7 @@ const {
     <div id="navbar-spacer" class="bg-[#513A31]"></div>
     <slot />
     <Footer settings={settings} />
+    <ChatWidget />
 
     <script is:inline>
       function updateNavbarSpacer() {
@@ -113,6 +117,8 @@ const {
       window.addEventListener("resize", updateNavbarSpacer);
       document.addEventListener("astro:page-load", updateNavbarSpacer);
     </script>
+
+
   </body>
 </html>
 

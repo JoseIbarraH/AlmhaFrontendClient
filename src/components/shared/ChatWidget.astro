@@ -1,0 +1,489 @@
+---
+/* Floating Chat Widget — connects to n8n Chat Trigger webhook */
+---
+
+<!-- Floating Chat Button -->
+<button id="chat-toggle" aria-label="Abrir chat" title="¿Necesitas ayuda?">
+  <!-- Chat icon -->
+  <svg id="chat-icon-open" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+  <!-- Close icon -->
+  <svg id="chat-icon-close" class="chat-hidden" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="18" y1="6" x2="6" y2="18"/>
+    <line x1="6" y1="6" x2="18" y2="18"/>
+  </svg>
+</button>
+
+<!-- Chat Window -->
+<div id="chat-window" class="chat-hidden">
+  <!-- Header -->
+  <div id="chat-header">
+    <div id="chat-header-info">
+      <div id="chat-avatar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 8V4H8"/>
+          <rect width="16" height="12" x="4" y="8" rx="2"/>
+          <path d="M2 14h2"/>
+          <path d="M20 14h2"/>
+          <path d="M15 13v2"/>
+          <path d="M9 13v2"/>
+        </svg>
+      </div>
+      <div>
+        <div id="chat-title">Almha Asistente</div>
+        <div id="chat-subtitle">Tu destino de belleza y bienestar</div>
+      </div>
+    </div>
+    <button id="chat-close" aria-label="Cerrar chat">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Messages -->
+  <div id="chat-messages">
+    <div class="chat-msg bot">
+      <div class="chat-bubble bot">¡Bienvenido a Almha Plastic Surgery! ✨</div>
+    </div>
+    <div class="chat-msg bot">
+      <div class="chat-bubble bot">Soy tu asistente virtual. Puedo ayudarte con información sobre procedimientos estéticos, costos, recuperación y tu viaje de turismo estético. ¿En qué puedo ayudarte?</div>
+    </div>
+  </div>
+
+  <!-- Input -->
+  <form id="chat-form">
+    <div id="chat-input-wrapper">
+      <input
+        id="chat-input"
+        type="text"
+        placeholder="Pregúntame sobre procedimientos, costos..."
+        autocomplete="off"
+      />
+      <button type="submit" id="chat-send" aria-label="Enviar mensaje">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </div>
+  </form>
+</div>
+
+<style>
+  /* ===== Floating Button ===== */
+  #chat-toggle {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    border: none;
+    background: #513A31;
+    color: #FFF9F6;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 24px rgba(81, 58, 49, 0.35);
+    transition: transform 0.3s cubic-bezier(.34,1.56,.64,1),
+                background 0.25s ease,
+                box-shadow 0.25s ease;
+  }
+  #chat-toggle:hover {
+    background: #7D6A5D;
+    transform: scale(1.08);
+    box-shadow: 0 8px 32px rgba(81, 58, 49, 0.45);
+  }
+  #chat-toggle:active {
+    transform: scale(0.95);
+  }
+
+  /* ===== Chat Window ===== */
+  #chat-window {
+    position: fixed;
+    bottom: 100px;
+    right: 24px;
+    z-index: 9998;
+    width: 380px;
+    max-width: calc(100vw - 32px);
+    height: 520px;
+    max-height: calc(100vh - 140px);
+    background: #FFF9F6;
+    border-radius: 20px;
+    box-shadow: 0 12px 48px rgba(81, 58, 49, 0.2),
+                0 2px 8px rgba(81, 58, 49, 0.08);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform-origin: bottom right;
+    transition: opacity 0.3s ease,
+                transform 0.3s cubic-bezier(.34,1.56,.64,1);
+  }
+  #chat-window.chat-hidden {
+    opacity: 0;
+    transform: scale(0.6) translateY(20px);
+    pointer-events: none;
+  }
+  #chat-window:not(.chat-hidden) {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+
+  /* ===== Header ===== */
+  #chat-header {
+    background: #513A31;
+    color: #FFF9F6;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  #chat-header-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  #chat-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #7D6A5D;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FEEBDD;
+    flex-shrink: 0;
+  }
+  #chat-title {
+    font-family: 'Advent Pro', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+  #chat-subtitle {
+    font-size: 12px;
+    color: #D6C4B6;
+    margin-top: 2px;
+  }
+  #chat-close {
+    background: none;
+    border: none;
+    color: #D6C4B6;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s, background 0.2s;
+  }
+  #chat-close:hover {
+    color: #FFF9F6;
+    background: rgba(255,255,255,0.1);
+  }
+
+  /* ===== Messages ===== */
+  #chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #D6C4B6 transparent;
+  }
+  #chat-messages::-webkit-scrollbar {
+    width: 5px;
+  }
+  #chat-messages::-webkit-scrollbar-thumb {
+    background: #D6C4B6;
+    border-radius: 10px;
+  }
+
+  .chat-msg {
+    display: flex;
+    max-width: 85%;
+    animation: chatFadeIn 0.35s ease;
+  }
+  .chat-msg.bot {
+    align-self: flex-start;
+  }
+  .chat-msg.user {
+    align-self: flex-end;
+  }
+
+  .chat-bubble {
+    padding: 10px 16px;
+    border-radius: 18px;
+    font-size: 14px;
+    line-height: 1.5;
+    word-wrap: break-word;
+  }
+  .chat-bubble.bot {
+    background: #FEEBDD;
+    color: #513A31;
+    border-bottom-left-radius: 4px;
+  }
+  .chat-bubble.user {
+    background: #513A31;
+    color: #FFF9F6;
+    border-bottom-right-radius: 4px;
+  }
+
+  /* Typing indicator */
+  .chat-typing {
+    display: flex;
+    gap: 5px;
+    padding: 12px 18px;
+    align-items: center;
+  }
+  .chat-typing span {
+    width: 8px;
+    height: 8px;
+    background: #D6C4B6;
+    border-radius: 50%;
+    animation: typingBounce 1.2s ease-in-out infinite;
+  }
+  .chat-typing span:nth-child(2) { animation-delay: 0.15s; }
+  .chat-typing span:nth-child(3) { animation-delay: 0.3s; }
+
+  /* ===== Input ===== */
+  #chat-form {
+    flex-shrink: 0;
+    padding: 12px 14px;
+    border-top: 1px solid #D6C4B6;
+    background: #FFF9F6;
+  }
+  #chat-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #FEEBDD;
+    border-radius: 14px;
+    padding: 4px 6px 4px 16px;
+    transition: box-shadow 0.2s;
+  }
+  #chat-input-wrapper:focus-within {
+    box-shadow: 0 0 0 2px #D6C4B6;
+  }
+  #chat-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    color: #513A31;
+    padding: 10px 0;
+    outline: none;
+    font-family: 'Advent Pro', sans-serif;
+  }
+  #chat-input::placeholder {
+    color: #7D6A5D;
+    opacity: 0.7;
+  }
+  #chat-send {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    border: none;
+    background: #513A31;
+    color: #FFF9F6;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s, transform 0.15s;
+  }
+  #chat-send:hover {
+    background: #7D6A5D;
+    transform: scale(1.05);
+  }
+  #chat-send:active {
+    transform: scale(0.95);
+  }
+  #chat-send:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* ===== Utility ===== */
+  .chat-hidden {
+    display: none !important;
+  }
+  /* Override for chat window — use opacity+transform instead of display:none */
+  #chat-window.chat-hidden {
+    display: flex !important;
+  }
+
+  /* ===== Animations ===== */
+  @keyframes chatFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes typingBounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-6px); }
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 480px) {
+    #chat-window {
+      bottom: 0;
+      right: 0;
+      width: 100vw;
+      height: 100vh;
+      max-height: 100vh;
+      max-width: 100vw;
+      border-radius: 0;
+    }
+    #chat-toggle {
+      bottom: 16px;
+      right: 16px;
+    }
+  }
+</style>
+
+<script is:inline>
+(function () {
+  const WEBHOOK_URL = 'https://n8n.almhaplasticsurgery.com/webhook/b99ccfad-8db0-44c6-8afe-95ae10430b5d/chat';
+
+  // Generate a persistent session ID
+  function getSessionId() {
+    let id = sessionStorage.getItem('almha-chat-session');
+    if (!id) {
+      id = 'session-' + Date.now() + '-' + Math.random().toString(36).substring(2, 9);
+      sessionStorage.setItem('almha-chat-session', id);
+    }
+    return id;
+  }
+
+  const sessionId = getSessionId();
+
+  const toggleBtn = document.getElementById('chat-toggle');
+  const chatWindow = document.getElementById('chat-window');
+  const closeBtn = document.getElementById('chat-close');
+  const form = document.getElementById('chat-form');
+  const input = document.getElementById('chat-input');
+  const messagesContainer = document.getElementById('chat-messages');
+  const iconOpen = document.getElementById('chat-icon-open');
+  const iconClose = document.getElementById('chat-icon-close');
+
+  let isOpen = false;
+
+  function toggleChat() {
+    isOpen = !isOpen;
+    chatWindow.classList.toggle('chat-hidden', !isOpen);
+    iconOpen.classList.toggle('chat-hidden', isOpen);
+    iconClose.classList.toggle('chat-hidden', !isOpen);
+
+    if (isOpen) {
+      scrollToBottom();
+      setTimeout(() => input.focus(), 350);
+    }
+  }
+
+  toggleBtn.addEventListener('click', toggleChat);
+  closeBtn.addEventListener('click', toggleChat);
+
+  function scrollToBottom() {
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }
+
+  function addMessage(text, sender) {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'chat-msg ' + sender;
+
+    const bubble = document.createElement('div');
+    bubble.className = 'chat-bubble ' + sender;
+    bubble.textContent = text;
+
+    msgDiv.appendChild(bubble);
+    messagesContainer.appendChild(msgDiv);
+    scrollToBottom();
+  }
+
+  function showTyping() {
+    const typing = document.createElement('div');
+    typing.className = 'chat-msg bot';
+    typing.id = 'chat-typing';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'chat-bubble bot chat-typing';
+    bubble.innerHTML = '<span></span><span></span><span></span>';
+
+    typing.appendChild(bubble);
+    messagesContainer.appendChild(typing);
+    scrollToBottom();
+  }
+
+  function hideTyping() {
+    const typing = document.getElementById('chat-typing');
+    if (typing) typing.remove();
+  }
+
+  async function sendMessage(text) {
+    addMessage(text, 'user');
+    input.value = '';
+    input.disabled = true;
+    document.getElementById('chat-send').disabled = true;
+
+    showTyping();
+
+    try {
+      const response = await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'sendMessage',
+          chatInput: text,
+          sessionId: sessionId,
+        }),
+      });
+
+      hideTyping();
+
+      if (!response.ok) throw new Error('Error en la respuesta');
+
+      const data = await response.json();
+
+      // n8n Chat Trigger returns the output in 'output' field
+      const botReply = data.output
+        || data.text
+        || data.response
+        || data.message
+        || (typeof data === 'string' ? data : 'Lo siento, no pude procesar tu solicitud.');
+
+      addMessage(botReply, 'bot');
+    } catch (err) {
+      hideTyping();
+      console.error('Chat error:', err);
+      addMessage('Lo siento, hubo un error de conexión. Por favor intenta de nuevo.', 'bot');
+    } finally {
+      input.disabled = false;
+      document.getElementById('chat-send').disabled = false;
+      input.focus();
+    }
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text) return;
+    sendMessage(text);
+  });
+})();
+</script>
