@@ -88,6 +88,56 @@ const {
     <Footer settings={settings} />
     <ChatWidget />
 
+    <!-- Global toast notifications target (used by @/lib/toast) -->
+    <div
+      id="toast-container"
+      class="fixed bottom-6 right-6 z-[100] flex flex-col gap-3 pointer-events-none"
+    >
+    </div>
+
+    <!-- Show a toast when the user lands here from an email confirmation link -->
+    <script>
+      import { showToast } from "@/lib/toast";
+
+      function handleSubscriptionStatus() {
+        const url = new URL(window.location.href);
+        const status = url.searchParams.get("subscription");
+        if (!status) return;
+
+        const messages: Record<string, { text: string; variant: "success" | "error" }> = {
+          confirmed: {
+            text: "¡Suscripción confirmada! Pronto recibirás nuestras novedades.",
+            variant: "success",
+          },
+          failed: {
+            text: "No pudimos confirmar tu suscripción. El enlace puede haber expirado.",
+            variant: "error",
+          },
+          invalid: {
+            text: "El enlace de confirmación no es válido.",
+            variant: "error",
+          },
+        };
+
+        const entry = messages[status];
+        if (!entry) return;
+
+        showToast(entry.text, entry.variant);
+
+        // Clean the query param so the toast doesn't reappear on refresh.
+        url.searchParams.delete("subscription");
+        window.history.replaceState({}, "", url.toString());
+      }
+
+      // Run on initial load and on Astro SPA navigation.
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", handleSubscriptionStatus);
+      } else {
+        handleSubscriptionStatus();
+      }
+      document.addEventListener("astro:page-load", handleSubscriptionStatus);
+    </script>
+
     <script is:inline>
       function updateNavbarSpacer() {
         const navbar = document.getElementById("main-navbar");

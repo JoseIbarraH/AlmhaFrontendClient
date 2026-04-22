@@ -73,7 +73,10 @@ const apiUrl = import.meta.env.PUBLIC_API_URL ?? "";
   </form>
 </div>
 
-<style>
+<style is:global>
+  /* All selectors are prefixed with `chat-` / `#chat-*` so global scoping is
+     safe and lets the CSS apply to DOM nodes created dynamically from JS. */
+
   /* ===== Floating Button ===== */
   #chat-toggle {
     position: fixed;
