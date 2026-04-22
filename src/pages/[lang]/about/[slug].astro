@@ -8,7 +8,7 @@ import { loadTranslations } from "@/lib/i18n";
 const { slug, lang } = Astro.params;
 const t = await loadTranslations(lang || "es");
 const { api } = Astro.locals;
-let member: Data | null = null;
+let member: Data | null;
 
 try {
   const { data } = await api.get<ApiResponse<Data>>(`api/client/members/${slug}`);

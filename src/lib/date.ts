@@ -1,10 +1,25 @@
+export interface RelativeTimeDict {
+  prefix?: string;
+  suffix?: string;
+  seconds: string;
+  minute: string;
+  minutes: string;
+  hour: string;
+  hours: string;
+  day: string;
+  days: string;
+  week: string;
+  weeks: string;
+  month: string;
+  months: string;
+  year: string;
+  years: string;
+}
+
 /**
  * Convierte una fecha de string (YYYY-MM-DD HH:mm:ss) a tiempo relativo.
- * @param dateString - La fecha proveniente de la API.
- * @param t - Objeto de traducciones para date.
- * @returns Un string con el tiempo transcurrido.
  */
-export function getRelativeTime(dateString: string, t: any): string {
+export function getRelativeTime(dateString: string, t: RelativeTimeDict): string {
   const now = new Date();
   const date = new Date(dateString.replace(' ', 'T'));
   const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);

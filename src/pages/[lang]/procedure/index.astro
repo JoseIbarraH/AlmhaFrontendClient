@@ -8,6 +8,7 @@ import SearchInput from "@/components/ui/SearchInput.astro";
 import CtaStep from "@/components/shared/CtaStep.astro";
 import { fetchListData } from "@/lib/dataService";
 import type { Data, CategoryData } from "@/types/procedure";
+import type { PaginatedResponse } from "@/types/apiResponse";
 import { loadTranslations } from "@/lib/i18n";
 
 const lang = Astro.currentLocale || "es";
@@ -15,7 +16,7 @@ const t = await loadTranslations(lang);
 
 let extractedCategory: CategoryData[] = [];
 let procedures: Data[] = [];
-let pagination: any = null;
+let pagination: PaginatedResponse<Data> | null = null;
 
 // Get query params
 const categoryFilter = Astro.url.searchParams.get("category") || "";

@@ -2,11 +2,12 @@
 import Icon from "@/components/ui/Icon.astro";
 import { getRelativeTime } from "@/lib/date";
 import type { Data } from "@/types/blog";
+import type { Translations } from "@/types/i18n";
 
 interface Props {
   blogs: Data[];
   lang: string;
-  t: any;
+  t: Translations;
 }
 
 const { blogs, lang, t } = Astro.props;

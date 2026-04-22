@@ -1,11 +1,12 @@
 ---
 import Icon from "@/components/ui/Icon.astro";
 import type { CategoryData } from "@/types/procedure";
+import type { Translations } from "@/types/i18n";
 
 interface Props {
   categories: CategoryData[];
   activeCategory: string;
-  t: any;
+  t: Translations;
 }
 
 const { categories, activeCategory, t } = Astro.props;

@@ -31,10 +31,13 @@ export const onRequest = async (
       return context.redirect(`/${lang}/`, 307);
     }
 
-  } catch (error: any) {
+  } catch (error) {
+    const axiosErr = error as {
+      response?: { status?: number; data?: unknown };
+    };
     console.error("Error fetching design settings in middleware:", {
-      status: error?.response?.status,
-      data: error?.response?.data,
+      status: axiosErr?.response?.status,
+      data: axiosErr?.response?.data,
     });
   }
 

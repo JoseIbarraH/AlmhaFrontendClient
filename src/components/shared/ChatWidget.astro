@@ -1,9 +1,10 @@
 ---
-/* Floating Chat Widget — connects to n8n Chat Trigger webhook */
+/* Floating Chat Widget — connects to backend chat proxy, which forwards to n8n */
+const apiUrl = import.meta.env.PUBLIC_API_URL ?? "";
 ---
 
 <!-- Floating Chat Button -->
-<button id="chat-toggle" aria-label="Abrir chat" title="¿Necesitas ayuda?">
+<button id="chat-toggle" data-api-url={apiUrl} aria-label="Abrir chat" title="¿Necesitas ayuda?">
   <!-- Chat icon -->
   <svg id="chat-icon-open" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
@@ -359,7 +360,9 @@
 
 <script is:inline>
 (function () {
-  const WEBHOOK_URL = 'https://n8n.almhaplasticsurgery.com/webhook/b99ccfad-8db0-44c6-8afe-95ae10430b5d/chat';
+  const toggleEl = document.getElementById('chat-toggle');
+  const API_BASE = (toggleEl && toggleEl.getAttribute('data-api-url')) || '';
+  const CHAT_ENDPOINT = API_BASE.replace(/\/+$/, '') + '/api/v1/chat';
 
   // Generate a persistent session ID
   function getSessionId() {
@@ -444,9 +447,12 @@
     showTyping();
 
     try {
-      const response = await fetch(WEBHOOK_URL, {
+      const response = await fetch(CHAT_ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
         body: JSON.stringify({
           action: 'sendMessage',
           chatInput: text,
@@ -455,6 +461,11 @@
       });
 
       hideTyping();
+
+      if (response.status === 429) {
+        addMessage('Demasiados mensajes en poco tiempo. Espera un momento.', 'bot');
+        return;
+      }
 
       if (!response.ok) throw new Error('Error en la respuesta');
 

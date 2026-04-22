@@ -1,7 +1,9 @@
 ---
+import type { Translations } from "@/types/i18n";
+
 interface Props {
   image?: string;
-  t: any
+  t: Translations;
 }
 
 const { image = "", t } = Astro.props;

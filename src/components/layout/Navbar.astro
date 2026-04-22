@@ -366,7 +366,7 @@ const { procedures = {}, settings = null, procedureContext = "" } = Astro.props;
             // Cerrar: primero fijamos la altura actual para que la transición funcione
             content.style.maxHeight = `${content.scrollHeight}px`;
             // Forzar reflow para que el browser registre el valor
-            content.offsetHeight;
+            void content.offsetHeight;
             content.style.maxHeight = "0px";
             arrow.style.transform = "rotate(0deg)";
 

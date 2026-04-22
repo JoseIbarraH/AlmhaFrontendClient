@@ -17,7 +17,7 @@ export interface Category {
   count: number
 }
 
-export interface PaginatedResponse<T = any> {
+export interface PaginatedResponse<T = unknown> {
   current_page: number
   data: T[]
   first_page_url: string

@@ -119,10 +119,10 @@ const isVideo = (url: string) => {
   import "swiper/css/bundle";
 
   function initSwiper() {
-    const swiperEl = document.querySelector(".mySwiper");
+    const swiperEl = document.querySelector<HTMLElement & { swiper?: Swiper }>(".mySwiper");
 
     // Si no existe o ya está inicializado, salir
-    if (!swiperEl || (swiperEl as any).swiper) {
+    if (!swiperEl || swiperEl.swiper) {
       return;
     }
 

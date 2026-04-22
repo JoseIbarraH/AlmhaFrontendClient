@@ -6,6 +6,7 @@ import Icon from "@/components/ui/Icon.astro";
 import { fetchListData } from "@/lib/dataService";
 import Grid from "@/components/partials/blog/Grid.astro";
 import type { Data, CategoryData } from "@/types/blog";
+import type { PaginatedResponse } from "@/types/apiResponse";
 import { loadTranslations } from "@/lib/i18n";
 import CategoryList from "@/components/partials/blog/CategoryList.astro";
 import SearchInput from "@/components/ui/SearchInput.astro";
@@ -18,7 +19,7 @@ const t = await loadTranslations(lang);
 let extractedCategory: CategoryData[] = [];
 let blogs: Data[] = [];
 let keyBlogs: Data[] = [];
-let pagination: any = null;
+let pagination: PaginatedResponse<Data> | null = null;
 
 const categoryFilter = Astro.url.searchParams.get("category") || "";
 const sort = Astro.url.searchParams.get("sort") || "";

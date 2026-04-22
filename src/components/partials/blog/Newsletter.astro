@@ -110,12 +110,15 @@ const apiUrl = import.meta.env.PUBLIC_API_URL ?? process.env.PUBLIC_API_URL;
         } else {
           throw new Error("Ocurrió un error");
         }
-      } catch (error: any) {
-        console.log(error);
-        // Handle axios error
+      } catch (error) {
+        console.error(error);
+        const axiosErr = error as {
+          response?: { data?: { message?: string } };
+          message?: string;
+        };
         const errorMessage =
-          error.response?.data?.message ||
-          error.message ||
+          axiosErr.response?.data?.message ||
+          axiosErr.message ||
           "Error al suscribirse";
 
         message.textContent = errorMessage;
