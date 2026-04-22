@@ -16,15 +16,30 @@ Sitio web institucional de **Almha Plastic Surgery** — clínica de cirugía pl
 ```
 Usuario → Astro (SSR, este repo)
             │
-            ├─ GET  /api/client/*          ── datos de blog, equipo, procedimientos
+            ├─ GET  /api/client/*          ── blog, procedimientos, equipo, home, navbar
             └─ POST /api/v1/contact, /chat ── proxy validado + rate-limited
                     │
-                    └─> AlmhaBackendV2 (Laravel)
+                    └─> AlmhaBackendV2 (Laravel, src/Landing/*)
                             │
                             └─> n8n webhooks (contacto, chat asistente)
 ```
 
 Nunca se llama a n8n directamente desde el navegador. El backend valida, aplica throttle por IP y reenvía.
+
+### Endpoints consumidos
+
+| Endpoint | Consumidor | Tipo |
+|----------|-----------|------|
+| `GET /api/client/maintenance` | `middleware.ts` | flag |
+| `GET /api/client/navbar-data` | `Layout.astro` | datos del navbar |
+| `GET /api/client/home` | `pages/[lang]/index.astro` | home sections |
+| `GET /api/client/blog` + `/{slug}` | `pages/[lang]/blog/*` | listado + detalle |
+| `GET /api/client/procedure` + `/{slug}` | `pages/[lang]/procedure/*` | listado + detalle |
+| `GET /api/client/members` + `/{slug}` | `pages/[lang]/about/*` | equipo |
+| `GET /api/client/contact-data?lang=` | `pages/[lang]/contact/*` | settings contacto |
+| `POST /api/client/subscribe` | Newsletter widget | newsletter |
+| `POST /api/v1/contact` | Form contacto | envía a n8n vía backend |
+| `POST /api/v1/chat` | ChatWidget | envía a n8n vía backend |
 
 ## Estructura
 
@@ -51,9 +66,11 @@ src/
 ```bash
 npm install --legacy-peer-deps
 cp .env.example .env   # crear si no existe
-# editar PUBLIC_API_URL apuntando al backend
+# editar PUBLIC_API_URL apuntando al backend (ej. http://localhost:8000)
 npm run dev
 ```
+
+**Importante:** el backend `AlmhaBackendV2` debe estar corriendo antes de iniciar el dev server, porque el middleware hace SSR fetch a `/api/client/maintenance` en cada request. En el backend ejecuta `php artisan migrate:fresh --seed` para poblar datos de prueba y luego `php artisan serve`.
 
 ## Variables de entorno
 

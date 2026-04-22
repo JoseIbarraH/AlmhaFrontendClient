@@ -33,9 +33,6 @@ export default [
       "public/**",
       "*.config.js",
       "*.config.mjs",
-      // astro-eslint-parser struggles with very large inline <script> blocks
-      // in this file. astro check still validates it.
-      "src/pages/**/contact/index.astro",
     ],
   },
 ];

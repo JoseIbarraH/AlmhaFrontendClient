@@ -40,11 +40,16 @@ export async function fetchListData<T>({ api, endpoint, searchParams }: FetchLis
   try {
     const { data } = await api.get<ApiResponse<Default<T>>>(endpoint, { params });
 
+    // Defensive: if the backend ever serializes an empty collection to `{}`
+    // instead of `[]`, fall back to an empty array so downstream `.map` calls
+    // don't crash.
+    const toArray = <U>(v: unknown): U[] => (Array.isArray(v) ? (v as U[]) : []);
+
     return {
-      categories: data.data.categories || [],
-      items: data.data.pagination.data,
-      pagination: data.data.pagination,
-      last_three: data.data.last_three || [],
+      categories: toArray<Category>(data.data.categories),
+      items: toArray<T>(data.data.pagination?.data),
+      pagination: data.data.pagination ?? null,
+      last_three: toArray<T>(data.data.last_three),
     };
   } catch (error) {
     console.error(`Error fetching data from ${endpoint}`, error);

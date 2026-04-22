@@ -6,27 +6,16 @@ import defaultImage from "@/assets/images/test/abdominoplastia.jpg";
 import "@/styles/global.css";
 
 import { loadTranslations } from "../lib/i18n";
+import { getNavbarData } from "../lib/navbarData";
 const lang = Astro.params.lang || "es";
 const t = await loadTranslations(lang);
 
-import type { Carousel, Procedure, Settings } from "@/types/navbar";
-
 const { api } = Astro.locals;
-let images: Carousel[] = [];
-let topProcedure: Procedure[] = [];
-let procedures: Record<string, Procedure[]> = {};
-let settings: Settings | null = null;
 
-try {
-  const { data } = await api.get("api/client/navbar-data");
-  const response = data.data;
-  images = response.carousel ?? [];
-  topProcedure = response.topProcedure ?? [];
-  procedures = response.procedures ?? {};
-  settings = response.settings ?? null;
-} catch (error) {
-  console.error("Error fetching navbar data:", error);
-}
+// Memoized per-language fetcher. First request per TTL window hits the backend;
+// subsequent requests reuse the in-process cache. Errors degrade gracefully to
+// an empty payload.
+const { carousel: images, topProcedure, procedures, settings } = await getNavbarData(api, lang);
 
 interface Props {
   title?: string;

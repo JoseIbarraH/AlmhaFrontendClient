@@ -1,0 +1,41 @@
+---
+import { Phone, MapPin } from "@lucide/astro";
+
+interface Props {
+  phone: string;
+  email: string;
+  formattedLocation: string;
+}
+
+const { phone, email, formattedLocation } = Astro.props;
+---
+
+<div class="space-y-8">
+  <!-- Ubicación -->
+  <div class="bg-white rounded-2xl p-8 shadow-[0_10px_40px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_60px_rgba(0,0,0,0.12)] transition">
+    <div class="w-12 h-12 bg-linear-to-br from-[#FEEBDD] to-[#EAD3C2] rounded-xl flex items-center justify-center mb-5 shadow-md">
+      <MapPin class="text-[#513A31]" />
+    </div>
+    <h3 class="text-xl font-semibold text-[#513A31] mb-2">Ubicación</h3>
+    <p class="text-[#7D6A5D] leading-relaxed" set:html={formattedLocation} />
+  </div>
+
+  <!-- Teléfono -->
+  <div class="bg-white rounded-2xl p-8 shadow-[0_10px_40px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_60px_rgba(0,0,0,0.12)] transition">
+    <div class="w-12 h-12 bg-linear-to-br from-[#FEEBDD] to-[#EAD3C2] rounded-xl flex items-center justify-center mb-5 shadow-md">
+      <Phone class="text-[#513A31]" />
+    </div>
+    <h3 class="text-xl font-semibold text-[#513A31] mb-2">Teléfono</h3>
+    <p class="text-[#7D6A5D]">{phone}</p>
+    <p class="text-sm text-[#7D6A5D] mt-2">Lun–Vie · 8:00 AM – 6:00 PM</p>
+  </div>
+
+  <!-- Email -->
+  <div class="bg-white rounded-2xl p-8 shadow-[0_10px_40px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_60px_rgba(0,0,0,0.12)] transition">
+    <div class="w-12 h-12 bg-linear-to-br from-[#FEEBDD] to-[#EAD3C2] rounded-xl flex items-center justify-center mb-5 shadow-md">
+      ✉️
+    </div>
+    <h3 class="text-xl font-semibold text-[#513A31] mb-2">Email</h3>
+    <p class="text-[#7D6A5D]">{email}</p>
+  </div>
+</div>
