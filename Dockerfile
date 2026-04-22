@@ -1,54 +1,70 @@
-# ===============================================
-# ETAPA 1: BUILDER (Compilación y Generación del Servidor)
-# Utilizamos una imagen Node.js completa para el proceso de build.
-# ===============================================
-FROM node:20 as builder
+# ======================================================================
+# AlmhaFrontendClient — production Dockerfile (Astro SSR / Node adapter)
+#
+# Multi-stage build: builder (full deps + Astro build) → runner (prod deps).
+# Designed for Dokploy behind Traefik.
+#
+# Build:
+#   docker build --build-arg PUBLIC_API_URL=https://api.almhaplasticsurgery.com \
+#                -t almha-frontend .
+#
+# Run:
+#   docker run -p 3000:3000 almha-frontend
+# ======================================================================
+
+# ----------------------------------------------------------------------
+# Stage 1 — builder
+# ----------------------------------------------------------------------
+FROM node:20-alpine AS builder
+
 WORKDIR /app
 
-# Copiar archivos de manifiesto para instalar dependencias primero
-# Esto optimiza el uso de la caché de Docker
-COPY package*.json .
-# Instalar dependencias
-RUN npm install
+# PUBLIC_* vars are BAKED INTO the client bundle at build time.
+# Pass via `--build-arg PUBLIC_API_URL=...` or Dokploy's Build Args UI.
+ARG PUBLIC_API_URL
+ENV PUBLIC_API_URL=$PUBLIC_API_URL
 
-# Copiar el código fuente restante
+# Install deps from lockfile (deterministic, respects package-lock.json).
+# --legacy-peer-deps is required because the project has ESLint 9 +
+# @astrojs/check peer conflicts that are expected and ignored.
+COPY package.json package-lock.json ./
+RUN npm ci --legacy-peer-deps
+
+# Copy source and build the SSR bundle (writes to dist/)
 COPY . .
-
-# Comando de Build de Astro (generará los archivos estáticos en dist/
-# y el servidor Node.js/Node Adapter en entry.mjs o similar)
 RUN npm run build
 
-# ===============================================
-# ETAPA 2: PRODUCCIÓN (Servidor de Ejecución Final)
-# Usamos una imagen Node.js mínima (slim) para reducir el tamaño final
-# y minimizar la superficie de ataque.
-# ===============================================
-FROM node:20-slim
+# Prune dev dependencies from node_modules so we can copy only prod deps
+# into the runtime stage. Faster than reinstalling in stage 2.
+RUN npm prune --omit=dev --legacy-peer-deps
+
+
+# ----------------------------------------------------------------------
+# Stage 2 — runtime
+# ----------------------------------------------------------------------
+FROM node:20-alpine AS runner
+
 WORKDIR /app
 
-# Establecer las variables de entorno
-# HOST=0.0.0.0 permite que el servidor escuche en todas las interfaces (necesario para Docker)
-# PORT puede ser sobrescrito por Dokploy, por defecto 3000
+# Astro's Node adapter listens on HOST:PORT from env.
+ENV NODE_ENV=production
 ENV HOST=0.0.0.0
 ENV PORT=3000
 
-# Exponer el puerto de escucha de la aplicación
-EXPOSE ${PORT}
+# Copy only what's needed to run: pruned node_modules + built dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/dist         ./dist
+COPY --from=builder /app/package.json ./package.json
 
-# Copiar SÓLO los archivos necesarios de la etapa 'builder'
-# 1. Copiar los archivos de manifiesto para la ejecución
-COPY package*.json .
-# 2. Copiar solo las dependencias de producción (más seguro y pequeño)
-RUN npm install --omit=dev
+# Drop root for runtime (node:alpine already includes the 'node' user).
+USER node
 
-# 3. Copiar la salida del build de Astro desde la etapa builder
-# El adaptador de Node.js de Astro genera la carpeta 'dist' con el servidor SSR
-COPY --from=builder /app/dist ./dist
+EXPOSE 3000
 
+# Health endpoint: the SSR server responds 200 on any page. Using '/' is
+# cheap and doesn't hit the backend (the layout caches navbar per-worker).
+HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
+    CMD wget -qO- http://127.0.0.1:3000/ >/dev/null || exit 1
 
-# Comando de inicio: Ejecuta el servidor Node.js generado por Astro
-# El comando exacto puede variar, pero generalmente es node [entry file]
-# Asume que el punto de entrada es el archivo principal generado por el adaptador.
+# Astro standalone adapter entrypoint
 CMD ["node", "./dist/server/entry.mjs"]
-# Si el adaptador Node.js de Astro es 'standalone', el entry file es ./entry.mjs:
-# CMD ["node", "./entry.mjs"]
