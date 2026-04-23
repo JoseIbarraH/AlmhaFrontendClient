@@ -1,0 +1,23 @@
+{
+  "confirm": {
+    "loading": {
+      "title": "Confirmando tu suscripción...",
+      "subtitle": "Esto solo tomará un momento."
+    },
+    "confirmed": {
+      "title": "¡Suscripción confirmada!",
+      "subtitle": "Gracias por sumarte. Recibirás nuestras novedades, promociones y artículos del blog directamente en tu correo.",
+      "cta": "Volver al inicio"
+    },
+    "failed": {
+      "title": "No pudimos confirmar tu suscripción",
+      "subtitle": "El enlace puede haber expirado o ya fue usado. Si crees que es un error, intenta suscribirte de nuevo.",
+      "cta": "Volver al inicio"
+    },
+    "invalid": {
+      "title": "Enlace inválido",
+      "subtitle": "El enlace de confirmación no contiene un token válido. Revisa que hayas hecho click en el enlace completo del correo.",
+      "cta": "Volver al inicio"
+    }
+  }
+}

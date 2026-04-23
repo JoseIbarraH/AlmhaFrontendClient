@@ -1,0 +1,23 @@
+{
+  "confirm": {
+    "loading": {
+      "title": "Confirming your subscription...",
+      "subtitle": "This will just take a moment."
+    },
+    "confirmed": {
+      "title": "Subscription confirmed!",
+      "subtitle": "Thanks for joining. You'll receive our news, promotions and blog articles right in your inbox.",
+      "cta": "Back to home"
+    },
+    "failed": {
+      "title": "We couldn't confirm your subscription",
+      "subtitle": "The link may have expired or already been used. If you believe this is a mistake, try subscribing again.",
+      "cta": "Back to home"
+    },
+    "invalid": {
+      "title": "Invalid link",
+      "subtitle": "The confirmation link doesn't contain a valid token. Make sure you clicked the full link in the email.",
+      "cta": "Back to home"
+    }
+  }
+}
