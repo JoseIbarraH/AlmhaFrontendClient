@@ -87,7 +87,7 @@ export function initNewsletter(): void {
     message.classList.add("hidden");
 
     try {
-      const response = await api.post("/api/client/subscribe", { email });
+      const response = await api.post("/api/client/subscribe", { email, locale: lang });
       const data = (response.data ?? {}) as { message?: string };
 
       const successMsg = data.message || "¡Gracias por suscribirte! Revisa tu email.";
