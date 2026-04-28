@@ -65,7 +65,7 @@ try {
             <div class="flex items-center justify-between mb-6">
               <div>
                 <h2 class="text-3xl font-bold text-[#513A31] font-serif mb-2">
-                  Mira todos los articulos aquí
+                  {t.blog.list.section_title}
                 </h2>
               </div>
 
@@ -76,9 +76,9 @@ try {
                   class="px-4 py-2 bg-[#FFF9F6] border-2 border-[#D6C4B6] rounded-lg text-[#513A31] font-medium focus:outline-none focus:border-[#FEEBDD] transition-colors"
                   value={sort}
                 >
-                  <option value="-created_at">Más recientes</option>
-                  <option value="created_at">Más antiguos</option>
-                  <option value="-views">Más leídos</option>
+                  <option value="-created_at">{t.blog.list.sort.most_recent}</option>
+                  <option value="created_at">{t.blog.list.sort.oldest}</option>
+                  <option value="-views">{t.blog.list.sort.most_read}</option>
                 </select>
               </div>
             </div>

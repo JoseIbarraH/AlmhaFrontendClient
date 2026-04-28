@@ -14,6 +14,35 @@ interface SubmitResult {
   body: Record<string, unknown>;
 }
 
+interface ContactFormStrings {
+  success: string;
+  validationError: string;
+  rateLimit: string;
+  genericError: string;
+  connectionError: string;
+  submitLoading: string;
+}
+
+const FALLBACK_STRINGS: ContactFormStrings = {
+  success: "Message sent successfully.",
+  validationError: "Please review the form data and try again.",
+  rateLimit: "Too many messages. Please try again later.",
+  genericError: "There was an error sending the message. Please try again.",
+  connectionError: "Connection error while sending the form. Please try again.",
+  submitLoading: "Sending...",
+};
+
+function readContactFormStrings(): ContactFormStrings {
+  const el = document.getElementById("i18n-contact-form");
+  if (!el || !el.textContent) return FALLBACK_STRINGS;
+  try {
+    const parsed = JSON.parse(el.textContent) as Partial<ContactFormStrings>;
+    return { ...FALLBACK_STRINGS, ...parsed };
+  } catch {
+    return FALLBACK_STRINGS;
+  }
+}
+
 export function sanitizeCountryCode(value: string): string {
   // Allow only leading '+' and digits afterwards.
   const cleaned = value.replace(/[^+0-9]/g, "");
@@ -50,12 +79,14 @@ async function submitForm(apiUrl: string, formData: FormData): Promise<SubmitRes
   return { ok: response.ok, status: response.status, body };
 }
 
-function handleResult({ ok, status, body }: SubmitResult, form: HTMLFormElement): void {
+function handleResult(
+  { ok, status, body }: SubmitResult,
+  form: HTMLFormElement,
+  strings: ContactFormStrings,
+): void {
   if (ok) {
     const message =
-      typeof body.message === "string" && body.message
-        ? body.message
-        : "Mensaje enviado con éxito. Nuestro equipo se pondrá en contacto pronto.";
+      typeof body.message === "string" && body.message ? body.message : strings.success;
     showToast(message, "success");
     form.reset();
     return;
@@ -63,19 +94,19 @@ function handleResult({ ok, status, body }: SubmitResult, form: HTMLFormElement)
 
   if (status === 422) {
     const firstError = pickFirstValidationError(body);
-    showToast(firstError ?? "Revisa los datos del formulario e intenta de nuevo.", "error");
+    showToast(firstError ?? strings.validationError, "error");
     return;
   }
 
   if (status === 429) {
-    showToast("Has enviado demasiados mensajes. Intenta de nuevo en un minuto.", "error");
+    showToast(strings.rateLimit, "error");
     return;
   }
 
-  showToast("Hubo un error al enviar el mensaje. Intente de nuevo.", "error");
+  showToast(strings.genericError, "error");
 }
 
-function attachSubmit(form: HTMLFormElement, apiUrl: string): void {
+function attachSubmit(form: HTMLFormElement, apiUrl: string, strings: ContactFormStrings): void {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -83,15 +114,15 @@ function attachSubmit(form: HTMLFormElement, apiUrl: string): void {
     if (!submitBtn) return;
 
     const originalText = submitBtn.innerText;
-    submitBtn.innerText = "Enviando...";
+    submitBtn.innerText = strings.submitLoading;
     submitBtn.disabled = true;
 
     try {
       const result = await submitForm(apiUrl, new FormData(form));
-      handleResult(result, form);
+      handleResult(result, form, strings);
     } catch (error) {
       console.error("[contact-form] submit failed:", error);
-      showToast("Error de conexión al enviar el formulario. Intente de nuevo.", "error");
+      showToast(strings.connectionError, "error");
     } finally {
       submitBtn.innerText = originalText;
       submitBtn.disabled = false;
@@ -148,7 +179,8 @@ export function initContactForm(apiUrl: string): void {
   if (form.hasAttribute("data-initialized")) return;
   form.setAttribute("data-initialized", "true");
 
-  attachSubmit(form, apiUrl);
+  const strings = readContactFormStrings();
+  attachSubmit(form, apiUrl, strings);
   attachCountryCodeSanitization();
   attachPhoneSanitization();
 }

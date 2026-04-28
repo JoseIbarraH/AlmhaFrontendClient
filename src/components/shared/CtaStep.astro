@@ -1,4 +1,9 @@
 ---
+import { loadTranslations } from "@/lib/i18n";
+
+const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
+
 interface Props {
   title?: string;
   subtitle?: string;
@@ -33,15 +38,14 @@ const { title, subtitle } = Astro.props;
         class="text-4xl md:text-5xl font-light tracking-tight
                text-[#FFF9F6] mb-5"
       >
-        ¿Listo para dar el siguiente paso?
+        {title ?? t?.home?.cta_step?.title}
       </h2>
 
       <p
         class="text-lg md:text-xl leading-relaxed
                text-[#D6C4B6] mb-10"
       >
-        Agenda tu consulta gratuita y descubre cómo podemos ayudarte a alcanzar
-        tus objetivos con un acompañamiento profesional y personalizado.
+        {subtitle ?? t?.home?.cta_step?.description}
       </p>
 
       <div class="flex flex-wrap justify-center gap-4">
@@ -54,7 +58,7 @@ const { title, subtitle } = Astro.props;
                  active:scale-[0.98]
                  transition-all duration-300"
         >
-          Agendar consulta
+          {t?.home?.cta_step?.primary_cta}
         </button>
 
         <!-- Secondary CTA -->
@@ -67,7 +71,7 @@ const { title, subtitle } = Astro.props;
                  active:scale-[0.98]
                  transition-all duration-300"
         >
-          Contactar por WhatsApp
+          {t?.home?.cta_step?.secondary_cta}
         </button>
       </div>
     </div>

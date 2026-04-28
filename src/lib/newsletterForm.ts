@@ -19,6 +19,31 @@ type AxiosErr = {
   message?: string;
 };
 
+interface NewsletterStrings {
+  rateLimit: string;
+  genericError: string;
+  defaultSuccess: string;
+  loading: string;
+}
+
+const FALLBACK_STRINGS: NewsletterStrings = {
+  rateLimit: "Too many attempts. Please try again later.",
+  genericError: "Error subscribing. Please try again.",
+  defaultSuccess: "Thanks for subscribing! Check your email.",
+  loading: "Sending...",
+};
+
+function readNewsletterStrings(): NewsletterStrings {
+  const el = document.getElementById("i18n-newsletter");
+  if (!el || !el.textContent) return FALLBACK_STRINGS;
+  try {
+    const parsed = JSON.parse(el.textContent) as Partial<NewsletterStrings>;
+    return { ...FALLBACK_STRINGS, ...parsed };
+  } catch {
+    return FALLBACK_STRINGS;
+  }
+}
+
 function pickFirstValidationError(err: AxiosErr): string | null {
   const errors = err.response?.data?.errors;
   if (!errors) return null;
@@ -26,13 +51,11 @@ function pickFirstValidationError(err: AxiosErr): string | null {
   return Array.isArray(first) && first.length > 0 ? first[0] : null;
 }
 
-function buildErrorMessage(err: AxiosErr): string {
+function buildErrorMessage(err: AxiosErr, strings: NewsletterStrings): string {
   return (
     pickFirstValidationError(err) ||
     err.response?.data?.message ||
-    (err.response?.status === 429
-      ? "Demasiados intentos. Intenta de nuevo en un minuto."
-      : "Error al suscribirse. Intenta de nuevo.")
+    (err.response?.status === 429 ? strings.rateLimit : strings.genericError)
   );
 }
 
@@ -69,6 +92,7 @@ export function initNewsletter(): void {
   const apiUrl = form.dataset.apiUrl;
   console.log("[newsletter] lang:", lang, "apiUrl:", apiUrl);
   const api = createApi(lang, apiUrl);
+  const strings = readNewsletterStrings();
 
   form.addEventListener("submit", async (e) => {
     console.log("[newsletter] submit fired");
@@ -83,14 +107,14 @@ export function initNewsletter(): void {
     console.log("[newsletter] POST /api/client/subscribe email=", email);
 
     const originalText = buttonText.textContent ?? "";
-    buttonText.textContent = "Enviando...";
+    buttonText.textContent = strings.loading;
     message.classList.add("hidden");
 
     try {
       const response = await api.post("/api/client/subscribe", { email, locale: lang });
       const data = (response.data ?? {}) as { message?: string };
 
-      const successMsg = data.message || "¡Gracias por suscribirte! Revisa tu email.";
+      const successMsg = data.message || strings.defaultSuccess;
       message.textContent = successMsg;
       message.classList.remove("text-red-400", "hidden");
       message.classList.add("text-green-400");
@@ -99,7 +123,7 @@ export function initNewsletter(): void {
       showToast(successMsg, "success");
     } catch (error) {
       console.error("[newsletter] subscribe failed:", error);
-      const errorMsg = buildErrorMessage(error as AxiosErr);
+      const errorMsg = buildErrorMessage(error as AxiosErr, strings);
 
       message.textContent = errorMsg;
       message.classList.remove("text-green-400", "hidden");

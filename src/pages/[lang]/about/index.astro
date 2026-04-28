@@ -3,6 +3,10 @@ import Members from "@/components/partials/about_us/Members.astro";
 import Layout from "@/layouts/Layout.astro";
 import type { ApiResponse } from "@/types/apiResponse";
 import type { Data } from "@/types/member";
+import { loadTranslations } from "@/lib/i18n";
+
+const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
 
 let members: Data[] = []
 
@@ -27,7 +31,7 @@ try {
       <div class="absolute inset-0">
         <img
           src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200"
-          alt="Clínica"
+          alt={t?.about?.hero?.image_alt}
           class="w-full h-full object-cover opacity-20"
         />
       </div>
@@ -47,14 +51,13 @@ try {
           <span
             class="inline-block px-4 py-2 bg-[#FEEBDD]/20 backdrop-blur-sm text-[#FEEBDD] rounded-full text-sm font-semibold mb-4"
           >
-            Nuestra Historia
+            {t?.about?.hero?.tag}
           </span>
           <h1 class="text-5xl md:text-6xl font-bold text-[#FFF9F6] mb-6">
-            Dedicados a Tu Bienestar
+            {t?.about?.hero?.title}
           </h1>
           <p class="text-xl text-[#FEEBDD]/90 leading-relaxed">
-            Más de 15 años transformando vidas con profesionalismo, ética y los
-            más altos estándares de calidad en cirugía estética
+            {t?.about?.hero?.subtitle}
           </p>
         </div>
       </div>
@@ -89,12 +92,10 @@ try {
                 </svg>
               </div>
               <h2 class="text-3xl font-bold text-[#513A31] mb-4">
-                Nuestra Misión
+                {t?.about?.mission?.title}
               </h2>
               <p class="text-[#7D6A5D] leading-relaxed text-lg">
-                Proporcionar servicios de cirugía estética de clase mundial,
-                combinando tecnología de vanguardia con un enfoque humano y
-                personalizado para cada paciente.
+                {t?.about?.mission?.description}
               </p>
             </div>
           </div>
@@ -130,12 +131,10 @@ try {
                 </svg>
               </div>
               <h2 class="text-3xl font-bold text-[#513A31] mb-4">
-                Nuestra Visión
+                {t?.about?.vision?.title}
               </h2>
               <p class="text-[#7D6A5D] leading-relaxed text-lg">
-                Ser la clínica de referencia en cirugía estética, reconocida por
-                nuestra excelencia médica, innovación constante y el compromiso
-                genuino con el bienestar de nuestros pacientes.
+                {t?.about?.vision?.description}
               </p>
             </div>
           </div>
@@ -150,14 +149,13 @@ try {
           <span
             class="inline-block px-4 py-2 bg-[#FEEBDD]/20 text-[#7D6A5D] rounded-full text-sm font-semibold mb-4"
           >
-            Lo que nos define
+            {t?.about?.values?.tag}
           </span>
           <h2 class="text-4xl md:text-5xl font-bold text-[#513A31] mb-4">
-            Nuestros Valores
+            {t?.about?.values?.title}
           </h2>
           <p class="text-xl text-[#7D6A5D] max-w-2xl mx-auto">
-            Los principios que guían cada decisión y procedimiento en nuestra
-            clínica
+            {t?.about?.values?.subtitle}
           </p>
         </div>
 
@@ -182,10 +180,9 @@ try {
                 ></path>
               </svg>
             </div>
-            <h3 class="text-2xl font-bold text-[#513A31] mb-3">Seguridad</h3>
+            <h3 class="text-2xl font-bold text-[#513A31] mb-3">{t?.about?.values?.safety?.title}</h3>
             <p class="text-[#7D6A5D] leading-relaxed">
-              Protocolos rigurosos y tecnología de última generación para
-              garantizar tu bienestar en cada procedimiento.
+              {t?.about?.values?.safety?.description}
             </p>
           </div>
 
@@ -209,10 +206,9 @@ try {
                 ></path>
               </svg>
             </div>
-            <h3 class="text-2xl font-bold text-[#513A31] mb-3">Empatía</h3>
+            <h3 class="text-2xl font-bold text-[#513A31] mb-3">{t?.about?.values?.empathy?.title}</h3>
             <p class="text-[#7D6A5D] leading-relaxed">
-              Entendemos tus deseos y preocupaciones, acompañándote con calidez
-              en cada etapa de tu transformación.
+              {t?.about?.values?.empathy?.description}
             </p>
           </div>
 
@@ -236,10 +232,9 @@ try {
                 ></path>
               </svg>
             </div>
-            <h3 class="text-2xl font-bold text-[#513A31] mb-3">Innovación</h3>
+            <h3 class="text-2xl font-bold text-[#513A31] mb-3">{t?.about?.values?.innovation?.title}</h3>
             <p class="text-[#7D6A5D] leading-relaxed">
-              Actualización constante en técnicas y equipos para ofrecerte los
-              mejores resultados posibles.
+              {t?.about?.values?.innovation?.description}
             </p>
           </div>
         </div>

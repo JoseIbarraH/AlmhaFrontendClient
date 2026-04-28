@@ -10,7 +10,7 @@ const { image = "", t } = Astro.props;
 ---
 
 <div>
-  <img src={image} alt="Rinoplastia" class="w-full h-full object-cover" />
+  <img src={image} alt={t.blog.header.image_alt} class="w-full h-full object-cover" />
 
   <!-- Overlay con gradiente -->
   <div

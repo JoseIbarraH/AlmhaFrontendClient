@@ -30,7 +30,7 @@ const { blogs, lang, t } = Astro.props;
           >
             <img
               src={item.image}
-              alt="Artículo"
+              alt={item.title || t.blog.recent_articles.image_alt}
               class="w-16 h-16 object-cover rounded-lg"
             />
             <div class="flex-1">

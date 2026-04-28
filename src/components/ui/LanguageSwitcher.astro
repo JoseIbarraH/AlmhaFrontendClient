@@ -1,8 +1,10 @@
 ---
 import { LANGUAGES, type Language } from "@/lib/languages";
 import { getRelativeLocaleUrl } from "astro:i18n";
+import { loadTranslations } from "@/lib/i18n";
 
 const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
 const currentLanguage = LANGUAGES.find(lang => lang.code === currentLang);
 
 // Obtener la ruta actual sin el locale
@@ -19,7 +21,7 @@ const pathWithoutLocale = currentPath.replace(new RegExp(`^/(${LANGUAGES.map(l =
            text-[#FFF9F6] transition-all duration-200
            focus:outline-none focus:ring-2 focus:ring-[#FEEBDD] focus:ring-offset-2 focus:ring-offset-[#513A31]
            group"
-    aria-label="Cambiar idioma"
+    aria-label={t?.common?.language_switcher?.aria_label}
     aria-haspopup="true"
     aria-expanded="false"
   >

@@ -17,7 +17,7 @@ const t = await loadTranslations(currentLang);
   <figure class="relative overflow-hidden">
     <img
       src={image || placeholder.src}
-      alt="Abdominoplastia"
+      alt={title || t.blog.list.card.image_alt}
       class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
     />
     <!-- Overlay gradient -->
@@ -53,7 +53,7 @@ const t = await loadTranslations(currentLang);
       >
         <span class="flex items-center gap-1.5 font-medium">
           <Icon name="user" size={14} />
-          {writer || "Dr. Especialista"}
+          {writer || t.blog.list.card.default_writer}
         </span>
         <span class="text-[#D6C4B6]">•</span>
         <span class="flex items-center gap-1.5">

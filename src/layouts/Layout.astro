@@ -95,7 +95,32 @@ const {
     >
     </div>
 
-    <!-- Toast translation strings for client-side scripts -->
+    <!-- Toast title/aria translations consumed by @/lib/toast -->
+    <script
+      is:inline
+      type="application/json"
+      id="i18n-toast"
+      set:html={JSON.stringify({
+        successTitle: t?.common?.toast?.success_title ?? "",
+        errorTitle: t?.common?.toast?.error_title ?? "",
+        closeAria: t?.common?.toast?.close_aria ?? "",
+      })}
+    />
+
+    <!-- Newsletter form translations consumed by @/lib/newsletterForm -->
+    <script
+      is:inline
+      type="application/json"
+      id="i18n-newsletter"
+      set:html={JSON.stringify({
+        rateLimit: t?.common?.newsletter_messages?.rate_limit ?? "",
+        genericError: t?.common?.newsletter_messages?.generic_error ?? "",
+        defaultSuccess: t?.common?.newsletter_messages?.default_success ?? "",
+        loading: t?.common?.newsletter_messages?.loading ?? "",
+      })}
+    />
+
+    <!-- Subscription confirmation toast strings -->
     <script
       is:inline
       type="application/json"

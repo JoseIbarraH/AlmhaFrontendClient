@@ -19,14 +19,13 @@ const t = await loadTranslations(currentLang);
       <span
         class="inline-block px-4 py-2 bg-[#FEEBDD]/20 text-[#7D6A5D] rounded-full text-sm font-semibold mb-4"
       >
-        Conoce a nuestro equipo
+        {t?.about?.members?.tag}
       </span>
       <h2 class="text-4xl md:text-5xl font-bold text-[#513A31] mb-4">
-        Profesionales Destacados
+        {t?.about?.members?.title}
       </h2>
       <p class="text-xl text-[#7D6A5D] max-w-2xl mx-auto">
-        Especialistas certificados con años de experiencia y formación
-        internacional
+        {t?.about?.members?.subtitle}
       </p>
     </div>
 
@@ -35,7 +34,7 @@ const t = await loadTranslations(currentLang);
       <button
         id="members-prev"
         class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-12 bg-[#513A31]/10 hover:bg-[#513A31]/20 text-[#513A31] p-2 rounded-full backdrop-blur-sm transition-all z-10 disabled:opacity-50 disabled:cursor-not-allowed hidden md:block"
-        aria-label="Anterior"
+        aria-label={t?.about?.members?.prev_aria}
       >
         <ArrowLeft class="size-6" />
       </button>
@@ -43,7 +42,7 @@ const t = await loadTranslations(currentLang);
       <button
         id="members-next"
         class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-12 bg-[#513A31]/10 hover:bg-[#513A31]/20 text-[#513A31] p-2 rounded-full backdrop-blur-sm transition-all z-10 disabled:opacity-50 disabled:cursor-not-allowed hidden md:block"
-        aria-label="Siguiente"
+        aria-label={t?.about?.members?.next_aria}
       >
         <ArrowRight class="size-6" />
       </button>

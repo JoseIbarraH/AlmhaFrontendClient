@@ -1,5 +1,9 @@
 ---
 import Icon from "@/components/ui/Icon.astro";
+import { loadTranslations } from "@/lib/i18n";
+
+const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
 
 interface Props {
   placeholder?: string;
@@ -8,7 +12,7 @@ interface Props {
 }
 
 const {
-  placeholder = "Buscar...",
+  placeholder = t?.common?.search?.default_placeholder ?? "Search...",
   queryParam = "search",
   class: className = "",
 } = Astro.props;

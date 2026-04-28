@@ -18,7 +18,7 @@ const { categories, activeCategory, t } = Astro.props;
     id="category-scroll-left"
     type="button"
     class="hidden md:flex absolute -left-5 z-30 p-2 bg-white border border-[#D6C4B6] rounded-full shadow-lg text-[#513A31] hover:bg-[#FEEBDD] transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-    aria-label="Scroll left"
+    aria-label={t?.common?.navigation?.scroll_left}
   >
     <Icon name="chevron-left" size={20} />
   </button>
@@ -61,7 +61,7 @@ const { categories, activeCategory, t } = Astro.props;
     id="category-scroll-right"
     type="button"
     class="hidden md:flex absolute -right-5 z-30 p-2 bg-white border border-[#D6C4B6] rounded-full shadow-lg text-[#513A31] hover:bg-[#FEEBDD] transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-    aria-label="Scroll right"
+    aria-label={t?.common?.navigation?.scroll_right}
   >
     <Icon name="chevron-right" size={20} />
   </button>

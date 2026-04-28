@@ -28,7 +28,7 @@ const { images } = Astro.props;
       <button
         id="gallery-prev"
         class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-12 bg-white/10 hover:bg-white/20 text-[#FFF9F6] p-2 rounded-full backdrop-blur-sm transition-all z-10 disabled:opacity-50 disabled:cursor-not-allowed hidden md:block"
-        aria-label="Anterior"
+        aria-label={t?.common?.navigation?.previous}
       >
         <ArrowLeft class="size-6" />
       </button>
@@ -36,7 +36,7 @@ const { images } = Astro.props;
       <button
         id="gallery-next"
         class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-12 bg-white/10 hover:bg-white/20 text-[#FFF9F6] p-2 rounded-full backdrop-blur-sm transition-all z-10 disabled:opacity-50 disabled:cursor-not-allowed hidden md:block"
-        aria-label="Siguiente"
+        aria-label={t?.common?.navigation?.next}
       >
         <ArrowRight class="size-6" />
       </button>
@@ -51,11 +51,11 @@ const { images } = Astro.props;
             <button
               class="aspect-square w-64 md:w-80 rounded-lg overflow-hidden shadow-xl snap-center shrink-0 cursor-zoom-in gallery-item-btn"
               data-src={item.path}
-              aria-label="Ver imagen en grande"
+              aria-label={t?.procedure?.gallery?.view_image}
             >
               <img
                 src={item.path}
-                alt="Resultado paciente"
+                alt={t?.procedure?.gallery?.result_alt}
                 class="w-full h-full object-cover hover:scale-105 transition-transform duration-300 pointer-events-none"
                 loading="lazy"
               />
@@ -81,7 +81,7 @@ const { images } = Astro.props;
   <img
     id="modal-image"
     src=""
-    alt="Vista previa"
+    alt={t?.procedure?.gallery?.modal_alt}
     class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl scale-95 transition-transform duration-300"
   />
 </div>

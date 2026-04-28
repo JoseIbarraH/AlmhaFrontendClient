@@ -2,6 +2,7 @@
 import { getRelativeLocaleUrl } from "astro:i18n";
 import logoImage from "@/assets/images/logos/Imagotipo_horizontal_beige.png";
 import logo from "@/assets/images/logos/logo.png";
+import { loadTranslations } from "@/lib/i18n";
 
 interface Props {
   class?: string;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
 const {
   class: className = "",
   size = "md",
@@ -37,20 +39,20 @@ const computedSize =
   <a
     href={getRelativeLocaleUrl(currentLang, "/")}
     class={`inline-flex items-center transition-opacity hover:opacity-80 ${className}`}
-    aria-label="Ir al inicio"
+    aria-label={t?.common?.logo?.home_aria}
   >
     {
       phone ? (
         <img
           src={logo.src}
-          alt="Logo"
+          alt={t?.common?.logo?.alt}
           class={computedSize + " object-contain w-full"}
           loading="eager"
         />
       ) : (
         <img
           src={logoImage.src}
-          alt="Logo"
+          alt={t?.common?.logo?.alt}
           class={computedSize + " object-contain w-full"}
           loading="eager"
         />

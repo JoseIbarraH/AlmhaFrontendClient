@@ -5,9 +5,11 @@ import Sidebar from "@/components/partials/blog/Sidebar.astro";
 import Icon from "@/components/ui/Icon.astro";
 import Layout from "@/layouts/Layout.astro";
 import { formatDate } from "@/lib/date";
+import { loadTranslations } from "@/lib/i18n";
 import type { Blog } from "@/types/blog";
 
 const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
 const { slug } = Astro.params;
 const { api } = Astro.locals;
 
@@ -92,7 +94,7 @@ const shared = [
             </div>
             <div>
               <p class="text-[#513A31] font-medium">{blog.writer}</p>
-              <p class="text-[#7D6A5D] text-sm">Especialista</p>
+              <p class="text-[#7D6A5D] text-sm">{t?.blog?.post?.default_role}</p>
             </div>
           </div>
           <div class="h-8 w-px bg-[#D6C4B6]/50"></div>
@@ -138,7 +140,7 @@ const shared = [
         <div class="mt-12 pt-8 border-t border-[#D6C4B6]/40">
           <div class="flex items-center justify-between flex-wrap gap-4">
             <span class="text-[#7D6A5D] text-sm font-medium tracking-wide"
-              >Compartir artículo</span
+              >{t?.blog?.post?.share_label}</span
             >
             <div class="flex items-center gap-3">
               {
@@ -148,7 +150,7 @@ const shared = [
                     target="_blank"
                     rel="noopener noreferrer"
                     class="share-btn w-10 h-10 rounded-full bg-[#513A31]/10 hover:bg-[#513A31] text-[#513A31] hover:text-[#FEEBDD] transition-all duration-300 flex items-center justify-center"
-                    aria-label={`Compartir en ${social.name}`}
+                    aria-label={(t?.blog?.post?.share_aria ?? "{network}").replace("{network}", social.name)}
                   >
                     <Icon name={social.icon} size={20} />
                   </a>

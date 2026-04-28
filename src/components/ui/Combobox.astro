@@ -1,5 +1,9 @@
 ---
 import Icon from "./Icon.astro";
+import { loadTranslations } from "@/lib/i18n";
+
+const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
 
 interface Props {
   options: { value: string | number; label: string }[];
@@ -8,8 +12,16 @@ interface Props {
   id?: string;
 }
 
-const { options, placeholder = "Seleccionar...", name, id } = Astro.props;
+const {
+  options,
+  placeholder = t?.common?.combobox?.default_placeholder ?? "Select...",
+  name,
+  id,
+} = Astro.props;
 const uniqueId = `combobox-${Math.random().toString(36).substr(2, 9)}`;
+const searchPlaceholder = t?.common?.combobox?.search_placeholder ?? "Search...";
+const noResultsText = t?.common?.combobox?.no_results ?? "No results";
+const othersText = t?.common?.combobox?.others ?? "Other";
 ---
 
 <div class="combobox-wrapper relative w-full" id={uniqueId}>
@@ -55,7 +67,7 @@ const uniqueId = `combobox-${Math.random().toString(36).substr(2, 9)}`;
         <input
           type="text"
           class="combobox-search w-full pl-9 pr-3 py-2.5 bg-[#FFF9F6] border border-[#D6C4B6]/50 rounded-lg focus:outline-none focus:border-[#7D6A5D] focus:ring-1 focus:ring-[#7D6A5D]/20 text-[#513A31] text-sm transition-all placeholder-[#D6C4B6]"
-          placeholder="Buscar..."
+          placeholder={searchPlaceholder}
         />
         <div
           class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
@@ -88,7 +100,7 @@ const uniqueId = `combobox-${Math.random().toString(36).substr(2, 9)}`;
             data-value="others"
             role="option"
           >
-            <span class="block truncate font-medium">Otros</span>
+            <span class="block truncate font-medium">{othersText}</span>
             <span class="combobox-check hidden absolute inset-y-0 right-0 items-center pr-4 text-[#7D6A5D]">
               <Icon name="check" size={20} />
             </span>
@@ -112,7 +124,7 @@ const uniqueId = `combobox-${Math.random().toString(36).substr(2, 9)}`;
       <li
         class="combobox-no-results hidden text-[#D6C4B6] cursor-default select-none relative py-8 pl-3 pr-9 text-center text-sm"
       >
-        No se encontraron resultados
+        {noResultsText}
       </li>
     </ul>
   </div>
