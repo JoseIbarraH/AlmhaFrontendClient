@@ -1,0 +1,15 @@
+{
+    "certified_specialist": "Spécialiste Certifié",
+    "biography": "Biographie",
+    "about_me": "À propos de moi",
+    "gallery": {
+        "title": "Galerie de Résultats",
+        "subtitle": "Transformations réelles de nos patients satisfaits"
+    },
+    "results_disclaimer": "<span class='font-bold'>Note importante :</span> Les résultats peuvent varier selon les caractéristiques individuelles de chaque patient. Les images présentées sont des cas réels publiés avec le consentement des patients. Une consultation personnalisée est recommandée pour évaluer chaque cas spécifique.",
+    "cta": {
+        "title": "Prêt(e) pour votre transformation ?",
+        "description": "Planifiez une consultation personnalisée avec {name} et découvrez comment nous pouvons vous aider à atteindre vos objectifs esthétiques de manière sûre et professionnelle.",
+        "button": "Prendre rendez-vous"
+    }
+}

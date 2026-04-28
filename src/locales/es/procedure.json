@@ -2,7 +2,8 @@
     "header": {
         "tag": "Procedimientos Medicos",
         "title": "Nuestros procedimientos",
-        "subtitle": "Descubre nuestros tratamientos especializados diseñados para realzar tu belleza natural"
+        "subtitle": "Descubre nuestros tratamientos especializados diseñados para realzar tu belleza natural",
+        "image_alt": "Procedimiento"
     },
     "search": {
         "placeholder": "Buscar procedimiento...",
@@ -28,9 +29,19 @@
     },
     "gallery": {
         "title": "Galería de Resultados",
-        "subtitle": "Casos reales de nuestros pacientes"
+        "subtitle": "Casos reales de nuestros pacientes",
+        "view_image": "Ver imagen en grande",
+        "modal_alt": "Vista previa",
+        "result_alt": "Resultado paciente"
     },
     "grid": {
-        "read_more": "Más información"
+        "read_more": "Más información",
+        "default_category": "General"
+    },
+    "contact_cta": {
+        "title": "¿Te interesa este procedimiento?",
+        "description": "Agenda tu consulta hoy mismo para recibir atención personalizada y despejar todas tus dudas.",
+        "button": "Ir a Contacto",
+        "whatsapp": "Contactar por WhatsApp"
     }
 }

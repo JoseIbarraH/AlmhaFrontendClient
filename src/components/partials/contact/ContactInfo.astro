@@ -1,5 +1,9 @@
 ---
 import { Phone, MapPin } from "@lucide/astro";
+import { loadTranslations } from "@/lib/i18n";
+
+const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
 
 interface Props {
   phone: string;
@@ -16,7 +20,7 @@ const { phone, email, formattedLocation } = Astro.props;
     <div class="w-12 h-12 bg-linear-to-br from-[#FEEBDD] to-[#EAD3C2] rounded-xl flex items-center justify-center mb-5 shadow-md">
       <MapPin class="text-[#513A31]" />
     </div>
-    <h3 class="text-xl font-semibold text-[#513A31] mb-2">Ubicación</h3>
+    <h3 class="text-xl font-semibold text-[#513A31] mb-2">{t?.contact?.info?.location_title}</h3>
     <p class="text-[#7D6A5D] leading-relaxed" set:html={formattedLocation} />
   </div>
 
@@ -25,9 +29,9 @@ const { phone, email, formattedLocation } = Astro.props;
     <div class="w-12 h-12 bg-linear-to-br from-[#FEEBDD] to-[#EAD3C2] rounded-xl flex items-center justify-center mb-5 shadow-md">
       <Phone class="text-[#513A31]" />
     </div>
-    <h3 class="text-xl font-semibold text-[#513A31] mb-2">Teléfono</h3>
+    <h3 class="text-xl font-semibold text-[#513A31] mb-2">{t?.contact?.info?.phone_title}</h3>
     <p class="text-[#7D6A5D]">{phone}</p>
-    <p class="text-sm text-[#7D6A5D] mt-2">Lun–Vie · 8:00 AM – 6:00 PM</p>
+    <p class="text-sm text-[#7D6A5D] mt-2">{t?.contact?.info?.phone_hours}</p>
   </div>
 
   <!-- Email -->
@@ -35,7 +39,7 @@ const { phone, email, formattedLocation } = Astro.props;
     <div class="w-12 h-12 bg-linear-to-br from-[#FEEBDD] to-[#EAD3C2] rounded-xl flex items-center justify-center mb-5 shadow-md">
       ✉️
     </div>
-    <h3 class="text-xl font-semibold text-[#513A31] mb-2">Email</h3>
+    <h3 class="text-xl font-semibold text-[#513A31] mb-2">{t?.contact?.info?.email_title}</h3>
     <p class="text-[#7D6A5D]">{email}</p>
   </div>
 </div>

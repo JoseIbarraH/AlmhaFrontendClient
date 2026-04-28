@@ -1,7 +1,10 @@
 ---
 import profileImage from "@/assets/images/test/nariz.jpg";
 import logo from "@/assets/images/logos/logo2.png"
+import { loadTranslations } from "@/lib/i18n";
 
+const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
 ---
 
 <section id="info-section" class="relative w-full overflow-hidden bg-[#F5E6D8]">
@@ -10,7 +13,7 @@ import logo from "@/assets/images/logos/logo2.png"
     <div class="info-image-col">
       <img
         src={profileImage.src}
-        alt="Cirugía plástica facial - Perfil"
+        alt={t?.home?.info_section?.image_alt}
         class="info-portrait"
       />
     </div>
@@ -21,10 +24,8 @@ import logo from "@/assets/images/logos/logo2.png"
         <!-- Header row: Title + Icon -->
         <div class="info-header">
           <div class="info-header-text">
-            <span class="info-eyebrow">Cirugía plástica facial</span>
-            <h2 class="info-title">
-              Creando la versión<br />más hermosa de ti.
-            </h2>
+            <span class="info-eyebrow">{t?.home?.info_section?.eyebrow}</span>
+            <h2 class="info-title" set:html={t?.home?.info_section?.title} />
           </div>
           <!-- Decorative Icon -->
           <div class="info-icon" aria-hidden="true">
@@ -37,13 +38,7 @@ import logo from "@/assets/images/logos/logo2.png"
 
         <!-- Description paragraph -->
         <p class="info-description">
-          Tu tratamiento se personalizará para mejorar la armonía natural de tu
-          rostro. Déjanos ayudarte a resaltar tus rasgos más bonitos alisando
-          arrugas, líneas y pliegues, para lograr un aspecto más vital, dinámico
-          y juvenil que resulte completamente natural. Utilizamos la última
-          generación de láseres no invasivos y las técnicas quirúrgicas de
-          lifting facial más avanzadas y menos invasivas para una cicatrización
-          más rápida y resultados más bonitos y naturales.
+          {t?.home?.info_section?.description}
         </p>
       </div>
     </div>

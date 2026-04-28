@@ -1,0 +1,62 @@
+{
+    "language_switcher": {
+        "aria_label": "Change language"
+    },
+    "logo": {
+        "alt": "Logo",
+        "home_aria": "Go to home",
+        "main_alt": "Main logo"
+    },
+    "combobox": {
+        "default_placeholder": "Select...",
+        "search_placeholder": "Search...",
+        "no_results": "No results found",
+        "others": "Other"
+    },
+    "search": {
+        "default_placeholder": "Search..."
+    },
+    "navigation": {
+        "previous": "Previous",
+        "next": "Next",
+        "scroll_left": "Scroll left",
+        "scroll_right": "Scroll right"
+    },
+    "menu": {
+        "toggle_aria": "Toggle menu"
+    },
+    "navbar_carousel": {
+        "go_to_slide": "Go to slide {n}",
+        "premium_badge": "Premium Aesthetic Tourism",
+        "default_slides": [
+            {
+                "title": "Where beauty\nmeets luxury",
+                "subtitle": "World-class aesthetic treatments in paradise destinations"
+            },
+            {
+                "title": "Your transformation\nstarts here",
+                "subtitle": "Personalized procedures with the highest medical technology"
+            },
+            {
+                "title": "Recover in\nparadise",
+                "subtitle": "Combine aesthetic treatments with an unforgettable vacation"
+            }
+        ]
+    },
+    "subscription_toast": {
+        "confirmed": "Subscription confirmed! You will receive our updates soon.",
+        "failed": "We could not confirm your subscription. The link may have expired.",
+        "invalid": "The confirmation link is not valid."
+    },
+    "toast": {
+        "success_title": "Success!",
+        "error_title": "Error",
+        "close_aria": "Close"
+    },
+    "newsletter_messages": {
+        "rate_limit": "Too many attempts. Please try again in a minute.",
+        "generic_error": "Error subscribing. Please try again.",
+        "default_success": "Thanks for subscribing! Check your email.",
+        "loading": "Sending..."
+    }
+}

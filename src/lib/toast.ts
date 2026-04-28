@@ -22,8 +22,8 @@ const TITLES: Record<ToastVariant, string> = {
 };
 
 const ICONS: Record<ToastVariant, string> = {
-  success: `<div class="flex-shrink-0 w-8 h-8 rounded-full bg-[#FEEBDD] flex items-center justify-center text-[#513A31]"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg></div>`,
-  error: `<div class="flex-shrink-0 w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-red-500"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg></div>`,
+  success: `<div class="shrink-0 w-8 h-8 rounded-full bg-[#FEEBDD] flex items-center justify-center text-[#513A31]"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg></div>`,
+  error: `<div class="shrink-0 w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-red-500"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg></div>`,
 };
 
 const BORDER_COLOR: Record<ToastVariant, string> = {
@@ -59,9 +59,9 @@ export function showToast(message: string, options: ToastOptions | ToastVariant 
     ${ICONS[variant]}
     <div class="flex-1 min-w-0">
       <p class="font-bold text-sm leading-tight">${escapeHtml(title)}</p>
-      <p class="text-sm text-[#7D6A5D] mt-0.5 break-words">${escapeHtml(message)}</p>
+      <p class="text-sm text-[#7D6A5D] mt-0.5 wrap-break-word">${escapeHtml(message)}</p>
     </div>
-    <button type="button" data-toast-close class="flex-shrink-0 ml-2 text-[#D6C4B6] hover:text-[#7D6A5D] transition-colors focus:outline-none" aria-label="Cerrar">
+    <button type="button" data-toast-close class="shrink-0 ml-2 text-[#D6C4B6] hover:text-[#7D6A5D] transition-colors focus:outline-none" aria-label="Cerrar">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
     </button>
   `;

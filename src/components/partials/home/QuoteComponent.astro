@@ -1,6 +1,10 @@
 ---
 import logo from "@/assets/images/logos/logo.png";
 import logo2 from "@/assets/images/logos/logo2.png";
+import { loadTranslations } from "@/lib/i18n";
+
+const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
 
 interface Props {
   quote?: string;
@@ -9,13 +13,13 @@ interface Props {
 }
 
 const {
-  quote = "Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.",
-  author = "Albert Einstein",
-  logoAlt = "Logo",
+  quote = t?.home?.quote?.default_text ?? "",
+  author = t?.home?.quote?.default_author ?? "",
+  logoAlt = t?.common?.logo?.alt ?? "Logo",
 } = Astro.props;
 ---
 
-<section aria-label="Cita destacada">
+<section aria-label={t?.home?.quote?.aria_label}>
   <div
     class="relative overflow-hidden bg-[#7D6A5D] flex flex-col justify-center items-center gap-4 py-16 px-4"
   >

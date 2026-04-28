@@ -1,0 +1,14 @@
+{
+    "toggle_aria": "Ouvrir le chat",
+    "toggle_title": "Besoin d'aide ?",
+    "title": "Assistant Almha",
+    "subtitle": "Votre destination beauté et bien-être",
+    "close_aria": "Fermer le chat",
+    "send_aria": "Envoyer le message",
+    "input_placeholder": "Posez-moi vos questions sur les procédures, les tarifs...",
+    "greeting_welcome": "Bienvenue chez Almha Plastic Surgery ! ✨",
+    "greeting_intro": "Je suis votre assistant virtuel. Je peux vous renseigner sur les procédures esthétiques, les tarifs, la convalescence et votre voyage de tourisme esthétique. Comment puis-je vous aider ?",
+    "rate_limit": "Trop de messages en peu de temps. Veuillez patienter un instant.",
+    "default_reply": "Désolé, je n'ai pas pu traiter votre demande.",
+    "connection_error": "Désolé, une erreur de connexion s'est produite. Veuillez réessayer."
+}

@@ -1,0 +1,48 @@
+{
+    "hero": {
+        "title": "Contáctenos",
+        "subtitle": "Tu consulta es el primer paso hacia una transformación segura, profesional y personalizada."
+    },
+    "form": {
+        "title": "Envíanos un mensaje",
+        "subtitle": "Nuestro equipo se pondrá en contacto contigo muy pronto",
+        "divider": "Contacto",
+        "name_label": "Nombre *",
+        "name_placeholder": "Tu nombre",
+        "email_label": "Email *",
+        "email_placeholder": "tu@email.com",
+        "phone_label": "Teléfono *",
+        "phone_placeholder": "300 123 4567",
+        "country_code_placeholder": "+57",
+        "country_code_title": "Solo se permiten números y el signo +",
+        "phone_title": "Solo se permiten números",
+        "procedure_label": "Procedimiento/otros",
+        "procedure_placeholder": "Seleccionar procedimiento...",
+        "message_label": "Mensaje *",
+        "message_placeholder": "Cuéntanos tus expectativas...",
+        "submit": "Enviar mensaje",
+        "submit_loading": "Enviando...",
+        "whatsapp": "Contactar por WhatsApp"
+    },
+    "info": {
+        "location_title": "Ubicación",
+        "phone_title": "Teléfono",
+        "phone_hours": "Lun–Vie · 8:00 AM – 6:00 PM",
+        "email_title": "Email"
+    },
+    "messages": {
+        "success": "Mensaje enviado con éxito. Nuestro equipo se pondrá en contacto pronto.",
+        "validation_error": "Revisa los datos del formulario e intenta de nuevo.",
+        "rate_limit": "Has enviado demasiados mensajes. Intenta de nuevo en un minuto.",
+        "generic_error": "Hubo un error al enviar el mensaje. Intente de nuevo.",
+        "connection_error": "Error de conexión al enviar el formulario. Intente de nuevo."
+    },
+    "defaults": {
+        "phone": "+57 300 123 4567",
+        "email": "info@almha.com",
+        "location": "Calle Principal #123\nCartagena, Bolívar\nColombia",
+        "location_pending": "Ubicación pendiente",
+        "phone_pending": "Teléfono pendiente",
+        "email_pending": "Email pendiente"
+    }
+}

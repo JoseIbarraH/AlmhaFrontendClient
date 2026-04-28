@@ -2,6 +2,7 @@
 import Layout from "@/layouts/Layout.astro";
 import ContactForm from "@/components/partials/contact/ContactForm.astro";
 import ContactInfo from "@/components/partials/contact/ContactInfo.astro";
+import { loadTranslations } from "@/lib/i18n";
 
 interface ContactSettings {
   phone?: string;
@@ -18,6 +19,7 @@ let settings: ContactSettings = {};
 let procedures: { value: string; label: string }[] = [];
 
 const lang = Astro.currentLocale || "es";
+const t = await loadTranslations(lang);
 
 try {
   const { data } = await api.get(`/api/client/contact-data?lang=${lang}`);
@@ -33,9 +35,9 @@ try {
 }
 
 const {
-  phone = "+57 300 123 4567",
-  email = "info@almha.com",
-  location = "Calle Principal #123\nCartagena, Bolívar\nColombia",
+  phone = t?.contact?.defaults?.phone ?? "+57 300 123 4567",
+  email = t?.contact?.defaults?.email ?? "info@almha.com",
+  location = t?.contact?.defaults?.location ?? "",
   whatsapp_number,
   whatsapp_active,
   whatsapp_open_new_tab,
@@ -67,11 +69,10 @@ if (whatsapp_number) {
           <h1
             class="text-5xl md:text-6xl font-semibold tracking-tight text-[#FFF9F6] mb-6"
           >
-            Contáctenos
+            {t?.contact?.hero?.title}
           </h1>
           <p class="text-lg md:text-xl text-[#FEEBDD]/90 leading-relaxed">
-            Tu consulta es el primer paso hacia una transformación segura,
-            profesional y personalizada.
+            {t?.contact?.hero?.subtitle}
           </p>
         </div>
       </div>
@@ -99,6 +100,21 @@ if (whatsapp_number) {
       </div>
     </section>
   </div>
+
+  <!-- Contact form translation strings consumed by the JS init -->
+  <script
+    is:inline
+    type="application/json"
+    id="i18n-contact-form"
+    set:html={JSON.stringify({
+      success: t?.contact?.messages?.success ?? "",
+      validationError: t?.contact?.messages?.validation_error ?? "",
+      rateLimit: t?.contact?.messages?.rate_limit ?? "",
+      genericError: t?.contact?.messages?.generic_error ?? "",
+      connectionError: t?.contact?.messages?.connection_error ?? "",
+      submitLoading: t?.contact?.form?.submit_loading ?? "",
+    })}
+  />
 
   <script>
     import { initContactForm } from "@/lib/contactForm";

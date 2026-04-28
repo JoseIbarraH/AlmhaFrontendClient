@@ -1,0 +1,23 @@
+{
+  "confirm": {
+    "loading": {
+      "title": "Confirmation de votre abonnement...",
+      "subtitle": "Cela ne prendra qu'un instant."
+    },
+    "confirmed": {
+      "title": "Abonnement confirmé !",
+      "subtitle": "Merci de nous rejoindre. Vous recevrez nos actualités, promotions et articles de blog directement dans votre boîte mail.",
+      "cta": "Retour à l'accueil"
+    },
+    "failed": {
+      "title": "Nous n'avons pas pu confirmer votre abonnement",
+      "subtitle": "Le lien a peut-être expiré ou a déjà été utilisé. Si vous pensez qu'il s'agit d'une erreur, essayez de vous abonner à nouveau.",
+      "cta": "Retour à l'accueil"
+    },
+    "invalid": {
+      "title": "Lien invalide",
+      "subtitle": "Le lien de confirmation ne contient pas de jeton valide. Vérifiez que vous avez cliqué sur le lien complet du courriel.",
+      "cta": "Retour à l'accueil"
+    }
+  }
+}

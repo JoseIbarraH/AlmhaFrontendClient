@@ -1,0 +1,47 @@
+{
+    "hero": {
+        "tag": "Our Story",
+        "title": "Dedicated to Your Wellbeing",
+        "subtitle": "More than 15 years transforming lives with professionalism, ethics, and the highest quality standards in aesthetic surgery",
+        "image_alt": "Clinic"
+    },
+    "mission": {
+        "title": "Our Mission",
+        "description": "To provide world-class aesthetic surgery services, combining cutting-edge technology with a human, personalized approach for every patient."
+    },
+    "vision": {
+        "title": "Our Vision",
+        "description": "To be the reference clinic in aesthetic surgery, recognized for our medical excellence, constant innovation, and genuine commitment to our patients' wellbeing."
+    },
+    "values": {
+        "tag": "What defines us",
+        "title": "Our Values",
+        "subtitle": "The principles that guide every decision and procedure in our clinic",
+        "safety": {
+            "title": "Safety",
+            "description": "Rigorous protocols and state-of-the-art technology to ensure your wellbeing in every procedure."
+        },
+        "empathy": {
+            "title": "Empathy",
+            "description": "We understand your desires and concerns, supporting you with warmth at every stage of your transformation."
+        },
+        "innovation": {
+            "title": "Innovation",
+            "description": "Constant updates in techniques and equipment to offer you the best possible results."
+        }
+    },
+    "members": {
+        "tag": "Meet our team",
+        "title": "Featured Professionals",
+        "subtitle": "Certified specialists with years of experience and international training",
+        "prev_aria": "Previous",
+        "next_aria": "Next"
+    },
+    "member_detail": {
+        "default_role": "Specialist",
+        "gallery_prev": "Previous",
+        "gallery_next": "Next",
+        "modal_alt": "Preview",
+        "result_alt": "Patient result"
+    }
+}

@@ -1,0 +1,47 @@
+{
+    "hero": {
+        "tag": "Nuestra Historia",
+        "title": "Dedicados a Tu Bienestar",
+        "subtitle": "Más de 15 años transformando vidas con profesionalismo, ética y los más altos estándares de calidad en cirugía estética",
+        "image_alt": "Clínica"
+    },
+    "mission": {
+        "title": "Nuestra Misión",
+        "description": "Proporcionar servicios de cirugía estética de clase mundial, combinando tecnología de vanguardia con un enfoque humano y personalizado para cada paciente."
+    },
+    "vision": {
+        "title": "Nuestra Visión",
+        "description": "Ser la clínica de referencia en cirugía estética, reconocida por nuestra excelencia médica, innovación constante y el compromiso genuino con el bienestar de nuestros pacientes."
+    },
+    "values": {
+        "tag": "Lo que nos define",
+        "title": "Nuestros Valores",
+        "subtitle": "Los principios que guían cada decisión y procedimiento en nuestra clínica",
+        "safety": {
+            "title": "Seguridad",
+            "description": "Protocolos rigurosos y tecnología de última generación para garantizar tu bienestar en cada procedimiento."
+        },
+        "empathy": {
+            "title": "Empatía",
+            "description": "Entendemos tus deseos y preocupaciones, acompañándote con calidez en cada etapa de tu transformación."
+        },
+        "innovation": {
+            "title": "Innovación",
+            "description": "Actualización constante en técnicas y equipos para ofrecerte los mejores resultados posibles."
+        }
+    },
+    "members": {
+        "tag": "Conoce a nuestro equipo",
+        "title": "Profesionales Destacados",
+        "subtitle": "Especialistas certificados con años de experiencia y formación internacional",
+        "prev_aria": "Anterior",
+        "next_aria": "Siguiente"
+    },
+    "member_detail": {
+        "default_role": "Especialista",
+        "gallery_prev": "Anterior",
+        "gallery_next": "Siguiente",
+        "modal_alt": "Vista previa",
+        "result_alt": "Resultado paciente"
+    }
+}

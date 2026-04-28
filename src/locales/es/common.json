@@ -1,0 +1,62 @@
+{
+    "language_switcher": {
+        "aria_label": "Cambiar idioma"
+    },
+    "logo": {
+        "alt": "Logo",
+        "home_aria": "Ir al inicio",
+        "main_alt": "Logo principal"
+    },
+    "combobox": {
+        "default_placeholder": "Seleccionar...",
+        "search_placeholder": "Buscar...",
+        "no_results": "No se encontraron resultados",
+        "others": "Otros"
+    },
+    "search": {
+        "default_placeholder": "Buscar..."
+    },
+    "navigation": {
+        "previous": "Anterior",
+        "next": "Siguiente",
+        "scroll_left": "Desplazar a la izquierda",
+        "scroll_right": "Desplazar a la derecha"
+    },
+    "menu": {
+        "toggle_aria": "Alternar menú"
+    },
+    "navbar_carousel": {
+        "go_to_slide": "Ir a diapositiva {n}",
+        "premium_badge": "Turismo Estético Premium",
+        "default_slides": [
+            {
+                "title": "Donde la belleza\nse encuentra con el lujo",
+                "subtitle": "Tratamientos estéticos de clase mundial en destinos paradisíacos"
+            },
+            {
+                "title": "Tu transformación\ncomienza aquí",
+                "subtitle": "Procedimientos personalizados con la más alta tecnología médica"
+            },
+            {
+                "title": "Recupera en\nel paraíso",
+                "subtitle": "Combina tratamientos estéticos con unas vacaciones inolvidables"
+            }
+        ]
+    },
+    "subscription_toast": {
+        "confirmed": "¡Suscripción confirmada! Pronto recibirás nuestras novedades.",
+        "failed": "No pudimos confirmar tu suscripción. El enlace puede haber expirado.",
+        "invalid": "El enlace de confirmación no es válido."
+    },
+    "toast": {
+        "success_title": "¡Éxito!",
+        "error_title": "Error",
+        "close_aria": "Cerrar"
+    },
+    "newsletter_messages": {
+        "rate_limit": "Demasiados intentos. Intenta de nuevo en un minuto.",
+        "generic_error": "Error al suscribirse. Intenta de nuevo.",
+        "default_success": "¡Gracias por suscribirte! Revisa tu email.",
+        "loading": "Enviando..."
+    }
+}

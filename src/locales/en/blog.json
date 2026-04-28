@@ -2,18 +2,27 @@
     "header": {
         "tag": "Blog",
         "title": "Our Blog",
-        "subtitle": "Explore expert information on aesthetic procedures, postoperative care, and real patient experiences."
+        "subtitle": "Explore expert information on aesthetic procedures, postoperative care, and real patient experiences.",
+        "image_alt": "Blog"
     },
     "list": {
         "title": "All Procedures",
+        "section_title": "See all articles here",
         "filter": {
             "most_recent": "Most Recent",
             "most_read": "Most Read",
             "oldest": "Oldest"
         },
+        "sort": {
+            "most_recent": "Most recent",
+            "oldest": "Oldest",
+            "most_read": "Most read"
+        },
         "card": {
             "read_time": "5 min read",
-            "read_more": "Read more"
+            "read_more": "Read more",
+            "default_writer": "Dr. Specialist",
+            "image_alt": "Article"
         },
         "category": {
             "title": "Categories",
@@ -39,10 +48,16 @@
         "button": "Contact Us"
     },
     "recent_articles": {
-        "title": "Recent Articles"
+        "title": "Recent Articles",
+        "image_alt": "Article"
     },
     "breadcrumbs": {
         "home": "Home",
         "blog": "Blog"
+    },
+    "post": {
+        "default_role": "Specialist",
+        "share_label": "Share article",
+        "share_aria": "Share on {network}"
     }
 }

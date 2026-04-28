@@ -2,18 +2,27 @@
     "header": {
         "tag": "Blog",
         "title": "Nuestro Blog",
-        "subtitle": "Explora información experta sobre procedimientos estéticos, cuidados postoperatorios y experiencias reales de pacientes."
+        "subtitle": "Explora información experta sobre procedimientos estéticos, cuidados postoperatorios y experiencias reales de pacientes.",
+        "image_alt": "Blog"
     },
     "list": {
         "title": "Todos los Procedimientos",
+        "section_title": "Mira todos los articulos aquí",
         "filter": {
             "most_recent": "Más recientes",
             "most_read": "Más leidos",
             "oldest": "Más antiguos"
         },
+        "sort": {
+            "most_recent": "Más recientes",
+            "oldest": "Más antiguos",
+            "most_read": "Más leídos"
+        },
         "card": {
             "read_time": "5 min lectura",
-            "read_more": "Leer más"
+            "read_more": "Leer más",
+            "default_writer": "Dr. Especialista",
+            "image_alt": "Artículo"
         },
         "category": {
             "title": "Categorías",
@@ -39,10 +48,16 @@
         "button": "Contáctanos"
     },
     "recent_articles": {
-        "title": "Artículos Recientes"
+        "title": "Artículos Recientes",
+        "image_alt": "Artículo"
     },
     "breadcrumbs": {
         "home": "Inicio",
         "blog": "Blog"
+    },
+    "post": {
+        "default_role": "Especialista",
+        "share_label": "Compartir artículo",
+        "share_aria": "Compartir en {network}"
     }
 }

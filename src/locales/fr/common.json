@@ -1,0 +1,62 @@
+{
+    "language_switcher": {
+        "aria_label": "Changer de langue"
+    },
+    "logo": {
+        "alt": "Logo",
+        "home_aria": "Aller à l'accueil",
+        "main_alt": "Logo principal"
+    },
+    "combobox": {
+        "default_placeholder": "Sélectionner...",
+        "search_placeholder": "Rechercher...",
+        "no_results": "Aucun résultat trouvé",
+        "others": "Autres"
+    },
+    "search": {
+        "default_placeholder": "Rechercher..."
+    },
+    "navigation": {
+        "previous": "Précédent",
+        "next": "Suivant",
+        "scroll_left": "Faire défiler à gauche",
+        "scroll_right": "Faire défiler à droite"
+    },
+    "menu": {
+        "toggle_aria": "Basculer le menu"
+    },
+    "navbar_carousel": {
+        "go_to_slide": "Aller à la diapositive {n}",
+        "premium_badge": "Tourisme Esthétique Premium",
+        "default_slides": [
+            {
+                "title": "Là où la beauté\nrencontre le luxe",
+                "subtitle": "Des traitements esthétiques de classe mondiale dans des destinations paradisiaques"
+            },
+            {
+                "title": "Votre transformation\ncommence ici",
+                "subtitle": "Des procédures personnalisées avec la plus haute technologie médicale"
+            },
+            {
+                "title": "Récupérez\nau paradis",
+                "subtitle": "Associez vos traitements esthétiques à des vacances inoubliables"
+            }
+        ]
+    },
+    "subscription_toast": {
+        "confirmed": "Abonnement confirmé ! Vous recevrez bientôt nos nouveautés.",
+        "failed": "Nous n'avons pas pu confirmer votre abonnement. Le lien a peut-être expiré.",
+        "invalid": "Le lien de confirmation n'est pas valide."
+    },
+    "toast": {
+        "success_title": "Succès !",
+        "error_title": "Erreur",
+        "close_aria": "Fermer"
+    },
+    "newsletter_messages": {
+        "rate_limit": "Trop de tentatives. Veuillez réessayer dans une minute.",
+        "generic_error": "Erreur lors de l'abonnement. Veuillez réessayer.",
+        "default_success": "Merci pour votre abonnement ! Consultez votre courriel.",
+        "loading": "Envoi en cours..."
+    }
+}

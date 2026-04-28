@@ -1,0 +1,66 @@
+{
+    "hero": {
+        "badge": "Tourisme Esthétique Premium",
+        "view_plans": "Voir les forfaits",
+        "learn_more": "En savoir plus",
+        "scroll": "Défiler"
+    },
+    "brands": {
+        "badge": "Soutenus par les meilleurs",
+        "title": "Marques et technologies de confiance",
+        "description": "Nous travaillons exclusivement avec les marques leaders mondiales en esthétique médicale pour garantir des résultats exceptionnels et sûrs."
+    },
+    "doctor": {
+        "role_badge": "Directeur Médical",
+        "name": "Dr. Alejandro Restrepo",
+        "specialty": "Chirurgien Plasticien et Esthétique",
+        "headline": "CHIRURGIEN PLASTICIEN ESTHÉTIQUE ET RECONSTRUCTEUR",
+        "description": "Animé par une passion inébranlable pour la perfection esthétique et une approche personnalisée de chaque patient, le Dr. Restrepo a consacré sa carrière à allier la science médicale la plus avancée à l'art de la beauté naturelle.",
+        "credentials": {
+            "0": "Fellowship en Chirurgie Esthétique Faciale — Université de Miami",
+            "1": "Membre de la Société Internationale de Chirurgie Plastique Esthétique (ISAPS)",
+            "2": "Plus de 15 ans d'expérience en procédures esthétiques avancées",
+            "3": "Plus de 8 000 procédures réussies réalisées",
+            "4": "Certification en technologie laser et traitements non invasifs"
+        },
+        "cta": "Prendre rendez-vous",
+        "experience_years": "15+",
+        "experience_label": "Années<br />d'expérience"
+    },
+    "treatments": {
+        "badge": "Nos Services",
+        "title": "Traitements d'Excellence",
+        "description": "Chaque procédure est personnalisée selon vos besoins uniques, en utilisant les techniques les plus avancées au monde.",
+        "specialties_badge": "Spécialités",
+        "includes": "Comprend :",
+        "cta": "Demander des informations"
+    },
+    "info_section": {
+        "image_alt": "Chirurgie plastique faciale - Profil",
+        "eyebrow": "Chirurgie plastique faciale",
+        "title": "Créer la version<br />la plus belle de vous.",
+        "description": "Votre traitement sera personnalisé pour sublimer l'harmonie naturelle de votre visage. Laissez-nous vous aider à mettre en valeur vos plus beaux traits en lissant rides, lignes et plis, afin d'obtenir un aspect plus vif, dynamique et jeune, totalement naturel. Nous utilisons la dernière génération de lasers non invasifs et les techniques de lifting facial les plus avancées et les moins invasives, pour une cicatrisation plus rapide et des résultats plus harmonieux et naturels."
+    },
+    "contact_cta": {
+        "title": "Prêt à passer à l'étape suivante ?",
+        "description": "Prenez rendez-vous dès aujourd'hui pour que nous planifiions ensemble le meilleur traitement personnalisé, avec professionnalisme et sécurité garantis.",
+        "button": "Contactez-nous"
+    },
+    "quote": {
+        "aria_label": "Citation mise en avant",
+        "default_text": "Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.",
+        "default_author": "Albert Einstein"
+    },
+    "cta_step": {
+        "title": "Prêt à passer à l'étape suivante ?",
+        "description": "Prenez votre consultation gratuite et découvrez comment nous pouvons vous aider à atteindre vos objectifs grâce à un accompagnement professionnel et personnalisé.",
+        "primary_cta": "Prendre rendez-vous",
+        "secondary_cta": "Contacter par WhatsApp"
+    },
+    "procedures_card": {
+        "see_more": "Voir plus"
+    },
+    "image_video": {
+        "image_alt": ""
+    }
+}

@@ -1,0 +1,63 @@
+{
+    "header": {
+        "tag": "Blog",
+        "title": "Notre Blog",
+        "subtitle": "Découvrez des informations d'experts sur les procédures esthétiques, les soins postopératoires et les expériences réelles des patients.",
+        "image_alt": "Blog"
+    },
+    "list": {
+        "title": "Toutes les Procédures",
+        "section_title": "Découvrez tous les articles ici",
+        "filter": {
+            "most_recent": "Plus récents",
+            "most_read": "Plus lus",
+            "oldest": "Plus anciens"
+        },
+        "sort": {
+            "most_recent": "Plus récents",
+            "oldest": "Plus anciens",
+            "most_read": "Plus lus"
+        },
+        "card": {
+            "read_time": "5 min de lecture",
+            "read_more": "Lire la suite",
+            "default_writer": "Dr. Spécialiste",
+            "image_alt": "Article"
+        },
+        "category": {
+            "title": "Catégories",
+            "all": "Tous"
+        }
+    },
+    "search": {
+        "filter_all": "Tous",
+        "placeholder": "Rechercher des articles..."
+    },
+    "sidebar": {
+        "articles": "Articles d'intérêt"
+    },
+    "newsletter": {
+        "title": "Abonnez-vous gratuitement",
+        "description": "Recevez du contenu exclusif directement dans votre boîte mail",
+        "placeholder": "vous@email.com",
+        "button": "S'abonner"
+    },
+    "contact_widget": {
+        "title": "Vous avez des questions ?",
+        "description": "Contactez-nous pour répondre à vos préoccupations et planifier votre consultation d'évaluation.",
+        "button": "Contactez-nous"
+    },
+    "recent_articles": {
+        "title": "Articles Récents",
+        "image_alt": "Article"
+    },
+    "breadcrumbs": {
+        "home": "Accueil",
+        "blog": "Blog"
+    },
+    "post": {
+        "default_role": "Spécialiste",
+        "share_label": "Partager l'article",
+        "share_aria": "Partager sur {network}"
+    }
+}

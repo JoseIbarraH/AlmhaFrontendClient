@@ -14,6 +14,7 @@
         "role_badge": "Medical Director",
         "name": "Dr. Alejandro Restrepo",
         "specialty": "Plastic and Aesthetic Surgeon",
+        "headline": "AESTHETIC AND RECONSTRUCTIVE PLASTIC SURGEON",
         "description": "With an unwavering passion for aesthetic perfection and a personalized approach for every patient, Dr. Restrepo has dedicated his career to combining the most advanced medical science with the art of natural beauty.",
         "credentials": {
             "0": "Fellowship in Facial Aesthetic Surgery — University of Miami",
@@ -33,5 +34,33 @@
         "specialties_badge": "Specialties",
         "includes": "Includes:",
         "cta": "Request Information"
+    },
+    "info_section": {
+        "image_alt": "Facial plastic surgery - Profile",
+        "eyebrow": "Facial plastic surgery",
+        "title": "Creating the most<br />beautiful version of you.",
+        "description": "Your treatment will be personalized to enhance the natural harmony of your face. Let us help you highlight your most beautiful features by smoothing wrinkles, lines, and folds, achieving a more vital, dynamic, and youthful look that feels completely natural. We use the latest generation of non-invasive lasers and the most advanced and least invasive facial lifting techniques for faster healing and more beautiful, natural results."
+    },
+    "contact_cta": {
+        "title": "Ready to take the next step?",
+        "description": "Book your consultation today and let us start planning the best personalized treatment for you with guaranteed professionalism and safety.",
+        "button": "Contact Us Now"
+    },
+    "quote": {
+        "aria_label": "Featured quote",
+        "default_text": "Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.",
+        "default_author": "Albert Einstein"
+    },
+    "cta_step": {
+        "title": "Ready to take the next step?",
+        "description": "Book your free consultation and discover how we can help you reach your goals with professional and personalized support.",
+        "primary_cta": "Book consultation",
+        "secondary_cta": "Contact via WhatsApp"
+    },
+    "procedures_card": {
+        "see_more": "See more"
+    },
+    "image_video": {
+        "image_alt": ""
     }
 }

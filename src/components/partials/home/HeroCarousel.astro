@@ -17,24 +17,16 @@ interface Props {
 
 const { slides: userSlides } = Astro.props;
 
-const defaultSlides = [
-  {
-    image: Placeholder.src,
-    title: "Donde la belleza\nse encuentra con el lujo",
-    subtitle:
-      "Tratamientos estéticos de clase mundial en destinos paradisíacos",
-  },
-  {
-    image: Placeholder.src,
-    title: "Tu transformación\ncomienza aquí",
-    subtitle: "Procedimientos personalizados con la más alta tecnología médica",
-  },
-  {
-    image: Placeholder.src,
-    title: "Recupera en\nel paraíso",
-    subtitle: "Combina tratamientos estéticos con unas vacaciones inolvidables",
-  },
-];
+const defaultSlidesRaw = (t?.common?.navbar_carousel?.default_slides ?? []) as Array<{
+  title: string;
+  subtitle: string;
+}>;
+
+const defaultSlides = defaultSlidesRaw.map((slide) => ({
+  image: Placeholder.src,
+  title: slide.title,
+  subtitle: slide.subtitle,
+}));
 
 const slides = userSlides && userSlides.length > 0 ? userSlides : defaultSlides;
 ---
@@ -108,7 +100,7 @@ const slides = userSlides && userSlides.length > 0 ? userSlides : defaultSlides;
     {
       slides.map((_, i) => (
         <button
-          aria-label={`Ir a diapositiva ${i + 1}`}
+          aria-label={(t?.common?.navbar_carousel?.go_to_slide ?? "{n}").replace("{n}", String(i + 1))}
           class={`h-[4px] transition-all duration-500 dot ${i === 0 ? "w-10 bg-[#FFF9F6]" : "w-6 bg-[#FFF9F6]/40 hover:bg-[#FFF9F6]/70"}`}
           data-index={i}
         />

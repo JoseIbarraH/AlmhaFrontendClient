@@ -1,11 +1,15 @@
 ---
 import Icon from "@/components/ui/Icon.astro";
+import { loadTranslations } from "@/lib/i18n";
 
-const title = "Sitio en Mantenimiento";
+const lang = Astro.currentLocale || "es";
+const t = await loadTranslations(lang);
+
+const title = t?.maintenance?.title_tag ?? "";
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -241,30 +245,28 @@ const title = "Sitio en Mantenimiento";
         >
       </div>
 
-      <h1>Estamos en Mantenimiento</h1>
+      <h1>{t?.maintenance?.title}</h1>
       <p class="subtitle">
-        Estamos trabajando para mejorar tu experiencia. Pronto volveremos con
-        nuevas funcionalidades.
+        {t?.maintenance?.subtitle}
       </p>
 
       <div class="info-box">
         <p>
-          Estamos realizando mejoras en nuestro sistema para ofrecerte un mejor
-          servicio.
+          {t?.maintenance?.info_box}
         </p>
       </div>
 
       <div class="social-links">
-        <a href="#" class="social-link" aria-label="Twitter">
+        <a href="#" class="social-link" aria-label={t?.maintenance?.social?.twitter}>
           <Icon name="twitter" color="#513a31" />
         </a>
-        <a href="#" class="social-link" aria-label="Facebook">
+        <a href="#" class="social-link" aria-label={t?.maintenance?.social?.facebook}>
           <Icon name="facebook" color="#513a31" />
         </a>
-        <a href="https://www.instagram.com/plasticsurgeryalmha?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" class="social-link" aria-label="Instagram">
+        <a href="https://www.instagram.com/plasticsurgeryalmha?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" class="social-link" aria-label={t?.maintenance?.social?.instagram}>
           <Icon name="instagram" color="#513a31" />
         </a>
-        <a href="#" class="social-link" aria-label="Email">
+        <a href="#" class="social-link" aria-label={t?.maintenance?.social?.email}>
           <Icon name="mail" color="#513a31" />
         </a>
       </div>

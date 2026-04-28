@@ -1,0 +1,14 @@
+{
+    "toggle_aria": "Open chat",
+    "toggle_title": "Need help?",
+    "title": "Almha Assistant",
+    "subtitle": "Your destination for beauty and wellness",
+    "close_aria": "Close chat",
+    "send_aria": "Send message",
+    "input_placeholder": "Ask me about procedures, prices...",
+    "greeting_welcome": "Welcome to Almha Plastic Surgery! ✨",
+    "greeting_intro": "I am your virtual assistant. I can help you with information about aesthetic procedures, costs, recovery, and your aesthetic tourism journey. How can I help you?",
+    "rate_limit": "Too many messages in a short time. Please wait a moment.",
+    "default_reply": "Sorry, I could not process your request.",
+    "connection_error": "Sorry, there was a connection error. Please try again."
+}

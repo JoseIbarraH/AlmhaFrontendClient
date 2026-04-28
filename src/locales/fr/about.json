@@ -1,0 +1,47 @@
+{
+    "hero": {
+        "tag": "Notre Histoire",
+        "title": "Dédiés à Votre Bien-être",
+        "subtitle": "Plus de 15 ans à transformer des vies avec professionnalisme, éthique et les plus hauts standards de qualité en chirurgie esthétique",
+        "image_alt": "Clinique"
+    },
+    "mission": {
+        "title": "Notre Mission",
+        "description": "Offrir des services de chirurgie esthétique de classe mondiale, en alliant une technologie de pointe à une approche humaine et personnalisée pour chaque patient."
+    },
+    "vision": {
+        "title": "Notre Vision",
+        "description": "Être la clinique de référence en chirurgie esthétique, reconnue pour notre excellence médicale, notre innovation constante et notre engagement sincère envers le bien-être de nos patients."
+    },
+    "values": {
+        "tag": "Ce qui nous définit",
+        "title": "Nos Valeurs",
+        "subtitle": "Les principes qui guident chaque décision et chaque procédure dans notre clinique",
+        "safety": {
+            "title": "Sécurité",
+            "description": "Des protocoles rigoureux et une technologie de dernière génération pour garantir votre bien-être à chaque procédure."
+        },
+        "empathy": {
+            "title": "Empathie",
+            "description": "Nous comprenons vos désirs et vos préoccupations, en vous accompagnant avec chaleur à chaque étape de votre transformation."
+        },
+        "innovation": {
+            "title": "Innovation",
+            "description": "Une mise à jour permanente des techniques et des équipements pour vous offrir les meilleurs résultats possibles."
+        }
+    },
+    "members": {
+        "tag": "Rencontrez notre équipe",
+        "title": "Professionnels Reconnus",
+        "subtitle": "Des spécialistes certifiés avec des années d'expérience et une formation internationale",
+        "prev_aria": "Précédent",
+        "next_aria": "Suivant"
+    },
+    "member_detail": {
+        "default_role": "Spécialiste",
+        "gallery_prev": "Précédent",
+        "gallery_next": "Suivant",
+        "modal_alt": "Aperçu",
+        "result_alt": "Résultat patient"
+    }
+}

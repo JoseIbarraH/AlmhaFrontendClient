@@ -2,7 +2,8 @@
     "header": {
         "tag": "Medical Procedures",
         "title": "Our Procedures",
-        "subtitle": "Discover our specialized treatments designed to enhance your natural beauty"
+        "subtitle": "Discover our specialized treatments designed to enhance your natural beauty",
+        "image_alt": "Procedure"
     },
     "search": {
         "placeholder": "Search procedure...",
@@ -28,9 +29,19 @@
     },
     "gallery": {
         "title": "Results Gallery",
-        "subtitle": "Real patient cases"
+        "subtitle": "Real patient cases",
+        "view_image": "View enlarged image",
+        "modal_alt": "Preview",
+        "result_alt": "Patient result"
     },
     "grid": {
-        "read_more": "Read more"
+        "read_more": "Read more",
+        "default_category": "General"
+    },
+    "contact_cta": {
+        "title": "Interested in this procedure?",
+        "description": "Book your consultation today for personalized care and to answer all your questions.",
+        "button": "Go to Contact",
+        "whatsapp": "Contact via WhatsApp"
     }
 }

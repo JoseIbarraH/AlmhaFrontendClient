@@ -25,13 +25,13 @@ const credentials = Object.values(t?.home?.doctor?.credentials || {});
     >
       <img
         src={imagotipo.src}
-        alt="Logo principal"
+        alt={t?.common?.logo?.main_alt}
         class="w-full drop-shadow-2xl"
       />
       <h1
         class="wrap-break-word font-advent text-lg sm:text-xl md:text-xl lg:text-2xl text-left md:text-center text-[#FFF9F6]"
       >
-        CIRUJANO PLÁSTICO ESTÉTICO Y RECONSTRUCTIVO
+        {t?.home?.doctor?.headline}
       </h1>
     </div>
   </div>

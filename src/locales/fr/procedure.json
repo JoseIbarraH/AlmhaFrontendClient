@@ -1,0 +1,47 @@
+{
+    "header": {
+        "tag": "Procédures Médicales",
+        "title": "Nos procédures",
+        "subtitle": "Découvrez nos traitements spécialisés conçus pour sublimer votre beauté naturelle",
+        "image_alt": "Procédure"
+    },
+    "search": {
+        "placeholder": "Rechercher une procédure...",
+        "filter_all": "Toutes"
+    },
+    "preparation": {
+        "title": "Préparation Préopératoire"
+    },
+    "post_operative": {
+        "title": "Soins Postopératoires",
+        "do": {
+            "title": "Ce que vous DEVEZ faire"
+        },
+        "dont": {
+            "title": "Ce qu'il NE faut PAS faire"
+        }
+    },
+    "recovery_phase": {
+        "title": "Temps de Récupération"
+    },
+    "faq": {
+        "title": "Questions Fréquentes"
+    },
+    "gallery": {
+        "title": "Galerie de Résultats",
+        "subtitle": "Cas réels de nos patients",
+        "view_image": "Voir l'image agrandie",
+        "modal_alt": "Aperçu",
+        "result_alt": "Résultat patient"
+    },
+    "grid": {
+        "read_more": "Plus d'informations",
+        "default_category": "Général"
+    },
+    "contact_cta": {
+        "title": "Cette procédure vous intéresse ?",
+        "description": "Prenez rendez-vous dès aujourd'hui pour bénéficier d'une attention personnalisée et obtenir toutes les réponses à vos questions.",
+        "button": "Aller au Contact",
+        "whatsapp": "Contacter par WhatsApp"
+    }
+}

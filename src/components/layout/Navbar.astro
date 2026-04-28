@@ -44,7 +44,7 @@ const { procedures = {}, settings = null, procedureContext = "" } = Astro.props;
             id="hamburger-btn"
             class="hamburger-btn flex items-center transition-colors rounded-lg px-2 py-1 -ml-2 z-50 hover:bg-[#FEEBDD]/10"
             type="button"
-            aria-label="Toggle menu"
+            aria-label={t.common.menu.toggle_aria}
             aria-expanded="false"
           >
             <span class="hamburger hamburger--spin scale-75" aria-hidden="true">

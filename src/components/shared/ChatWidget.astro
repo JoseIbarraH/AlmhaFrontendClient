@@ -1,10 +1,28 @@
 ---
 /* Floating Chat Widget — connects to backend chat proxy, which forwards to n8n */
+import { loadTranslations } from "@/lib/i18n";
+
 const apiUrl = import.meta.env.PUBLIC_API_URL ?? "";
+const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
+
+const chatStrings = {
+  rateLimit: t?.chat?.rate_limit ?? "",
+  defaultReply: t?.chat?.default_reply ?? "",
+  connectionError: t?.chat?.connection_error ?? "",
+};
 ---
 
 <!-- Floating Chat Button -->
-<button id="chat-toggle" data-api-url={apiUrl} aria-label="Abrir chat" title="¿Necesitas ayuda?">
+<button
+  id="chat-toggle"
+  data-api-url={apiUrl}
+  data-rate-limit-msg={chatStrings.rateLimit}
+  data-default-reply={chatStrings.defaultReply}
+  data-connection-error={chatStrings.connectionError}
+  aria-label={t?.chat?.toggle_aria}
+  title={t?.chat?.toggle_title}
+>
   <!-- Chat icon -->
   <svg id="chat-icon-open" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
@@ -32,11 +50,11 @@ const apiUrl = import.meta.env.PUBLIC_API_URL ?? "";
         </svg>
       </div>
       <div>
-        <div id="chat-title">Almha Asistente</div>
-        <div id="chat-subtitle">Tu destino de belleza y bienestar</div>
+        <div id="chat-title">{t?.chat?.title}</div>
+        <div id="chat-subtitle">{t?.chat?.subtitle}</div>
       </div>
     </div>
-    <button id="chat-close" aria-label="Cerrar chat">
+    <button id="chat-close" aria-label={t?.chat?.close_aria}>
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="18" y1="6" x2="6" y2="18"/>
         <line x1="6" y1="6" x2="18" y2="18"/>
@@ -47,10 +65,10 @@ const apiUrl = import.meta.env.PUBLIC_API_URL ?? "";
   <!-- Messages -->
   <div id="chat-messages">
     <div class="chat-msg bot">
-      <div class="chat-bubble bot">¡Bienvenido a Almha Plastic Surgery! ✨</div>
+      <div class="chat-bubble bot">{t?.chat?.greeting_welcome}</div>
     </div>
     <div class="chat-msg bot">
-      <div class="chat-bubble bot">Soy tu asistente virtual. Puedo ayudarte con información sobre procedimientos estéticos, costos, recuperación y tu viaje de turismo estético. ¿En qué puedo ayudarte?</div>
+      <div class="chat-bubble bot">{t?.chat?.greeting_intro}</div>
     </div>
   </div>
 
@@ -60,10 +78,10 @@ const apiUrl = import.meta.env.PUBLIC_API_URL ?? "";
       <input
         id="chat-input"
         type="text"
-        placeholder="Pregúntame sobre procedimientos, costos..."
+        placeholder={t?.chat?.input_placeholder}
         autocomplete="off"
       />
-      <button type="submit" id="chat-send" aria-label="Enviar mensaje">
+      <button type="submit" id="chat-send" aria-label={t?.chat?.send_aria}>
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="22" y1="2" x2="11" y2="13"/>
           <polygon points="22 2 15 22 11 13 2 9 22 2"/>
@@ -366,6 +384,11 @@ const apiUrl = import.meta.env.PUBLIC_API_URL ?? "";
   const toggleEl = document.getElementById('chat-toggle');
   const API_BASE = (toggleEl && toggleEl.getAttribute('data-api-url')) || '';
   const CHAT_ENDPOINT = API_BASE.replace(/\/+$/, '') + '/api/v1/chat';
+  const I18N = {
+    rateLimit: (toggleEl && toggleEl.getAttribute('data-rate-limit-msg')) || '',
+    defaultReply: (toggleEl && toggleEl.getAttribute('data-default-reply')) || '',
+    connectionError: (toggleEl && toggleEl.getAttribute('data-connection-error')) || '',
+  };
 
   // Generate a persistent session ID
   function getSessionId() {
@@ -466,7 +489,7 @@ const apiUrl = import.meta.env.PUBLIC_API_URL ?? "";
       hideTyping();
 
       if (response.status === 429) {
-        addMessage('Demasiados mensajes en poco tiempo. Espera un momento.', 'bot');
+        addMessage(I18N.rateLimit, 'bot');
         return;
       }
 
@@ -479,13 +502,13 @@ const apiUrl = import.meta.env.PUBLIC_API_URL ?? "";
         || data.text
         || data.response
         || data.message
-        || (typeof data === 'string' ? data : 'Lo siento, no pude procesar tu solicitud.');
+        || (typeof data === 'string' ? data : I18N.defaultReply);
 
       addMessage(botReply, 'bot');
     } catch (err) {
       hideTyping();
       console.error('Chat error:', err);
-      addMessage('Lo siento, hubo un error de conexión. Por favor intenta de nuevo.', 'bot');
+      addMessage(I18N.connectionError, 'bot');
     } finally {
       input.disabled = false;
       document.getElementById('chat-send').disabled = false;

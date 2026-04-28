@@ -1,0 +1,48 @@
+{
+    "hero": {
+        "title": "Contactez-nous",
+        "subtitle": "Votre consultation est le premier pas vers une transformation sûre, professionnelle et personnalisée."
+    },
+    "form": {
+        "title": "Envoyez-nous un message",
+        "subtitle": "Notre équipe vous contactera très prochainement",
+        "divider": "Contact",
+        "name_label": "Nom *",
+        "name_placeholder": "Votre nom",
+        "email_label": "Courriel *",
+        "email_placeholder": "vous@email.com",
+        "phone_label": "Téléphone *",
+        "phone_placeholder": "300 123 4567",
+        "country_code_placeholder": "+57",
+        "country_code_title": "Seuls les chiffres et le signe + sont autorisés",
+        "phone_title": "Seuls les chiffres sont autorisés",
+        "procedure_label": "Procédure/autre",
+        "procedure_placeholder": "Sélectionner une procédure...",
+        "message_label": "Message *",
+        "message_placeholder": "Parlez-nous de vos attentes...",
+        "submit": "Envoyer le message",
+        "submit_loading": "Envoi en cours...",
+        "whatsapp": "Contacter par WhatsApp"
+    },
+    "info": {
+        "location_title": "Adresse",
+        "phone_title": "Téléphone",
+        "phone_hours": "Lun–Ven · 8h00 – 18h00",
+        "email_title": "Courriel"
+    },
+    "messages": {
+        "success": "Message envoyé avec succès. Notre équipe vous contactera prochainement.",
+        "validation_error": "Veuillez vérifier les informations du formulaire et réessayer.",
+        "rate_limit": "Vous avez envoyé trop de messages. Veuillez réessayer dans une minute.",
+        "generic_error": "Une erreur est survenue lors de l'envoi du message. Veuillez réessayer.",
+        "connection_error": "Erreur de connexion lors de l'envoi du formulaire. Veuillez réessayer."
+    },
+    "defaults": {
+        "phone": "+57 300 123 4567",
+        "email": "info@almha.com",
+        "location": "Calle Principal #123\nCartagena, Bolívar\nColombie",
+        "location_pending": "Adresse en attente",
+        "phone_pending": "Téléphone en attente",
+        "email_pending": "Courriel en attente"
+    }
+}

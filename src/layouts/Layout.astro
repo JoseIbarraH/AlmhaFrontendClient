@@ -27,7 +27,7 @@ interface Props {
 
 const {
   title = "AlmhaPlasticSurgery",
-  description = "Descripción por defecto",
+  description = t?.home?.brands?.description ?? "",
   keywords = "",
   image = defaultImage.src,
   procedureContext = "",
@@ -95,6 +95,18 @@ const {
     >
     </div>
 
+    <!-- Toast translation strings for client-side scripts -->
+    <script
+      is:inline
+      type="application/json"
+      id="i18n-subscription-toast"
+      set:html={JSON.stringify({
+        confirmed: t?.common?.subscription_toast?.confirmed ?? "",
+        failed: t?.common?.subscription_toast?.failed ?? "",
+        invalid: t?.common?.subscription_toast?.invalid ?? "",
+      })}
+    />
+
     <!-- Show a toast when the user lands here from an email confirmation link -->
     <script>
       import { showToast } from "@/lib/toast";
@@ -104,23 +116,28 @@ const {
         const status = url.searchParams.get("subscription");
         if (!status) return;
 
+        const dataEl = document.getElementById("i18n-subscription-toast");
+        const dict = dataEl
+          ? (JSON.parse(dataEl.textContent || "{}") as Record<string, string>)
+          : {};
+
         const messages: Record<string, { text: string; variant: "success" | "error" }> = {
           confirmed: {
-            text: "¡Suscripción confirmada! Pronto recibirás nuestras novedades.",
+            text: dict.confirmed ?? "",
             variant: "success",
           },
           failed: {
-            text: "No pudimos confirmar tu suscripción. El enlace puede haber expirado.",
+            text: dict.failed ?? "",
             variant: "error",
           },
           invalid: {
-            text: "El enlace de confirmación no es válido.",
+            text: dict.invalid ?? "",
             variant: "error",
           },
         };
 
         const entry = messages[status];
-        if (!entry) return;
+        if (!entry || !entry.text) return;
 
         showToast(entry.text, entry.variant);
 

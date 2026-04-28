@@ -1,0 +1,48 @@
+{
+    "hero": {
+        "title": "Contact Us",
+        "subtitle": "Your consultation is the first step toward a safe, professional, and personalized transformation."
+    },
+    "form": {
+        "title": "Send us a message",
+        "subtitle": "Our team will get in touch with you very soon",
+        "divider": "Contact",
+        "name_label": "Name *",
+        "name_placeholder": "Your name",
+        "email_label": "Email *",
+        "email_placeholder": "you@email.com",
+        "phone_label": "Phone *",
+        "phone_placeholder": "300 123 4567",
+        "country_code_placeholder": "+57",
+        "country_code_title": "Only numbers and the + sign are allowed",
+        "phone_title": "Only numbers are allowed",
+        "procedure_label": "Procedure/other",
+        "procedure_placeholder": "Select a procedure...",
+        "message_label": "Message *",
+        "message_placeholder": "Tell us about your expectations...",
+        "submit": "Send message",
+        "submit_loading": "Sending...",
+        "whatsapp": "Contact via WhatsApp"
+    },
+    "info": {
+        "location_title": "Location",
+        "phone_title": "Phone",
+        "phone_hours": "Mon–Fri · 8:00 AM – 6:00 PM",
+        "email_title": "Email"
+    },
+    "messages": {
+        "success": "Message sent successfully. Our team will be in touch soon.",
+        "validation_error": "Please review the form data and try again.",
+        "rate_limit": "You have sent too many messages. Please try again in a minute.",
+        "generic_error": "There was an error sending the message. Please try again.",
+        "connection_error": "Connection error while sending the form. Please try again."
+    },
+    "defaults": {
+        "phone": "+57 300 123 4567",
+        "email": "info@almha.com",
+        "location": "Main Street #123\nCartagena, Bolívar\nColombia",
+        "location_pending": "Location pending",
+        "phone_pending": "Phone pending",
+        "email_pending": "Email pending"
+    }
+}

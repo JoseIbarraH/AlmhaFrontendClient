@@ -1,0 +1,17 @@
+{
+    "links": {
+        "home": "Accueil",
+        "procedure": "Procédures",
+        "about": "À propos",
+        "contact": "Contact",
+        "blog": "Blog"
+    },
+    "contactbutton": "Contactez-nous",
+    "contact": {
+        "title": "Contact",
+        "subtitle": "Nous sommes là pour vous",
+        "phone": "Téléphone",
+        "email": "Courriel",
+        "location": "Adresse"
+    }
+}

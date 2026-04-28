@@ -2,8 +2,10 @@
 const { image } = Astro.props;
 import { getRelativeLocaleUrl } from "astro:i18n";
 import Button from "@/components/ui/Button.astro";
+import { loadTranslations } from "@/lib/i18n";
 
 const currentLang = Astro.currentLocale || "es";
+const t = await loadTranslations(currentLang);
 
 console.log("imagen: ", image);
 ---
@@ -20,7 +22,7 @@ console.log("imagen: ", image);
         <div class="relative z-20 flex h-full flex-col items-center justify-center px-6 text-center">
           <div id="content-container">
             <p class="font-advent mb-6 text-xs font-light tracking-[0.4em] uppercase text-[#FEEBDD]">
-              Turismo Estético Premium
+              {t?.home?.hero?.badge}
             </p>
 
             <h1 class="font-advent max-w-4xl text-4xl font-bold leading-tight text-[#FFF9F6] md:text-6xl lg:text-7xl whitespace-pre-line text-balance">
@@ -33,13 +35,13 @@ console.log("imagen: ", image);
 
             <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Button href={getRelativeLocaleUrl(currentLang, "procedure")}>
-                Ver Planes
+                {t?.home?.hero?.view_plans}
               </Button>
               <Button
                 href={getRelativeLocaleUrl(currentLang, "about")}
                 variant="secondary"
               >
-                Conocer Más
+                {t?.home?.hero?.learn_more}
               </Button>
             </div>
           </div>
