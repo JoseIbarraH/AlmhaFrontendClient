@@ -27,6 +27,10 @@ if (!blog) {
   return Astro.redirect(`/${Astro.params.lang || "es"}/404`);
 }
 
+const localizedPaths = blog.slugs
+  ? Object.fromEntries(Object.entries(blog.slugs).map(([lang, s]) => [lang, `/blog/${s}`]))
+  : undefined;
+
 const url = Astro.url.href;
 
 const shared = [
@@ -52,6 +56,7 @@ const shared = [
   title={blog.title}
   description={blog.content?.substring(0, 160) || blog.title}
   image={blog.image}
+  localizedPaths={localizedPaths}
 >
   <div
     class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16"

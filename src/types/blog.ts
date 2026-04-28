@@ -10,6 +10,7 @@ export interface Blog {
   status: string;
   created_at: string;
   random_blogs?: Blog[];
+  slugs?: Record<string, string>;
 }
 
 export interface Data {

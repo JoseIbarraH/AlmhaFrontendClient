@@ -22,9 +22,10 @@ interface Props {
   procedures: Record<string, Procedure[]>;
   settings: Settings | null;
   procedureContext?: string;
+  localizedPaths?: Record<string, string>;
 }
 
-const { procedures = {}, settings = null, procedureContext = "" } = Astro.props;
+const { procedures = {}, settings = null, procedureContext = "", localizedPaths } = Astro.props;
 ---
 
 <div class="relative">
@@ -76,7 +77,7 @@ const { procedures = {}, settings = null, procedureContext = "" } = Astro.props;
         </div>
 
         <div class="md:flex items-center gap-6 ml-auto z-40">
-          <LanguageSwitcher />
+          <LanguageSwitcher localizedPaths={localizedPaths} />
           <div class="hidden md:flex items-center gap-6 ml-auto z-40">
             <ContacButton />
           </div>

@@ -30,13 +30,17 @@ if (!procedure) {
   return Astro.redirect(`/${Astro.params.lang || "es"}/404`);
 }
 
+const localizedPaths = procedure.slugs
+  ? Object.fromEntries(Object.entries(procedure.slugs).map(([lang, s]) => [lang, `/procedure/${s}`]))
+  : undefined;
+
 // Extraer secciones específicas
 const whatIsSection = procedure.section.find((s) => s.type === "what_is");
 const techniqueSection = procedure.section.find((s) => s.type === "technique");
 const recoverySection = procedure.section.find((s) => s.type === "recovery");
 ---
 
-<Layout title={`${procedure.title} | Almha`} procedureContext={procedure.title}>
+<Layout title={`${procedure.title} | Almha`} procedureContext={procedure.title} localizedPaths={localizedPaths}>
   <Header
     image={procedure.image}
     title={procedure.title}

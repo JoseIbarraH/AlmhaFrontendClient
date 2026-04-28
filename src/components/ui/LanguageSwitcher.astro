@@ -3,13 +3,27 @@ import { LANGUAGES, type Language } from "@/lib/languages";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { loadTranslations } from "@/lib/i18n";
 
+interface Props {
+  localizedPaths?: Record<string, string>;
+}
+
+const { localizedPaths } = Astro.props;
+
 const currentLang = Astro.currentLocale || "es";
 const t = await loadTranslations(currentLang);
 const currentLanguage = LANGUAGES.find(lang => lang.code === currentLang);
 
-// Obtener la ruta actual sin el locale
 const currentPath = Astro.url.pathname;
 const pathWithoutLocale = currentPath.replace(new RegExp(`^/(${LANGUAGES.map(l => l.code).join('|')})`), '') || '/';
+
+function buildHref(targetLang: string): string {
+  const override = localizedPaths?.[targetLang];
+  if (override) {
+    const cleaned = override.startsWith('/') ? override : `/${override}`;
+    return getRelativeLocaleUrl(targetLang, cleaned);
+  }
+  return getRelativeLocaleUrl(targetLang, pathWithoutLocale);
+}
 ---
 
 <div class="language-selector relative">
@@ -75,7 +89,7 @@ const pathWithoutLocale = currentPath.replace(new RegExp(`^/(${LANGUAGES.map(l =
     <div class="py-1">
       {LANGUAGES.map((lang: Language) => (
         <a
-          href={getRelativeLocaleUrl(lang.code, pathWithoutLocale)}
+          href={buildHref(lang.code)}
           class={`
             flex items-center justify-between px-4 py-2.5
             text-sm transition-colors duration-150

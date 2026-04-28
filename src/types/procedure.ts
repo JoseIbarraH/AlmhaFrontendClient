@@ -24,6 +24,7 @@ export interface Procedure {
   whatsapp_active?: boolean;
   whatsapp_message?: string | null;
   whatsapp_open_new_tab?: boolean;
+  slugs?: Record<string, string>;
 }
 
 export interface ProcedureSection {
