@@ -63,21 +63,16 @@ const {
 
 
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5G7KLND29N"
-    ></script></head
-  >
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EXGYCB1R0T"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(...args) { dataLayer.push(args); }
+      gtag("js", new Date());
 
-  <!-- Google tag (gtag.js) -->
-
-  <script is:inline>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(...args) {
-      dataLayer.push(args);
-    }
-    gtag("js", new Date());
-
-    gtag("config", "G-5G7KLND29N");
-  </script>
+      gtag("config", "G-EXGYCB1R0T");
+    </script>
+  </head>
 
   <body>
     <Navbar
