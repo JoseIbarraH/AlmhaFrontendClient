@@ -65,14 +65,18 @@ const {
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EXGYCB1R0T"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(...args) { dataLayer.push(args); }
-      gtag("js", new Date());
-
-      gtag("config", "G-EXGYCB1R0T");
-    </script>
   </head>
+
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(...args) {
+      dataLayer.push(args);
+    }
+    gtag("js", new Date());
+
+    gtag("config", "G-EXGYCB1R0T");
+  </script>
+
 
   <body>
     <Navbar
