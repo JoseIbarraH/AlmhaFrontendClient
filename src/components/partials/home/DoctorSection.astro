@@ -1,21 +1,49 @@
 ---
 import { loadTranslations } from "@/lib/i18n";
-import image from "@/assets/images/test/doctor2.png";
 import imagotipo from "@/assets/images/logos/Imagotipo_nombre_beige.png";
+import placeholder from "@/assets/images/placeholder/placeholder.png";
+
+interface Props {
+  bg?: string | null;
+  mediaType?: string | null;
+}
+
+const { bg, mediaType } = Astro.props;
 
 const currentLang = Astro.currentLocale || "es";
 const t = await loadTranslations(currentLang);
 
 const credentials = Object.values(t?.home?.doctor?.credentials || {});
+
+const hasMedia = !!bg && bg.length > 0;
+const isVideo = hasMedia && mediaType === "video";
+const backgroundUrl = hasMedia ? (bg as string) : placeholder.src;
 ---
 
 <section class="relative h-screen w-full overflow-hidden">
-  <div
-    class="absolute inset-0 bg-cover bg-position-[30%_center] md:bg-center bg-no-repeat"
-    style={`background-image: url(${image.src})`}
-  >
-    <div class="absolute inset-0 bg-black/20"></div>
-  </div>
+  {
+    isVideo ? (
+      <div class="absolute inset-0">
+        <video
+          src={backgroundUrl}
+          class="absolute inset-0 w-full h-full object-cover object-[30%_center] md:object-center"
+          autoplay
+          loop
+          muted
+          playsinline
+          preload="metadata"
+        />
+        <div class="absolute inset-0 bg-black/20" />
+      </div>
+    ) : (
+      <div
+        class="absolute inset-0 bg-cover bg-position-[30%_center] md:bg-center bg-no-repeat"
+        style={`background-image: url(${backgroundUrl})`}
+      >
+        <div class="absolute inset-0 bg-black/20" />
+      </div>
+    )
+  }
 
   <div
     class="relative z-10 flex flex-col h-full items-center justify-center px-6 py-12 md:items-end md:px-16 lg:px-24 xl:px-32 w-full"

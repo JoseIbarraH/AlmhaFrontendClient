@@ -27,14 +27,21 @@ const {
   backgrounds = {},
   carousel = [],
   carouselTool = {},
+  doctorSection = {},
   imageVideo = [],
   treatments = [],
 } = homeData.data || {};
+
+const doctorSectionItem = (doctorSection?.doctorSectionSetting?.enabled ?? true)
+  ? doctorSection?.doctorSection?.[0] ?? null
+  : null;
+const doctorSectionBg = doctorSectionItem?.image ?? null;
+const doctorSectionMediaType = doctorSectionItem?.type ?? null;
 ---
 
 <Layout>
   <div class="bg-white flex justify-center items-center">
-    <DoctorSection />
+    <DoctorSection bg={doctorSectionBg} mediaType={doctorSectionMediaType} />
   </div>
 
   <>
