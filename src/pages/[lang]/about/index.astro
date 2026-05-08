@@ -1,4 +1,6 @@
 ---
+export const prerender = false;
+
 import Members from "@/components/partials/about_us/Members.astro";
 import Layout from "@/layouts/Layout.astro";
 import type { ApiResponse } from "@/types/apiResponse";
@@ -10,14 +12,31 @@ const t = await loadTranslations(currentLang);
 
 let members: Data[] = []
 
-try {
-  const { api } = Astro.locals;
+type AboutSection = { title: string; description: string } | null;
+type AboutData = { mission: AboutSection; vision: AboutSection };
+let aboutData: AboutData | null = null;
 
+const { api } = Astro.locals;
+
+try {
   const { data } = await api.get<ApiResponse<Data[]>>("api/client/members");
   members = data.data
-  console.log(data.data);
 } catch (error) {
-  console.log("Error: ", error);
+  console.log("Error fetching members: ", error);
+}
+
+try {
+  const { data } = await api.get<ApiResponse<AboutData>>("api/client/about", {
+    params: { lang: currentLang },
+  });
+  aboutData = data.data ?? null;
+  console.log(`[about] lang=${currentLang} payload=`, JSON.stringify(data));
+} catch (error) {
+  const err = error as { message?: string; response?: { status?: number; data?: unknown } };
+  console.error(
+    `[about] FETCH FAILED lang=${currentLang} status=${err.response?.status ?? "?"} msg=${err.message ?? "?"}`,
+    err.response?.data
+  );
 }
 ---
 
@@ -92,10 +111,10 @@ try {
                 </svg>
               </div>
               <h2 class="text-3xl font-bold text-[#513A31] mb-4">
-                {t?.about?.mission?.title}
+                {aboutData?.mission?.title ?? t?.about?.mission?.title}
               </h2>
               <p class="text-[#7D6A5D] leading-relaxed text-lg">
-                {t?.about?.mission?.description}
+                {aboutData?.mission?.description ?? t?.about?.mission?.description}
               </p>
             </div>
           </div>
@@ -131,10 +150,10 @@ try {
                 </svg>
               </div>
               <h2 class="text-3xl font-bold text-[#513A31] mb-4">
-                {t?.about?.vision?.title}
+                {aboutData?.vision?.title ?? t?.about?.vision?.title}
               </h2>
               <p class="text-[#7D6A5D] leading-relaxed text-lg">
-                {t?.about?.vision?.description}
+                {aboutData?.vision?.description ?? t?.about?.vision?.description}
               </p>
             </div>
           </div>
