@@ -1,0 +1,5 @@
+---
+import {getRelativeLocaleUrl} from "astro:i18n";
+// Redirige al usuario automáticamente a los términos
+return Astro.redirect(getRelativeLocaleUrl(Astro.currentLocale, '/legal/terms'));
+---

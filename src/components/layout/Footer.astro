@@ -49,7 +49,7 @@ const activeSocials = settings?.social
 ---
 
 <footer class="bg-[#513A31] patron text-[#FFF9F6]">
-  <div class="max-w-7xl mx-auto px-6 py-12 lg:py-16">
+  <div class="max-w-7xl mx-auto px-6 pt-12 pb-6">
     <!-- Grid principal -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-8">
       <!-- Columna 1: Logo y Redes Sociales -->
@@ -144,15 +144,21 @@ const activeSocials = settings?.social
     <div
       class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-[#D6C4B6]"
     >
-      <p>
-        {t.footer.copyright.replace("{year}", String(new Date().getFullYear()))}
-      </p>
+      <div class="text-center md:text-left flex flex-col gap-1">
+        <p>
+          {t.footer.copyright.replace("{year}", String(new Date().getFullYear()))}
+        </p>
+        <p class="text-xs text-[#D6C4B6]/80">
+          Almha Plastic Surgery es una marca de ALMHA PLASTIC SURGERY S.A.S<br />
+          NIT 902015668-7
+        </p>
+      </div>
 
       <div class="flex gap-6">
-        <a href="#" class="hover:text-[#FEEBDD] transition-colors">
+        <a href={getRelativeLocaleUrl(currentLang, "/legal/policies")} class="hover:text-[#FEEBDD] transition-colors">
           {t.footer.privacy}
         </a>
-        <a href="#" class="hover:text-[#FEEBDD] transition-colors">
+        <a href={getRelativeLocaleUrl(currentLang, "/legal/terms")} class="hover:text-[#FEEBDD] transition-colors">
           {t.footer.terms}
         </a>
       </div>
